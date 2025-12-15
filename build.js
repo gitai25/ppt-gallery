@@ -84,6 +84,24 @@ function scanPPTs() {
   return ppts.sort((a, b) => b.mtime - a.mtime);
 }
 
+// 分类颜色映射
+const categoryColors = {
+  'AI': { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', text: '#fff' },
+  '技术': { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', text: '#fff' },
+  '健康': { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', text: '#1a1a1a' },
+  '投资': { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', text: '#1a1a1a' },
+  '教育': { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', text: '#1a1a1a' },
+  '思维': { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', text: '#1a1a1a' },
+  '运动': { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', text: '#fff' },
+  '产品': { bg: 'linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)', text: '#fff' },
+  '设计': { bg: 'linear-gradient(135deg, #c471f5 0%, #fa71cd 100%)', text: '#fff' },
+  '默认': { bg: 'linear-gradient(135deg, #868f96 0%, #596164 100%)', text: '#fff' }
+};
+
+function getCategoryColor(category) {
+  return categoryColors[category] || categoryColors['默认'];
+}
+
 // 生成HTML
 function generateHTML(ppts) {
   const categories = [...new Set(ppts.map(p => p.category))].sort();
@@ -91,10 +109,11 @@ function generateHTML(ppts) {
   const pptListHTML = ppts.map(ppt => {
     const authorHtml = ppt.author ? `<span class="ppt-author">${ppt.author}</span>` : '';
     const slideHtml = ppt.slideCount ? `<span class="ppt-meta-item">${ppt.slideCount} 页</span>` : '';
+    const color = getCategoryColor(ppt.category);
 
     return `<li class="ppt-item" data-category="${ppt.category}" data-title="${ppt.title}">
       <a href="ppts/${encodeURIComponent(ppt.filename)}" target="_blank">
-        <div class="ppt-icon">
+        <div class="ppt-icon" style="background: ${color.bg}">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-6 4h4"/>
@@ -103,7 +122,7 @@ function generateHTML(ppts) {
         <div class="ppt-info">
           <div class="ppt-title">${ppt.title}</div>
           <div class="ppt-meta">
-            <span class="ppt-category-tag">${ppt.category}</span>
+            <span class="ppt-category-tag" style="background: ${color.bg}; color: ${color.text}">${ppt.category}</span>
             ${authorHtml}
             ${slideHtml}
             <span class="ppt-meta-item ppt-date">${ppt.mtimeFormatted}</span>
@@ -312,12 +331,11 @@ function generateHTML(ppts) {
       width: 44px;
       height: 44px;
       border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .ppt-icon svg {
@@ -353,8 +371,6 @@ function generateHTML(ppts) {
       display: inline-block;
       font-size: 12px;
       font-weight: 500;
-      color: #fff;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       padding: 3px 10px;
       border-radius: 6px;
     }
