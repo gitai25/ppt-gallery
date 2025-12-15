@@ -37,16 +37,10 @@ function formatSize(bytes) {
 
 // 格式化日期
 function formatDate(date) {
-  const now = new Date();
-  const diff = now - date;
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-  if (days === 0) return '今天';
-  if (days === 1) return '昨天';
-  if (days < 7) return days + ' 天前';
-  if (days < 30) return Math.floor(days / 7) + ' 周前';
-
-  return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 // 扫描PPT文件
