@@ -18,6 +18,37 @@ function parseFileName(filename) {
   return null;
 }
 
+// 从HTML提取作者信息
+function extractAuthor(content) {
+  // 尝试从 title 标签提取 "xxx | Author" 格式
+  const titleMatch = content.match(/<title>(.+?)\s*[|·]\s*(.+?)<\/title>/i);
+  if (titleMatch && titleMatch[2]) {
+    return titleMatch[2].trim();
+  }
+  return null;
+}
+
+// 格式化文件大小
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+// 格式化日期
+function formatDate(date) {
+  const now = new Date();
+  const diff = now - date;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (days === 0) return '今天';
+  if (days === 1) return '昨天';
+  if (days < 7) return days + ' 天前';
+  if (days < 30) return Math.floor(days / 7) + ' 周前';
+
+  return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+}
+
 // 扫描PPT文件
 function scanPPTs() {
   if (!fs.existsSync(PPTS_DIR)) {
@@ -33,20 +64,39 @@ function scanPPTs() {
     if (file.endsWith('.html')) {
       const parsed = parseFileName(file);
       if (parsed) {
-        ppts.push(parsed);
+        const filePath = path.join(PPTS_DIR, file);
+        const stats = fs.statSync(filePath);
+        const content = fs.readFileSync(filePath, 'utf-8');
+
+        // 提取额外信息
+        const author = extractAuthor(content);
+        const slideCount = (content.match(/class="slide[^"]*"/g) || []).length || null;
+
+        ppts.push({
+          ...parsed,
+          author,
+          size: formatSize(stats.size),
+          mtime: stats.mtime,
+          mtimeFormatted: formatDate(stats.mtime),
+          slideCount
+        });
       }
     }
   }
 
-  return ppts.sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
+  // 按更新时间倒序排列（最新的在前）
+  return ppts.sort((a, b) => b.mtime - a.mtime);
 }
 
 // 生成HTML
 function generateHTML(ppts) {
   const categories = [...new Set(ppts.map(p => p.category))].sort();
 
-  const pptListHTML = ppts.map(ppt =>
-    `<li class="ppt-item" data-category="${ppt.category}" data-title="${ppt.title}">
+  const pptListHTML = ppts.map(ppt => {
+    const authorHtml = ppt.author ? `<span class="ppt-author">${ppt.author}</span>` : '';
+    const slideHtml = ppt.slideCount ? `<span class="ppt-meta-item">${ppt.slideCount} 页</span>` : '';
+
+    return `<li class="ppt-item" data-category="${ppt.category}" data-title="${ppt.title}">
       <a href="ppts/${encodeURIComponent(ppt.filename)}" target="_blank">
         <div class="ppt-icon">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,14 +106,20 @@ function generateHTML(ppts) {
         </div>
         <div class="ppt-info">
           <div class="ppt-title">${ppt.title}</div>
-          <span class="ppt-category">${ppt.category}</span>
+          <div class="ppt-meta">
+            <span class="ppt-category-tag">${ppt.category}</span>
+            ${authorHtml}
+            <span class="ppt-meta-item">${ppt.size}</span>
+            ${slideHtml}
+            <span class="ppt-meta-item ppt-date">${ppt.mtimeFormatted}</span>
+          </div>
         </div>
         <svg class="ppt-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </a>
-    </li>`
-  ).join('\n      ');
+    </li>`;
+  }).join('\n      ');
 
   const categoryButtonsHTML = categories.map(cat =>
     `<button class="category-btn" data-category="${cat}">${cat}</button>`
@@ -290,11 +346,53 @@ function generateHTML(ppts) {
       white-space: nowrap;
     }
 
-    .ppt-category {
+    .ppt-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .ppt-category-tag {
       display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .ppt-author {
       font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .ppt-meta-item {
+      font-size: 12px;
       color: var(--text-secondary);
-      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ppt-meta-item::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      background: var(--text-secondary);
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    .ppt-meta-item:first-of-type::before {
+      display: none;
+    }
+
+    .ppt-date {
+      color: var(--text-secondary);
     }
 
     .ppt-arrow {
