@@ -1,0 +1,8 @@
+{
+  "name": "ppt-gallery",
+  "version": "1.0.0",
+  "description": "Static PPT gallery with auto-generated index",
+  "scripts": {
+    "build": "node build.js"
+  }
+}
