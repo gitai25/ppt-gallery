@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百万支箭的智慧 | Jake Kaminski</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --gold: #C9A227;
+            --gold-light: #E8D48A;
+            --gold-dark: #8B7019;
+            --ink: #1A1A1A;
+            --ink-light: #333333;
+            --paper: #FAF8F5;
+            --paper-warm: #F5F0E8;
+            --accent: #8B2635;
+            --accent-light: #A63D4D;
+            --sage: #5C7F67;
+            --steel: #4A5568;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--ink);
+            color: var(--paper);
+            line-height: 1.6;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5vh 8vw;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 封面样式 */
+        .slide-cover {
+            background: linear-gradient(135deg, var(--ink) 0%, #2D2D2D 50%, var(--ink) 100%);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slide-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A227' fill-opacity='0.03'%3E%3Cpath d='M30 0L60 30L30 60L0 30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        
+        .cover-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cover-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .cover-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--paper);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .cover-meta {
+            font-size: 1rem;
+            color: var(--gold-light);
+            opacity: 0.7;
+            margin-top: 3rem;
+        }
+        
+        .cover-meta span {
+            margin: 0 1rem;
+        }
+        
+        /* 章节封面 */
+        .slide-chapter {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            text-align: center;
+        }
+        
+        .slide-chapter.chapter-green {
+            background: linear-gradient(135deg, var(--sage) 0%, #6B9B76 100%);
+        }
+        
+        .slide-chapter.chapter-gold {
+            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+        }
+        
+        .slide-chapter.chapter-steel {
+            background: linear-gradient(135deg, var(--steel) 0%, #5A6B7F 100%);
+        }
+        
+        .chapter-number {
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        .chapter-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chapter-desc {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 内容幻灯片 */
+        .slide-content {
+            background: var(--paper);
+            color: var(--ink);
+        }
+        
+        .slide-content.dark {
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .slide-content.warm {
+            background: var(--paper-warm);
+            color: var(--ink);
+        }
+        
+        .content-header {
+            margin-bottom: 3rem;
+        }
+        
+        .content-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .slide-content.dark .content-label {
+            color: var(--gold);
+        }
+        
+        .content-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+        
+        .slide-content.dark .content-title {
+            color: var(--paper);
+        }
+        
+        /* 核心数据展示 */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(201, 162, 39, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.2);
+        }
+        
+        .stat-number {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--gold-dark);
+            line-height: 1;
+        }
+        
+        .stat-unit {
+            font-size: 1.2rem;
+            color: var(--gold-dark);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--ink-light);
+            margin-top: 0.5rem;
+        }
+        
+        /* 要点列表 */
+        .key-points {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .key-points li {
+            padding: 1.2rem 0 1.2rem 2.5rem;
+            position: relative;
+            font-size: 1.15rem;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+        
+        .slide-content.dark .key-points li {
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+        
+        .key-points li:last-child {
+            border-bottom: none;
+        }
+        
+        .key-points li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+        
+        .slide-content.dark .key-points li::before {
+            color: var(--gold);
+        }
+        
+        /* 引用块 */
+        .quote-block {
+            background: linear-gradient(135deg, var(--ink) 0%, #2D2D2D 100%);
+            color: var(--paper);
+            padding: 3rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .quote-block::before {
+            content: '"';
+            font-family: 'Noto Serif SC', serif;
+            font-size: 6rem;
+            position: absolute;
+            top: -1rem;
+            left: 1rem;
+            color: var(--gold);
+            opacity: 0.3;
+            line-height: 1;
+        }
+        
+        .quote-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 400;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote-author {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--gold);
+        }
+        
+        /* 对比布局 */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .compare-item {
+            padding: 2rem;
+            border-radius: 12px;
+        }
+        
+        .compare-item.positive {
+            background: rgba(92, 127, 103, 0.1);
+            border: 2px solid var(--sage);
+        }
+        
+        .compare-item.negative {
+            background: rgba(139, 38, 53, 0.1);
+            border: 2px solid var(--accent);
+        }
+        
+        .compare-header {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .compare-item.positive .compare-header {
+            color: var(--sage);
+        }
+        
+        .compare-item.negative .compare-header {
+            color: var(--accent);
+        }
+        
+        /* 步骤流程 */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            color: var(--ink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+        
+        .slide-content.dark .step-content h4 {
+            color: var(--paper);
+        }
+        
+        .step-content p {
+            color: var(--ink-light);
+            font-size: 1rem;
+        }
+        
+        .slide-content.dark .step-content p {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* 框架盒子 */
+        .framework-box {
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(201, 162, 39, 0.05) 100%);
+            border: 2px solid var(--gold);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+        
+        .framework-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .framework-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* 高亮文本 */
+        .highlight {
+            background: linear-gradient(transparent 60%, rgba(201, 162, 39, 0.3) 60%);
+            padding: 0 0.2em;
+        }
+        
+        .slide-content.dark .highlight {
+            background: linear-gradient(transparent 60%, rgba(201, 162, 39, 0.4) 60%);
+        }
+        
+        /* 双栏布局 */
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 900px) {
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .slide-content.dark .card {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.1);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--ink-light);
+            line-height: 1.5;
+        }
+        
+        .slide-content.dark .card-desc {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* 时间线 */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-5px);
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: var(--gold-dark);
+            font-size: 0.9rem;
+        }
+        
+        .timeline-content {
+            margin-top: 0.5rem;
+        }
+        
+        /* 导航 */
+        .nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot:hover,
+        .nav-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+        }
+        
+        /* 进度条 */
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gold);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        /* 页脚 */
+        .slide-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 8vw;
+            right: 8vw;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            opacity: 0.5;
+        }
+        
+        /* 特殊强调 */
+        .emphasis-large {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 600;
+            line-height: 1.5;
+            margin: 1.5rem 0;
+        }
+        
+        /* 图标文字组合 */
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            margin: 0.75rem 0;
+        }
+        
+        .icon-text .icon {
+            font-size: 1.5rem;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 4vh 6vw;
+            }
+            
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .quote-block {
+                padding: 2rem;
+            }
+            
+            .quote-block::before {
+                font-size: 4rem;
+            }
+        }
+        
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .slide > * {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress" id="progress"></div>
+    
+    <nav class="nav" id="nav"></nav>
+
+    <!-- 封面 -->
+    <section class="slide slide-cover" data-title="封面">
+        <div class="cover-icon">🎯</div>
+        <h1 class="cover-title">百万支箭的智慧</h1>
+        <p class="cover-subtitle">两届奥运银牌得主Jake Kaminski的精准之道</p>
+        <div class="cover-meta">
+            <span>Tim Ferriss Show #811</span>
+            <span>|</span>
+            <span>深度对谈 · 171分钟精华</span>
+        </div>
+    </section>
+
+    <!-- 开篇数据 -->
+    <section class="slide slide-content warm" data-title="极致精准">
+        <div class="content-header">
+            <div class="content-label">Opening</div>
+            <h2 class="content-title">奥林匹克射箭：极致精准的艺术</h2>
+        </div>
+        
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-number">70<span class="stat-unit">米</span></div>
+                <div class="stat-label">奥运射箭距离</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">12.2<span class="stat-unit">cm</span></div>
+                <div class="stat-label">十环直径（约CD大小）</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">&lt;1<span class="stat-unit">mm</span></div>
+                <div class="stat-label">允许误差（圆珠笔尖）</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">40+/72</div>
+                <div class="stat-label">顶级选手十环命中</div>
+            </div>
+        </div>
+        
+        <p class="emphasis-large">
+            在77码之外，<span class="highlight">命中一张CD大小的目标</span>，
+            箭尖的容许偏差仅为圆珠笔滚珠的直径。
+        </p>
+    </section>
+
+    <!-- 人物介绍 -->
+    <section class="slide slide-content dark" data-title="人物">
+        <div class="content-header">
+            <div class="content-label">Profile</div>
+            <h2 class="content-title">Jake Kaminski 是谁？</h2>
+        </div>
+        
+        <div class="two-col">
+            <div>
+                <ul class="key-points">
+                    <li>两届奥运会团体银牌得主（2012伦敦、2016里约）</li>
+                    <li>美国射箭队十年以上国际赛经验</li>
+                    <li>以技术精准和装备调校闻名于世</li>
+                    <li>射箭界最权威的YouTube技术频道创始人</li>
+                    <li>自创高性能装备品牌（奥地利制造）</li>
+                </ul>
+            </div>
+            <div>
+                <div class="quote-block" style="background: transparent; border: 2px solid var(--gold);">
+                    <p class="quote-text" style="font-size: 1.2rem;">
+                        "他就像射箭界的Taylor Swift——<br>
+                        无论走到哪里都会被粉丝包围。<br>
+                        在一个真假难辨的领域，<br>
+                        他提供的是货真价实的专业。"
+                    </p>
+                    <p class="quote-author">— Tim Ferriss</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 章节1 -->
+    <section class="slide slide-chapter" data-title="第一章">
+        <div class="chapter-number">Chapter 01</div>
+        <h2 class="chapter-title">卓越的早期习惯</h2>
+        <p class="chapter-desc">六岁时的第一支箭，如何预示了奥运之路？</p>
+    </section>
+
+    <!-- 起源故事 -->
+    <section class="slide slide-content" data-title="起源">
+        <div class="content-header">
+            <div class="content-label">Origin Story</div>
+            <h2 class="content-title">命运的第一箭</h2>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">5岁</div>
+                <div class="timeline-content">
+                    <strong>父亲赢得弓箭</strong> — 消防站枪支抽奖，赢得一把成人猎弓
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">6岁生日</div>
+                <div class="timeline-content">
+                    <strong>第一支箭 = Inside-out X</strong> — 在20码距离，第一箭射中十环内的X环（比硬币还小），完全没有接触环线
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">6-12岁</div>
+                <div class="timeline-content">
+                    <strong>复合弓时期</strong> — 每周六参加本地青少年发展计划
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">12岁</div>
+                <div class="timeline-content">
+                    <strong>转向反曲弓</strong> — 因复合弓的target panic（瞄准恐惧），转投反曲弓
+                </div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; color: var(--ink-light); font-style: italic;">
+            "如果第一箭射偏了，一切会不会不同？谁知道呢。"
+        </p>
+    </section>
+
+    <!-- 三个早期习惯 -->
+    <section class="slide slide-content warm" data-title="习惯">
+        <div class="content-header">
+            <div class="content-label">Early Habits</div>
+            <h2 class="content-title">成就卓越的三个早期习惯</h2>
+        </div>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🧘</div>
+                <div class="card-title">射箭作为冥想逃离</div>
+                <div class="card-desc">
+                    在学校被排挤、难以融入的年少时光，射箭成为唯一能让他"正常"的地方。
+                    <br><br>
+                    <strong>"在射箭时，你只能专注于一件事。<br>如果想别的，成绩立刻下降。"</strong>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔥</div>
+                <div class="card-title">刻意制造困难</div>
+                <div class="card-desc">
+                    永远选择<strong>靠墙的狭窄位置</strong>练习，因为比赛时每人只有24英寸的空间。
+                    <br><br>
+                    在雨中训练、在风中训练、在酷热中训练。
+                    <br><br>
+                    <strong>"让训练比比赛更难。"</strong>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">100%客观的竞技</div>
+                <div class="card-desc">
+                    没有人能阻止你射出好成绩，没有主观评分，没有裁判偏见。
+                    <br><br>
+                    <strong>"只有我、弓、和箭。<br>别人无法干扰我击败他们。"</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教练的非常规训练 -->
+    <section class="slide slide-content dark" data-title="非常规训练">
+        <div class="content-header">
+            <div class="content-label">Unconventional Training</div>
+            <h2 class="content-title">早期教练的"极端"方法</h2>
+        </div>
+        
+        <div class="quote-block">
+            <p class="quote-text">
+                当我在满弓时，教练会突然把金属烟灰缸<br>
+                摔到水泥地上——<br>
+                我必须重新集中精神，完成这一箭。
+            </p>
+        </div>
+        
+        <div class="two-col" style="margin-top: 2rem;">
+            <div>
+                <h4 style="color: var(--gold); margin-bottom: 1rem;">问题：放弓手臂下垂</h4>
+                <p style="opacity: 0.8;">教练拿出小刀，打开刀刃，刀尖朝上放在手臂下方："不要放下手臂。"</p>
+            </div>
+            <div>
+                <h4 style="color: var(--gold); margin-bottom: 1rem;">问题：抓握弓把</h4>
+                <p style="opacity: 0.8;">在弓把上贴双面胶，手一抓紧就粘住。从此再也不乱抓了。</p>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; font-style: italic; opacity: 0.6;">
+            （不推荐现在用这些方法训练孩子，但...它确实奏效了。）
+        </p>
+    </section>
+
+    <!-- 章节2 -->
+    <section class="slide slide-chapter chapter-gold" data-title="第二章">
+        <div class="chapter-number">Chapter 02</div>
+        <h2 class="chapter-title">韩国教父 Coach K</h2>
+        <p class="chapter-desc">重塑一切的勇气，与三到四年的重建之路</p>
+    </section>
+
+    <!-- 韩国射箭的统治 -->
+    <section class="slide slide-content" data-title="韩国">
+        <div class="content-header">
+            <div class="content-label">Korean Dominance</div>
+            <h2 class="content-title">韩国：射箭界的绝对王者</h2>
+        </div>
+        
+        <div class="framework-box">
+            <div class="framework-title">🏆 令人震惊的统治纪录</div>
+            <div class="framework-content">
+                <p><strong>韩国女子队</strong>：个人和团体金牌垄断约<span class="highlight">28年</span>，几乎从未旁落</p>
+                <p style="margin-top: 1rem;"><strong>如果每个国家可以派无限选手参赛？</strong></p>
+                <p style="margin-top: 0.5rem;">韩国选手至少会包揽<span class="highlight">第1名到第100名</span>。</p>
+            </div>
+        </div>
+        
+        <div class="quote-block" style="margin-top: 2rem;">
+            <p class="quote-text">
+                "如果Jake和Tim在小时候被韩国的选拔系统评估，<br>
+                我们两个都会在第一轮就被淘汰。"
+            </p>
+            <p class="quote-author">— Jake Kaminski</p>
+        </div>
+    </section>
+
+    <!-- Coach K介绍 -->
+    <section class="slide slide-content warm" data-title="Coach K">
+        <div class="content-header">
+            <div class="content-label">The Godfather</div>
+            <h2 class="content-title">Coach K：韩国射箭教父</h2>
+        </div>
+        
+        <ul class="key-points">
+            <li><strong>缔造韩国射箭王朝</strong> — 设计并建立了整个韩国国家射箭训练体系</li>
+            <li><strong>吸收美国八十年代精华</strong> — 研究当时世界霸主美国的方法论</li>
+            <li><strong>专攻运动生物力学</strong> — 将高效动作科学化地融入教学</li>
+            <li><strong>辗转澳大利亚</strong> — 帮助澳大利亚建立国家队体系后来到美国</li>
+            <li><strong>名人级待遇</strong> — 每次飞回韩国，豪华轿车会自动出现（他从未预订）</li>
+        </ul>
+        
+        <p style="margin-top: 2rem; padding: 1.5rem; background: rgba(139, 38, 53, 0.1); border-radius: 12px; border-left: 4px solid var(--accent);">
+            <strong>波多黎各桑拿房偶遇：</strong><br>
+            一位韩国人听说他们的教练是Coach K后惊呼：<br>
+            "你知道他在我们国家有多重要吗？他是文化级别的名人！"
+        </p>
+    </section>
+
+    <!-- 赛前两周的决定 -->
+    <section class="slide slide-content dark" data-title="重建">
+        <div class="content-header">
+            <div class="content-label">The Breaking Point</div>
+            <h2 class="content-title">世锦赛前两周的致命决定</h2>
+        </div>
+        
+        <div class="compare-grid">
+            <div class="compare-item positive">
+                <div class="compare-header">✓ 赛前状态</div>
+                <ul style="list-style: none; line-height: 2;">
+                    <li>→ 成绩已达成人国家级竞争力</li>
+                    <li>→ 在青少年世界级别具有夺牌威胁</li>
+                    <li>→ 信心满满，表现稳定</li>
+                </ul>
+            </div>
+            <div class="compare-item negative">
+                <div class="compare-header">✗ Coach K的判断</div>
+                <ul style="list-style: none; line-height: 2;">
+                    <li>→ "我无法带着技术这么丑的选手参加世锦赛"</li>
+                    <li>→ 完全重塑：姿势、装备、心理流程</li>
+                    <li>→ 唯一保留：弓把和瞄准杆</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <p style="font-size: 1.3rem; color: var(--gold);">
+                "你的最终目标是奥运会，不是青少年世锦赛。"
+            </p>
+            <p style="margin-top: 1rem; opacity: 0.7;">
+                结果：世锦赛成绩是他射过的<strong>最差成绩</strong>，甚至比刚接触反曲弓时还差。
+            </p>
+        </div>
+    </section>
+
+    <!-- 重建时间线 -->
+    <section class="slide slide-content" data-title="重建时间">
+        <div class="content-header">
+            <div class="content-label">Rebuilding</div>
+            <h2 class="content-title">三到四年的漫长重建</h2>
+        </div>
+        
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-number">3-4<span class="stat-unit">年</span></div>
+                <div class="stat-label">Jake恢复原有水平</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">~3<span class="stat-unit">个月</span></div>
+                <div class="stat-label">队友Dan恢复原有水平</div>
+            </div>
+        </div>
+        
+        <p class="emphasis-large" style="text-align: center; margin-top: 2rem;">
+            同样的教练、同样的方法、同样的起点——<br>
+            时间线却相差<span class="highlight">15倍</span>。
+        </p>
+        
+        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.05); border-radius: 12px;">
+            <strong>同期承受的额外痛苦：</strong>
+            <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 2;">
+                <li>从每天最多100支箭 → 每天400-500支箭</li>
+                <li>每周三次力量训练 + 六天早训 + 六天射箭训练</li>
+                <li>严重的肌腱和肩部炎症，每天花数小时在运动医学科</li>
+                <li>队友们做同样的训练量，却没有任何不适</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 章节3 -->
+    <section class="slide slide-chapter chapter-green" data-title="第三章">
+        <div class="chapter-number">Chapter 03</div>
+        <h2 class="chapter-title">积极肯定语的力量</h2>
+        <p class="chapter-desc">从"想成为"到"我是"的认知革命</p>
+    </section>
+
+    <!-- 突破点 -->
+    <section class="slide slide-content dark" data-title="肯定语">
+        <div class="content-header">
+            <div class="content-label">Affirmations</div>
+            <h2 class="content-title">"I am." 的哲学</h2>
+        </div>
+        
+        <div class="two-col">
+            <div>
+                <p style="margin-bottom: 1.5rem;">在最黑暗的时期，Jake的姐姐Liz引入了一个改变命运的概念：</p>
+                
+                <div style="font-size: 4rem; text-align: center; margin: 2rem 0; color: var(--gold);">
+                    I am.
+                </div>
+                
+                <p style="text-align: center; opacity: 0.8;">
+                    纹在左手虎口——<br>每次检查握弓姿势时都会看到。
+                </p>
+            </div>
+            <div>
+                <div class="framework-box" style="background: rgba(201, 162, 39, 0.1); border-color: var(--gold);">
+                    <div class="framework-title" style="color: var(--gold);">关键区别</div>
+                    <div class="framework-content" style="color: var(--paper);">
+                        <p><strong style="color: var(--accent-light);">❌ "I want to be an Olympian"</strong><br>
+                        你将永远处于"想要"的状态</p>
+                        
+                        <p style="margin-top: 1.5rem;"><strong style="color: var(--sage);">✓ "I am an Olympian"</strong><br>
+                        你的习惯会自动调整以匹配这个身份</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 进化版肯定语 -->
+    <section class="slide slide-content warm" data-title="进化版">
+        <div class="content-header">
+            <div class="content-label">Advanced Formula</div>
+            <h2 class="content-title">SMART肯定语公式</h2>
+        </div>
+        
+        <div class="framework-box">
+            <div class="framework-title">🎯 Jake的进化版肯定语结构</div>
+            <div class="framework-content">
+                <p style="font-size: 1.3rem; margin-bottom: 1.5rem;">
+                    <strong>I am</strong> + <span class="highlight">具体身份</span> + <strong>at</strong> + <span class="highlight">特定时间/地点</span> + <strong>because</strong> + <span class="highlight">可执行的原因</span>
+                </p>
+                
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <p style="font-style: italic; font-size: 1.2rem; color: var(--ink);">
+                        "I am 2012 Olympic Champion<br>
+                        because I run my mental program<br>
+                        more than any other archer."
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem;">
+            <strong>为什么这个结构有效？</strong><br>
+            当肯定语包含一个你已经认定为关键的行为作为"原因"，<br>
+            你的每一次射箭都在强化这个身份认同。
+        </p>
+    </section>
+
+    <!-- 习惯的自动调整 -->
+    <section class="slide slide-content" data-title="习惯调整">
+        <div class="content-header">
+            <div class="content-label">Identity Shift</div>
+            <h2 class="content-title">当"我是"生效时，习惯自动调整</h2>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>身份宣言</h4>
+                    <p>"我是奥运冠军"不是妄想，而是设定一个评判标准</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>诚实审视</h4>
+                    <p>我的睡眠够不够？训练够不够？我对自己诚实吗？</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>差距识别</h4>
+                    <p>如果冠军会做X而我没有在做X，这就是需要改变的地方</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>主动决策</h4>
+                    <p>做出决定去改变——不是希望改变，而是<strong>决定</strong>改变</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 章节4 -->
+    <section class="slide slide-chapter" data-title="第四章">
+        <div class="chapter-number">Chapter 04</div>
+        <h2 class="chapter-title">2012伦敦奥运</h2>
+        <p class="chapter-desc">真正的团队如何击败个人组合</p>
+    </section>
+
+    <!-- 团队 vs 个人 -->
+    <section class="slide slide-content dark" data-title="团队">
+        <div class="content-header">
+            <div class="content-label">Team Strategy</div>
+            <h2 class="content-title">"所以，你们射铜牌赛是什么感觉？"</h2>
+        </div>
+        
+        <p style="opacity: 0.8; margin-bottom: 2rem;">
+            这是赛前媒体问美国队的第一个问题。<br>
+            因为所有人都认为：韩国队 = 必定的金牌。
+        </p>
+        
+        <div class="compare-grid">
+            <div class="compare-item negative">
+                <div class="compare-header">其他国家的"团队"</div>
+                <ul style="list-style: none; line-height: 2;">
+                    <li>→ 三个个人选手凑在一起</li>
+                    <li>→ 各自训练，比赛时临时组队</li>
+                    <li>→ 射不好时容易互相指责</li>
+                    <li>→ 备用弓是自己的备用弓</li>
+                </ul>
+            </div>
+            <div class="compare-item positive">
+                <div class="compare-header">美国队的真正团队</div>
+                <ul style="list-style: none; line-height: 2;">
+                    <li>→ 每天作为团队训练</li>
+                    <li>→ 了解彼此的射箭节奏和心理偏好</li>
+                    <li>→ "我们作为团队赢，作为团队输"</li>
+                    <li>→ 备用弓是<strong>队友的主弓</strong></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 队友主弓作为备用 -->
+    <section class="slide slide-content warm" data-title="备用弓">
+        <div class="content-header">
+            <div class="content-label">Backup Strategy</div>
+            <h2 class="content-title">用队友的主弓作为备用弓</h2>
+        </div>
+        
+        <div class="quote-block">
+            <p class="quote-text">
+                "备用弓毫无意义。<br>
+                如果主弓坏了，你心理上已经崩溃了。<br>
+                备用弓再好也救不了你。"
+            </p>
+            <p class="quote-author">— Coach K</p>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <p><strong>解决方案：</strong>每个队员学会使用其他两人的主弓</p>
+            <ul class="key-points" style="margin-top: 1rem;">
+                <li>Brady的弓：我需要瞄<strong>高8点钟方向</strong>才能命中中心</li>
+                <li>Jacob的弓：我需要瞄<strong>右下蓝环</strong>才能命中中心</li>
+                <li>箭矢保持不变，clicker位置大致相同</li>
+            </ul>
+            <p style="margin-top: 1.5rem; color: var(--ink-light);">
+                世界上没有其他任何队伍有这种程度的团队默契。
+            </p>
+        </div>
+    </section>
+
+    <!-- 风向判断的团队协作 -->
+    <section class="slide slide-content" data-title="风向">
+        <div class="content-header">
+            <div class="content-label">Wind Reading</div>
+            <h2 class="content-title">Coach K的腿毛与风向判断</h2>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem;">
+            2012伦敦奥运会的场地是板球圣地Lord's Cricket Ground。<br>
+            风向标因为"没有被女王加冕"，被放在了非常规位置。<br>
+            整个场地的风向判断变成了一场噩梦。
+        </p>
+        
+        <div class="framework-box">
+            <div class="framework-title">🌬️ 团队风向判断系统</div>
+            <div class="framework-content">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Coach K穿短裤</h4>
+                            <p>选手穿长裤，但教练穿短裤——可以用腿毛感知风向变化</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>第一箭手的校准作用</h4>
+                            <p>Jake作为先发，射出"干净"的基准箭，报告预期落点与实际落点的差异</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>实时调整传递</h4>
+                            <p>根据第一箭的反馈，第二、第三箭手调整瞄点</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 1rem; font-style: italic; color: var(--ink-light);">
+            "瞄左9点方向。" —— 这是Coach K通过腿毛感知后给出的精确指令。
+        </p>
+    </section>
+
+    <!-- 半决赛结果 -->
+    <section class="slide slide-content dark" data-title="半决赛">
+        <div class="content-header">
+            <div class="content-label">Semi-Final</div>
+            <h2 class="content-title">击败韩国的那场比赛</h2>
+        </div>
+        
+        <div class="stat-grid">
+            <div class="stat-item" style="background: rgba(201, 162, 39, 0.2);">
+                <div class="stat-number" style="color: var(--gold);">#1</div>
+                <div class="stat-label" style="color: var(--paper);">2012奥运最高收视率的比赛</div>
+            </div>
+            <div class="stat-item" style="background: rgba(201, 162, 39, 0.2);">
+                <div class="stat-number" style="color: var(--gold);">美国</div>
+                <div class="stat-label" style="color: var(--paper);">首枚奥运奖牌的机会</div>
+            </div>
+        </div>
+        
+        <div class="quote-block" style="margin-top: 2rem;">
+            <p class="quote-text">
+                "我是Buffalo Bills的球迷，是Sabres的球迷。<br>
+                但我从来没有站在沙发上对着电视尖叫过——<br>
+                直到我看了射箭比赛。"
+            </p>
+            <p class="quote-author">— Jake家乡的观众留言</p>
+        </div>
+        
+        <p style="margin-top: 2rem; text-align: center; opacity: 0.8;">
+            即使在第一局落后的情况下，Jake从未怀疑过会输。<br>
+            <strong>"这显然是事情应该发展的方式。"</strong>
+        </p>
+    </section>
+
+    <!-- 章节5 -->
+    <section class="slide slide-chapter chapter-steel" data-title="第五章">
+        <div class="chapter-number">Chapter 05</div>
+        <h2 class="chapter-title">教练艺术的核心原则</h2>
+        <p class="chapter-desc">Tim Ferriss的六个月训练实验</p>
+    </section>
+
+    <!-- 约束条件 -->
+    <section class="slide slide-content" data-title="约束">
+        <div class="content-header">
+            <div class="content-label">Constraints</div>
+            <h2 class="content-title">在约束中寻找可能</h2>
+        </div>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <div class="card-title">地理限制</div>
+                <div class="card-desc">
+                    Jake在佛罗里达，Tim到处飞<br>
+                    → 每6周只能见面3-4天<br>
+                    → 大量依赖视频远程训练
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🩹</div>
+                <div class="card-title">身体限制</div>
+                <div class="card-desc">
+                    Tim的左肩2004年重建过<br>
+                    有两颗钛螺钉，旋转肌群紊乱<br>
+                    → 必须不断妥协和适应
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">⏰</div>
+                <div class="card-title">时间限制</div>
+                <div class="card-desc">
+                    只有6个月准备Lancaster Classic<br>
+                    → 无法像专业选手那样每天500箭
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏨</div>
+                <div class="card-title">环境限制</div>
+                <div class="card-desc">
+                    Tim在全世界各种奇怪的地方训练<br>
+                    酒店内、网球场、步道旁...<br>
+                    → "最多样化训练环境"奖得主
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 训练原则 -->
+    <section class="slide slide-content warm" data-title="训练原则">
+        <div class="content-header">
+            <div class="content-label">Training Principles</div>
+            <h2 class="content-title">有限资源下的训练策略</h2>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>从极低负荷开始</h4>
+                    <p>起步时每天最多60支箭（专业选手是400-500支）</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>分割训练时段</h4>
+                    <p>与其一次长时间训练，不如分成两次短训练，保护身体、保持专注</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>用Blank Bale开始和结束</h4>
+                    <p>开始时热身、建立节奏；结束时沉淀技术、避免带着焦虑离开</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>分层引入技术要素</h4>
+                    <p>直到一个检查点自动化后，才引入下一个——否则大脑会死机</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blank Bale -->
+    <section class="slide slide-content dark" data-title="Blank Bale">
+        <div class="content-header">
+            <div class="content-label">Blank Bale Practice</div>
+            <h2 class="content-title">Blank Bale：无目标的刻意练习</h2>
+        </div>
+        
+        <div class="two-col">
+            <div>
+                <h3 style="color: var(--gold); margin-bottom: 1rem;">什么是Blank Bale？</h3>
+                <ul class="key-points">
+                    <li>靶垛上没有任何目标、标记、甚至阴影</li>
+                    <li>站在距离靶子约8英尺（2.4米）的位置</li>
+                    <li>纯粹关注动作流程，不关注命中</li>
+                    <li>类似枪械的"空枪练习"（Dry Fire）</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--gold); margin-bottom: 1rem;">为什么有效？</h3>
+                <ul class="key-points">
+                    <li>移除瞄准带来的分心和焦虑</li>
+                    <li>允许专注于单一技术细节（如手指钩弦的角度）</li>
+                    <li>大幅增加重复次数（不用来回走动取箭）</li>
+                    <li>训练潜意识在压力下接管</li>
+                </ul>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; text-align: center; color: var(--gold); font-size: 1.2rem;">
+            "更多的Blank Bale几乎总是更好，<br>因为它真正让你专注于过程、内化步骤。"
+        </p>
+    </section>
+
+    <!-- 章节6 -->
+    <section class="slide slide-chapter chapter-gold" data-title="第六章">
+        <div class="chapter-number">Chapter 06</div>
+        <h2 class="chapter-title">射箭的技术哲学</h2>
+        <p class="chapter-desc">张力、方向与跟随动作的本质</p>
+    </section>
+
+    <!-- 跟随动作 -->
+    <section class="slide slide-content" data-title="Follow-through">
+        <div class="content-header">
+            <div class="content-label">Follow-Through</div>
+            <h2 class="content-title">跟随动作：射箭最被低估的秘密</h2>
+        </div>
+        
+        <div class="framework-box">
+            <div class="framework-title">⚡ 理解跟随动作的类比</div>
+            <div class="framework-content">
+                <p>想象你在<strong>踢足球</strong>或<strong>投棒球</strong>。</p>
+                <p style="margin-top: 1rem;">脚接触球的瞬间 / 手松开球的瞬间 = 弓弦离开手指的瞬间</p>
+                <p style="margin-top: 1rem;"><strong>从来没有人</strong>在接触/释放的瞬间就停止动作。</p>
+                <p style="margin-top: 1rem;">动作会继续——这就是跟随动作。</p>
+            </div>
+        </div>
+        
+        <div class="quote-block" style="margin-top: 2rem;">
+            <p class="quote-text">
+                张力和方向必须在满弓时保持，<br>
+                并<strong>贯穿释放</strong>直到跟随动作结束。
+            </p>
+        </div>
+    </section>
+
+    <!-- 释放不是一个步骤 -->
+    <section class="slide slide-content warm" data-title="释放">
+        <div class="content-header">
+            <div class="content-label">Release</div>
+            <h2 class="content-title">"释放不是一个步骤"</h2>
+        </div>
+        
+        <p style="margin-bottom: 2rem; font-size: 1.1rem;">
+            这是Coach K近年来分享的最重要的洞见之一：
+        </p>
+        
+        <div class="compare-grid">
+            <div class="compare-item negative">
+                <div class="compare-header">❌ 传统思维</div>
+                <p style="margin-top: 1rem;">
+                    满弓 → <strong>释放</strong> → 跟随动作<br>
+                    （释放是一个独立的、需要执行的步骤）
+                </p>
+            </div>
+            <div class="compare-item positive">
+                <div class="compare-header">✓ Coach K的洞见</div>
+                <p style="margin-top: 1rem;">
+                    如果你的主要关注点是<strong>正确的跟随动作</strong>，<br>
+                    释放会自己处理好。
+                </p>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; padding: 1.5rem; background: rgba(201, 162, 39, 0.1); border-radius: 12px;">
+            <strong>原理：</strong><br>
+            如果你专注于释放，你的大脑无法足够快地切换到跟随动作。<br>
+            但如果你专注于跟随动作，释放变成了一个<strong>反应</strong>而非<strong>动作</strong>。<br>
+            跟随动作揭示了你在满弓时建立的张力——它是结果，不是原因。
+        </p>
+    </section>
+
+    <!-- 内心独白 -->
+    <section class="slide slide-content dark" data-title="内心独白">
+        <div class="content-header">
+            <div class="content-label">Mental Cues</div>
+            <h2 class="content-title">在满弓时对自己说什么？</h2>
+        </div>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🔄</div>
+                <div class="card-title">"继续动作"</div>
+                <div class="card-desc">
+                    Continue the motion<br>
+                    后肩继续向后转动，弓继续向前推
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">✅</div>
+                <div class="card-title">"完成这一箭"</div>
+                <div class="card-desc">
+                    Finish the shot<br>
+                    提醒自己不要在释放前停止
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">💪</div>
+                <div class="card-title">"强有力的一箭"</div>
+                <div class="card-desc">
+                    Strong shot<br>
+                    通用的、正面的、不针对个人的提醒
+                </div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; text-align: center; opacity: 0.8;">
+            <strong>问队友：</strong>"你想在满弓时听到什么？"<br>
+            "Come on Tim, shoot a ten!" 还是更中性的鼓励？<br>
+            团队成员需要了解彼此的心理偏好。
+        </p>
+    </section>
+
+    <!-- 章节7 -->
+    <section class="slide slide-chapter chapter-green" data-title="第七章">
+        <div class="chapter-number">Chapter 07</div>
+        <h2 class="chapter-title">Tim的实验室</h2>
+        <p class="chapter-desc">"Jesus Takes the Wheel"与比赛前的顿悟</p>
+    </section>
+
+    <!-- Jesus Takes the Wheel -->
+    <section class="slide slide-content" data-title="JTTW">
+        <div class="content-header">
+            <div class="content-label">Instinct Aiming</div>
+            <h2 class="content-title">"Jesus Takes the Wheel" 方法</h2>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Tim在训练早期尝试瞄准时，第一次经历了Target Panic（瞄准恐惧）。<br>
+            当箭尖不在正中时，就无法释放。
+        </p>
+        
+        <div class="framework-box">
+            <div class="framework-title">🙏 "Jesus Takes the Wheel" 的核心</div>
+            <div class="framework-content">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>不看箭尖位置</h4>
+                            <p>不试图把箭尖放在靶心——完全忽略它</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>用眼睛"烧穿"靶心</h4>
+                            <p>所有视觉注意力都集中在目标的正中心</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>用手掌"推向"靶心</h4>
+                            <p>想象把手掌的那个点推向靶心，无论箭尖在哪里</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 1.5rem; color: var(--ink-light);">
+            <strong>结果：</strong>在练习中，这种方法出人意料地有效——<br>
+            Tim的分组（箭的聚集程度）经常比刻意瞄准时更好。
+        </p>
+    </section>
+
+    <!-- 分组优先 -->
+    <section class="slide slide-content warm" data-title="分组优先">
+        <div class="content-header">
+            <div class="content-label">Grouping First</div>
+            <h2 class="content-title">先追求一致性，再调整位置</h2>
+        </div>
+        
+        <div class="two-col">
+            <div>
+                <h3 style="margin-bottom: 1rem;">为什么分组比命中更重要？</h3>
+                <ul class="key-points">
+                    <li>如果你能稳定地把箭射到同一个地方（即使不是靶心），说明你的技术是一致的</li>
+                    <li>把一组稳定的箭"移动"到靶心位置，是相对简单的调整工作</li>
+                    <li>但如果箭满天飞，没有任何调整能救你</li>
+                </ul>
+            </div>
+            <div>
+                <div style="background: white; padding: 2rem; border-radius: 12px; text-align: center;">
+                    <p style="font-size: 3rem; margin-bottom: 1rem;">🎯</p>
+                    <p style="color: var(--ink-light);">
+                        <strong>稳定的左下角分组</strong><br>
+                        比<br>
+                        <strong>散布在靶面各处</strong><br>
+                        有价值得多
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 赛前的警醒 -->
+    <section class="slide slide-content dark" data-title="赛前">
+        <div class="content-header">
+            <div class="content-label">Pre-Competition</div>
+            <h2 class="content-title">比赛前两周的紧急调整</h2>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; opacity: 0.8;">
+            "Jesus Takes the Wheel"方法在练习中很有效——直到Tim参加了一些热身赛。
+        </p>
+        
+        <div class="framework-box" style="background: rgba(139, 38, 53, 0.2); border-color: var(--accent);">
+            <div class="framework-title" style="color: var(--accent-light);">⚠️ 发现的问题</div>
+            <div class="framework-content" style="color: var(--paper);">
+                <ul class="key-points">
+                    <li><strong>黑色背景靶垛</strong>：无法清晰看到箭尖，失去了参照</li>
+                    <li><strong>光线变化</strong>：不同场地的光线条件让视觉感知完全不同</li>
+                    <li><strong>箭尖位置太低</strong>：Barebow的箭尖可能在目标下方3英尺</li>
+                </ul>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; text-align: center; color: var(--gold); font-size: 1.2rem;">
+            幸好做了热身赛——<br>
+            否则比赛当天才发现这些问题就太晚了。
+        </p>
+    </section>
+
+    <!-- 结语 -->
+    <section class="slide slide-chapter" data-title="结语">
+        <div class="chapter-number">Key Takeaways</div>
+        <h2 class="chapter-title">百万支箭的智慧</h2>
+        <p class="chapter-desc">可迁移到任何精准追求的原则</p>
+    </section>
+
+    <!-- 核心原则总结 -->
+    <section class="slide slide-content" data-title="总结">
+        <div class="content-header">
+            <div class="content-label">Summary</div>
+            <h2 class="content-title">Jake Kaminski的核心智慧</h2>
+        </div>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🧘</div>
+                <div class="card-title">射箭即冥想</div>
+                <div class="card-desc">如果你在想别的事，成绩会立刻告诉你</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔥</div>
+                <div class="card-title">训练比比赛更难</div>
+                <div class="card-desc">在雨中、风中、狭小空间中训练——让比赛成为"休息"</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">💬</div>
+                <div class="card-title">I am, 不是 I want to be</div>
+                <div class="card-desc">用现在时的肯定语重塑身份，习惯会自动跟随</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤝</div>
+                <div class="card-title">真正的团队</div>
+                <div class="card-desc">了解队友的射箭节奏、心理偏好，用他们的弓作为你的备用弓</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">释放不是一个步骤</div>
+                <div class="card-desc">专注于跟随动作，释放会自己处理好</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-title">分组优先于命中</div>
+                <div class="card-desc">先追求一致性，调整位置是后话</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 封底 -->
+    <section class="slide slide-cover" data-title="封底">
+        <div class="cover-icon">🏹</div>
+        <h1 class="cover-title" style="font-size: clamp(2rem, 4vw, 3rem);">
+            "射箭是一面镜子——<br>
+            它会立刻告诉你，<br>
+            你的心在哪里。"
+        </h1>
+        <div class="cover-meta" style="margin-top: 4rem;">
+            <span>Jake Kaminski</span>
+            <span>|</span>
+            <span>Two-Time Olympic Silver Medalist</span>
+        </div>
+        <p style="margin-top: 3rem; opacity: 0.6; font-size: 0.9rem;">
+            YouTube: Jake Kaminski Archer | Website: jakekaminski.com
+        </p>
+    </section>
+
+    <script>
+        // 创建导航点
+        const slides = document.querySelectorAll('.slide');
+        const nav = document.getElementById('nav');
+        const progress = document.getElementById('progress');
+        
+        slides.forEach((slide, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'nav-dot';
+            dot.title = slide.dataset.title || `Slide ${index + 1}`;
+            dot.addEventListener('click', () => {
+                slide.scrollIntoView({ behavior: 'smooth' });
+            });
+            nav.appendChild(dot);
+        });
+        
+        // 更新导航状态和进度条
+        const updateNav = () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progress.style.width = scrollPercent + '%';
+            
+            const dots = nav.querySelectorAll('.nav-dot');
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                    dots.forEach(d => d.classList.remove('active'));
+                    dots[index].classList.add('active');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', updateNav);
+        updateNav();
+        
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            const currentSlide = [...slides].find(slide => {
+                const rect = slide.getBoundingClientRect();
+                return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+            });
+            const currentIndex = [...slides].indexOf(currentSlide);
+            
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                if (currentIndex < slides.length - 1) {
+                    slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+        
+        // 触摸支持
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > 50) {
+                const currentSlide = [...slides].find(slide => {
+                    const rect = slide.getBoundingClientRect();
+                    return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+                });
+                const currentIndex = [...slides].indexOf(currentSlide);
+                
+                if (diff > 0 && currentIndex < slides.length - 1) {
+                    slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                } else if (diff < 0 && currentIndex > 0) {
+                    slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

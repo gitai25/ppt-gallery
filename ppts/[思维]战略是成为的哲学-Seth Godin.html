@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>战略是成为的哲学 | Seth Godin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent-light: #ff6b6b;
+            --gold: #f4a261;
+            --text: #edf2f4;
+            --text-muted: #8d99ae;
+            --surface: rgba(255,255,255,0.05);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 3rem 5%;
+            overflow-y: auto;
+            background: var(--primary);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title Slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(233, 69, 96, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .episode-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .author-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Slides */
+        .slide-content {
+            padding-top: 2rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--surface);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .slide-heading {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-text {
+            color: var(--accent);
+        }
+
+        .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(233, 69, 96, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 2rem 2.5rem;
+            border-radius: 0 16px 16px 0;
+            margin: 2rem 0;
+        }
+
+        .quote-text {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .quote-author {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            flex: 1;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .column-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .column-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Comparison Box */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: stretch;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+            .comparison-divider {
+                display: none;
+            }
+        }
+
+        .comparison-box {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .comparison-box.left {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .comparison-box.right {
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .comparison-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-divider {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            color: var(--text-muted);
+        }
+
+        /* Example Box */
+        .example-box {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.05) 100%);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .example-label {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(79, 172, 254, 0.2);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #4facfe;
+            margin-bottom: 1rem;
+        }
+
+        .example-content {
+            line-height: 1.8;
+        }
+
+        .example-company {
+            font-weight: 600;
+            color: #4facfe;
+        }
+
+        /* Four Pillars Section */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pillar {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .pillar:hover {
+            transform: scale(1.02);
+        }
+
+        .pillar-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            font-size: 1.2rem;
+        }
+
+        .pillar:nth-child(1) .pillar-number { background: var(--gradient-1); }
+        .pillar:nth-child(2) .pillar-number { background: var(--gradient-2); }
+        .pillar:nth-child(3) .pillar-number { background: var(--gradient-3); }
+        .pillar:nth-child(4) .pillar-number { background: var(--gradient-4); }
+
+        .pillar-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pillar-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Insight Block */
+        .insight-block {
+            background: linear-gradient(135deg, rgba(244, 162, 97, 0.15) 0%, rgba(244, 162, 97, 0.05) 100%);
+            border: 1px solid rgba(244, 162, 97, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .insight-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .insight-text {
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            background: var(--surface);
+            border-radius: 12px;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Circle Diagram */
+        .circles-container {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .circle-item {
+            text-align: center;
+        }
+
+        .circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            border: 3px solid;
+        }
+
+        .circle.us {
+            border-color: var(--accent);
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .circle.now {
+            border-color: var(--gold);
+            background: rgba(244, 162, 97, 0.1);
+        }
+
+        .circle-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .circle-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .circle-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 200px;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Table of Contents */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .toc-item:hover {
+            background: rgba(233, 69, 96, 0.1);
+            border-color: rgba(233, 69, 96, 0.3);
+        }
+
+        .toc-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .toc-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: var(--secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .formula {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .formula-part {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 8px;
+        }
+
+        .formula-part.var {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--accent);
+        }
+
+        .formula-part.operator {
+            color: var(--text-muted);
+        }
+
+        .formula-part.result {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: linear-gradient(135deg, var(--accent) 0%, #c23a4d 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        /* Keyboard hints */
+        .keyboard-hints {
+            position: fixed;
+            bottom: 5rem;
+            right: 2rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        .keyboard-hints kbd {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: var(--surface);
+            border-radius: 4px;
+            margin: 0 0.2rem;
+            font-family: inherit;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 1.5rem;
+                padding-bottom: 6rem;
+            }
+            
+            .keyboard-hints {
+                display: none;
+            }
+            
+            .nav-container {
+                bottom: 1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .slide::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .slide::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+        }
+
+        /* Flex helpers */
+        .flex-grow {
+            flex: 1;
+        }
+
+        .mt-auto {
+            margin-top: auto;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--gold));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--primary);
+        }
+
+        .timeline-company {
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Emphasis text */
+        .emphasis {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        /* Tag */
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(233, 69, 96, 0.15);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="presentation" id="presentation">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active" data-slide="1">
+            <div class="title-container">
+                <div class="episode-badge">TIM FERRISS SHOW #792</div>
+                <h1 class="main-title">战略是成为的哲学</h1>
+                <p class="subtitle">Strategy as a Philosophy of Becoming</p>
+                <p class="emphasis" style="margin-top: 2rem; text-align: center; max-width: 700px;">
+                    "战略不是一套战术，不是短期的胜利——<br>
+                    而是清晰地知道我们要创造什么改变，以及我们要改变谁。"
+                </p>
+                <div class="author-info">
+                    <div class="author-avatar">SG</div>
+                    <div>
+                        <div class="author-name">Seth Godin</div>
+                        <div class="author-title">《This Is Strategy》作者 · 21本畅销书作者</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div class="slide slide-content" data-slide="2">
+            <span class="section-label">📑 内容导航</span>
+            <h2 class="slide-heading">今天我们将探索</h2>
+            
+            <div class="toc-grid">
+                <div class="toc-item" onclick="goToSlide(3)">
+                    <span class="toc-number">01</span>
+                    <span class="toc-title">战略的定义</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(4)">
+                    <span class="toc-number">02</span>
+                    <span class="toc-title">战略四支柱</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(5)">
+                    <span class="toc-number">03</span>
+                    <span class="toc-title">系统：隐形的引力</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(6)">
+                    <span class="toc-number">04</span>
+                    <span class="toc-title">时间：长期主义</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(7)">
+                    <span class="toc-number">05</span>
+                    <span class="toc-title">博弈：规则与选择</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(8)">
+                    <span class="toc-number">06</span>
+                    <span class="toc-title">同理心：为谁服务</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(9)">
+                    <span class="toc-number">07</span>
+                    <span class="toc-title">地位与归属</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(10)">
+                    <span class="toc-number">08</span>
+                    <span class="toc-title">网络效应</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(11)">
+                    <span class="toc-number">09</span>
+                    <span class="toc-title">创造紧张感</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(12)">
+                    <span class="toc-number">10</span>
+                    <span class="toc-title">引燃物与大原木</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(13)">
+                    <span class="toc-number">11</span>
+                    <span class="toc-title">好决策 vs 好结果</span>
+                </div>
+                <div class="toc-item" onclick="goToSlide(14)">
+                    <span class="toc-number">12</span>
+                    <span class="toc-title">行动召唤</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Definition of Strategy -->
+        <div class="slide slide-content" data-slide="3">
+            <span class="section-label">💡 核心定义</span>
+            <h2 class="slide-heading">什么是<span class="highlight-text">战略</span>？</h2>
+            
+            <div class="quote-block">
+                <p class="quote-text">"战略是一种成为的哲学。它不是一套战术，不是关于短期的胜利——而是清晰地知道我们要创造什么改变，以及我们要改变谁。"</p>
+                <p class="quote-author">— Seth Godin</p>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-box left">
+                    <h3 class="comparison-title" style="color: #ff6b6b;">❌ 战略不是</h3>
+                    <ul class="bullet-list">
+                        <li>一套具体的战术手册</li>
+                        <li>短期的输赢计算</li>
+                        <li>可以被"照搬"的步骤</li>
+                        <li>市场营销的花招</li>
+                    </ul>
+                </div>
+                <div class="comparison-divider">VS</div>
+                <div class="comparison-box right">
+                    <h3 class="comparison-title" style="color: #4ecdc4;">✓ 战略是</h3>
+                    <ul class="bullet-list">
+                        <li>理解我们周围的系统和博弈</li>
+                        <li>承诺长期的成长过程</li>
+                        <li>战术可以不断变化，战略保持稳定</li>
+                        <li>创造条件，让改变自然发生</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="insight-icon">🎯</div>
+                <div class="insight-title">核心洞察</div>
+                <p class="insight-text">大多数人因为被"就业"的思维所驯化，他们想要的是战术而非战略。如果我贩卖战术，我可以做得更好——但我永远不会写一本叫《这是战术手册第一卷》的书。</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Four Pillars -->
+        <div class="slide slide-content" data-slide="4">
+            <span class="section-label">🏛️ 战略四支柱</span>
+            <h2 class="slide-heading">战略的<span class="gradient-text">四个核心维度</span></h2>
+            
+            <p class="emphasis">一旦你看到这四个维度，战略就会变得更容易，甚至自然而然。</p>
+            
+            <div class="pillars-grid">
+                <div class="pillar">
+                    <div class="pillar-number">1</div>
+                    <h3 class="pillar-title">系统</h3>
+                    <p class="pillar-subtitle">Systems</p>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">隐形的引力<br>文化的防御机制</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">2</div>
+                    <h3 class="pillar-title">时间</h3>
+                    <p class="pillar-subtitle">Time</p>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">长期视野<br>现在与未来的连接</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">3</div>
+                    <h3 class="pillar-title">博弈</h3>
+                    <p class="pillar-subtitle">Games</p>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">规则与选择<br>好决策vs好结果</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">4</div>
+                    <h3 class="pillar-title">同理心</h3>
+                    <p class="pillar-subtitle">Empathy</p>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">最小可行受众<br>他们真正想要什么</p>
+                </div>
+            </div>
+
+            <div class="quote-block" style="margin-top: 2rem;">
+                <p class="quote-text">"这四个维度不断交织、反复出现——它们为我们揭示了战略可以是什么。"</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Systems -->
+        <div class="slide slide-content" data-slide="5">
+            <span class="section-label">⚙️ 支柱一</span>
+            <h2 class="slide-heading">系统：<span class="highlight-text">隐形的引力</span></h2>
+            
+            <div class="two-column">
+                <div class="column-content">
+                    <p class="emphasis" style="margin-bottom: 1.5rem;">系统是隐形的，它们隐藏自己是因为不想让人看到谁在操控。它们发明"文化"来保护自己。</p>
+                    
+                    <div class="quote-block">
+                        <p class="quote-text">"你不是堵在车流里——你就是车流本身。"</p>
+                        <p class="quote-author">— You're not sitting in traffic; you are the traffic.</p>
+                    </div>
+
+                    <h3 style="color: var(--gold); margin-top: 2rem;">💡 婚礼的系统</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8;">婚礼应该花多少钱？答案很简单：跟你最好的朋友花的差不多，但要稍微多一点。这就是为什么纽约的婚礼花费超过10万美元——不是因为你需要定制火柴盒才能有一场好婚礼，而是因为你需要它们来证明你在"婚礼工业复合体"中的地位。</p>
+                </div>
+                
+                <div class="column-content">
+                    <h3 style="color: var(--gold); margin-bottom: 1rem;">🎓 教育系统的例子</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">如果你在美国中产家庭长大，从5岁开始就会被施压：要拿好成绩。为什么？为了进入"名校"——但你不能叫它"名校"，得叫"好学校"。</p>
+                    
+                    <p style="color: var(--text-muted); line-height: 1.8;">学费、终身教职、学生贷款、橄榄球队、啦啦队、大学参观、车尾的贴纸、SAT考试——所有这些都被视为"正常"。系统就是这样运作的。</p>
+
+                    <div class="insight-block" style="margin-top: 1.5rem;">
+                        <div class="insight-title">关键问题</div>
+                        <p class="insight-text">引力在哪里？什么被视为"正常"？如果你不这样做，会有什么阻力？</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Time -->
+        <div class="slide slide-content" data-slide="6">
+            <span class="section-label">⏳ 支柱二</span>
+            <h2 class="slide-heading">时间：<span class="highlight-text">长期主义的力量</span></h2>
+            
+            <p class="emphasis">如果你想建立一家千人公司、想上市、想在银行账户里有很多零——这不会在接下来三秒钟内发生。现在和那时之间，必然会发生一些事情。</p>
+
+            <div class="example-box">
+                <span class="example-label">💎 案例：Google的时间观</span>
+                <div class="example-content">
+                    <p style="margin-bottom: 1rem;">2001年，在一个8人小组会议上，<span class="example-company">Sergey Brin</span>被问到Google的营销策略：</p>
+                    <div class="quote-block" style="margin: 1rem 0; background: rgba(0,0,0,0.2);">
+                        <p class="quote-text">"我们认为Google每天都会变得更好。所以我们不想让人们现在就第一次使用Google——我们想让他们晚一点再用，这样当他们来的时候，产品会更好。所以我们完全不做任何推广。"</p>
+                    </div>
+                    <p style="color: var(--text-muted);">与此同时，Yahoo正忙于捍卫不断下跌的股价——只关注"现在"，而不是"十年后我们会成为什么"。</p>
+                </div>
+            </div>
+
+            <div class="comparison-container" style="margin-top: 2rem;">
+                <div class="comparison-box left">
+                    <h3 class="comparison-title" style="color: #ff6b6b;">❌ Yahoo的战略</h3>
+                    <p style="color: var(--text-muted);">"网络是一个黑暗肮脏的地方。来Yahoo，然后不要离开。"</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">首页有183个链接</p>
+                </div>
+                <div class="comparison-divider">VS</div>
+                <div class="comparison-box right">
+                    <h3 class="comparison-title" style="color: #4ecdc4;">✓ Google的战略</h3>
+                    <p style="color: var(--text-muted);">"网络已经成熟了。来这里，然后去别的地方。"</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">首页只有几个链接——如果你在离开Google，说明我们做对了</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Games -->
+        <div class="slide slide-content" data-slide="7">
+            <span class="section-label">🎲 支柱三</span>
+            <h2 class="slide-heading">博弈：<span class="highlight-text">规则与选择</span></h2>
+            
+            <div class="two-column">
+                <div class="column-content">
+                    <p class="emphasis" style="margin-bottom: 1.5rem;">任何有多个参与者、可变结果和稀缺性的情况，都是一场博弈。</p>
+                    
+                    <ul class="bullet-list">
+                        <li>两条车道合并时，哪辆车先走——这是博弈</li>
+                        <li>在杰克·韦尔奇的公司，底部10%的人会被裁——这是博弈</li>
+                        <li>在棒球场用钱换热狗——这是博弈</li>
+                    </ul>
+
+                    <div class="quote-block" style="margin-top: 1.5rem;">
+                        <p class="quote-text">"当博弈中的某步棋看起来不奏效时，我们不应该说'我是个坏人'。我们应该说'这步棋没有奏效'。这是完全不同的事情。"</p>
+                    </div>
+                </div>
+                
+                <div class="column-content">
+                    <div class="insight-block">
+                        <div class="insight-icon">🔑</div>
+                        <div class="insight-title">创新的本质</div>
+                        <p class="insight-text">如果"必须成功"才能行动，就不可能创新。创新必须伴随着这句话：<strong style="color: var(--accent);">"这可能不会成功。"</strong></p>
+                        <p class="insight-text" style="margin-top: 1rem;">如果你和你的团队不是在说"这可能不会成功"——以服务于创新——那你就不是在创新。</p>
+                    </div>
+
+                    <h3 style="color: var(--gold); margin-top: 1.5rem;">📓 Tim的笔记本</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8;">整个笔记本都是训练日志和实验记录。50%甚至70%都是失败的——那些没有奏效、需要调整的东西，这样下次就不会重复同样的错误。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Empathy -->
+        <div class="slide slide-content" data-slide="8">
+            <span class="section-label">💗 支柱四</span>
+            <h2 class="slide-heading">同理心：<span class="highlight-text">最小可行受众</span></h2>
+            
+            <p class="emphasis">同理心不是关于"做一个有道德感的好人"——而是清楚地知道<strong>这是为谁</strong>以及<strong>他们为什么想要它</strong>。</p>
+
+            <div class="quote-block">
+                <p class="quote-text">"如果有人来到你这里，而你不会经常把他们介绍给你的竞争对手——那你就没有认真对待'选择核心受众并原谅其他所有人'这件事。"</p>
+                <p class="quote-author">— Seth Godin</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-1);">🎯</div>
+                    <h3 class="card-title">最小可行受众</h3>
+                    <p class="card-desc">找到那群人——只是他们——当他们听说你做的事情时，会说："这正是我在找的！"这就是你需要的全部。选择那个群体，取悦他们，原谅其他所有人。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-2);">🏎️</div>
+                    <h3 class="card-title">法拉利原则</h3>
+                    <p class="card-desc">当有人走进法拉利经销商说"我有6个孩子，怎么送他们上学？"——你不会试图说服他们买恩佐。你把他们送到街对面的沃尔沃经销商那里。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-3);">🔄</div>
+                    <h3 class="card-title">定位的本质</h3>
+                    <p class="card-desc">定位是：为什么那些没有选择从你这里购买的人做出了正确的选择？如果你认为每个人都应该从你这里买，你就无法回答这个问题。</p>
+                </div>
+            </div>
+
+            <div class="insight-block" style="margin-top: 2rem;">
+                <div class="insight-title">常见的错误</div>
+                <p class="insight-text">"我只需要把消息传出去。我已经完成了所有困难的部分。现在我只需要把消息传出去。"——如果你发现自己在说这句话，<strong style="color: var(--accent);">你还没有完成困难的部分</strong>。你做的只是在等待奇迹。</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Status and Affiliation -->
+        <div class="slide slide-content" data-slide="9">
+            <span class="section-label">👥 人性洞察</span>
+            <h2 class="slide-heading">人只想要<span class="highlight-text">两样东西</span></h2>
+            
+            <p class="emphasis">撇开"摆脱恐惧感"不谈，人类只想要两样东西：<strong>地位</strong>和<strong>归属</strong>。</p>
+
+            <div class="comparison-container">
+                <div class="comparison-box left" style="border-left-color: var(--gold);">
+                    <h3 class="comparison-title" style="color: var(--gold);">🏆 地位 Status</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">谁在上，谁在下？谁在赢？</p>
+                    <ul class="bullet-list">
+                        <li>万智牌的收藏维度——更厚的牌组 = 更高的地位</li>
+                        <li>TED大会的入场券</li>
+                        <li>拥有最新款耳机</li>
+                        <li>在特定期刊上发表文章</li>
+                    </ul>
+                </div>
+                <div class="comparison-divider">&</div>
+                <div class="comparison-box right" style="border-left-color: var(--accent);">
+                    <h3 class="comparison-title" style="color: var(--accent);">🤝 归属 Affiliation</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">你和谁在一起？谁是你的人？</p>
+                    <ul class="bullet-list">
+                        <li>穿西装还是穿燕尾服的焦虑</li>
+                        <li>万智牌的社交维度——和相似的人打牌</li>
+                        <li>读过《了不起的盖茨比》的谈资</li>
+                        <li>NASCAR爱好者的圈子</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <span class="example-label">🎭 燕尾服的故事</span>
+                <div class="example-content">
+                    <p>在汉普顿的一场高档婚礼上，Seth穿着西装等高尔夫球车。旁边一个人穿着燕尾服。</p>
+                    <p style="margin-top: 0.5rem;">Seth心想："糟了，今晚会很漫长..."</p>
+                    <p style="margin-top: 0.5rem;">然后又有两辆车来了，三个穿西装的人下车。</p>
+                    <p style="margin-top: 0.5rem; color: var(--accent);">你能听到那个穿燕尾服的人在想："糟了..."</p>
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--text-muted);">为什么这很重要？因为——你属于哪里？</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Network Effects -->
+        <div class="slide slide-content" data-slide="10">
+            <span class="section-label">🔗 增长引擎</span>
+            <h2 class="slide-heading">网络效应：<span class="highlight-text">当我告诉朋友时，它会更好用吗？</span></h2>
+            
+            <div class="two-column">
+                <div class="column-content">
+                    <h3 style="color: var(--gold); margin-bottom: 1rem;">📧 纯粹的网络效应</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">传真机或电子邮件。40年前，如果你的朋友没有电子邮件，你需要让他们获得电子邮件——因为你不能给没有电子邮件地址的人发邮件。</p>
+
+                    <h3 style="color: var(--gold); margin-bottom: 1rem;">🍩 Krispy Kreme原则</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8;">Krispy Kreme的定价：买一打比买四个便宜。而且Krispy Kreme很稀缺。所以如果你带着一打Krispy Kreme去上班，你就是英雄。分享的次数越多，分享者越开心，这个想法就传播得越广。</p>
+                </div>
+                
+                <div class="column-content">
+                    <h3 style="color: var(--gold); margin-bottom: 1rem;">🎬 《大勒布斯基》原则</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">除非你看过这部电影，否则我无法和你讨论它。所以我必须让你去看《大勒布斯基》，这样我们才能谈论"把房间联系在一起"这个梗。</p>
+
+                    <div class="insight-block">
+                        <div class="insight-title">核心问题</div>
+                        <p class="insight-text">网络效应在哪里？为什么如果用户的朋友也拥有它，对用户来说会更好？不是对你更好——对<strong>用户</strong>更好？</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <span class="example-label">⚠️ Netflix的战略失误</span>
+                <div class="example-content">
+                    <p>Netflix最大的战略失误：他们忘了停止"追剧"模式。</p>
+                    <p style="margin-top: 0.5rem;">追剧模式帮助他们建立了关键的市场份额——但代价是失去了"饮水机效应"。</p>
+                    <p style="margin-top: 0.5rem; color: var(--accent);">你不敢和朋友讨论《继承之战》第四集，因为他们还没追上，你会剧透。所以大家讨论得更少了。</p>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">四年前，他们应该切换回每周更新模式——用追剧模式建立用户基础，然后回到预约观看模式。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Creating Tension -->
+        <div class="slide slide-content" data-slide="11">
+            <span class="section-label">⚡ 变革动力</span>
+            <h2 class="slide-heading">创造<span class="highlight-text">紧张感</span></h2>
+            
+            <p class="emphasis">如果你想让改变发生，你必须故意创造紧张感。不是压力——压力是坏的。紧张感是把橡皮筋拉回来然后放开时发生的事情。</p>
+
+            <div class="formula-box">
+                <div class="formula">
+                    <span class="formula-part var">稀缺性</span>
+                    <span class="formula-part operator">+</span>
+                    <span class="formula-part var">归属缺失</span>
+                    <span class="formula-part operator">+</span>
+                    <span class="formula-part var">地位渴望</span>
+                    <span class="formula-part operator">=</span>
+                    <span class="formula-part result">紧张感</span>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-2);">🎤</div>
+                    <h3 class="card-title">Taylor Swift效应</h3>
+                    <p class="card-desc">"Taylor Swift在阿姆斯特丹演出，只剩400个座位了。"——每个想去的人都知道想去的人超过400个。他们得赶紧让妈妈给钱，否则就会被落下。通过创造紧张感，演唱会推广者填满了场地。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-3);">📰</div>
+                    <h3 class="card-title">Tina Brown的《纽约客》</h3>
+                    <p class="card-desc">花大价钱让4000人在周日通过信使收到杂志（正式出版是周一）。如果你是这4000人之一，你的地位上升了——但只有当别人知道你在Tina的名单上时才有效。所以周一上班你首先会干什么？谈论《纽约客》。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-4);">💼</div>
+                    <h3 class="card-title">融资中的紧张感</h3>
+                    <p class="card-desc">当你融资时，有人问"还有谁投了？"——他们在问归属和地位。如果你说"我有三家的投资意向书，只剩一个名额了"——你创造了紧张感。我们总是在这样做，但很少是故意的。</p>
+                </div>
+            </div>
+
+            <div class="insight-block" style="margin-top: 2rem;">
+                <div class="insight-title">压力 vs 紧张感</div>
+                <p class="insight-text"><strong style="color: #ff6b6b;">压力</strong>是坏的。压力是生活很糟糕。压力是你想离开但离不开。<br><strong style="color: #4ecdc4;">紧张感</strong>是把橡皮筋向后拉——我必须把它向后拉，橡皮筋才能飞过房间。</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Kindling and Logs -->
+        <div class="slide slide-content" data-slide="12">
+            <span class="section-label">🔥 资源匹配</span>
+            <h2 class="slide-heading">引燃物与<span class="highlight-text">大原木</span></h2>
+            
+            <p class="emphasis">如果你只有一点引燃物，就不要试图点燃大原木。</p>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <div class="quote-block">
+                        <p class="quote-text">"如果你想建立一个40个城市的透析连锁店，你不可能用10万美元的贷款起步。但10万美元的贷款足以让你用一个热狗车做得很好。"</p>
+                    </div>
+
+                    <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem;">🎬 Robert Rodriguez方法</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8;">在拍《杀手悲歌》时，他列出了所有可用的资产：</p>
+                    <ul class="bullet-list" style="margin-top: 1rem;">
+                        <li>"好，我们有一只乌龟。乌龟会出现在电影里。"</li>
+                        <li>"我朋友有一辆坏掉的校车。校车要写进剧本。"</li>
+                        <li>"他表弟有一根管子。很好，我们会想办法用上。"</li>
+                    </ul>
+                    <p style="color: var(--text-muted); margin-top: 1rem;">他围绕现有资源构建整个剧本，让人们以为这是一部正规的、有预算的电影。</p>
+                </div>
+                
+                <div class="column-content">
+                    <h3 style="color: var(--gold); margin-bottom: 1rem;">📈 逐步扩展</h3>
+                    <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">捷径是虚幻的。最直接的前进道路在当下感觉很长。</p>
+                    
+                    <div class="insight-block">
+                        <div class="insight-title">Kickstarter方法</div>
+                        <p class="insight-text">"好，我没有足够的钱建工厂、进入百思买、做全国广告，但我确实有足够的钱让1000个人每人付我200美元买一个咖啡机。然后我可以做下一个。然后再做下一个。"</p>
+                    </div>
+
+                    <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem;">💡 获取引燃物的方式</h3>
+                    <ul class="bullet-list">
+                        <li>联合创业 (Joint Ventures)</li>
+                        <li>许可协议 (Licensing)</li>
+                        <li>非稀释性融资——比如政府资助</li>
+                        <li>用你拥有的资产换取你需要的</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Good Decisions vs Good Outcomes -->
+        <div class="slide slide-content" data-slide="13">
+            <span class="section-label">🎯 概率思维</span>
+            <h2 class="slide-heading">好决策 <span class="highlight-text">≠</span> 好结果</h2>
+            
+            <p class="emphasis">挑战是：你是否能接受做出好决策但没有得到好结果？大多数人如果诚实的话，答案是"不能"。</p>
+
+            <div class="example-box">
+                <span class="example-label">🏈 西雅图海鹰队的故事</span>
+                <div class="example-content">
+                    <p>超级碗，第四节，球队在2-3码线，得分就赢，不得分就输。</p>
+                    <p style="margin-top: 0.5rem;">Pete Carroll选择了传球进攻。<strong style="color: var(--accent);">这是一个很好的决策</strong>——如果你做数学分析，传球比跑球更可能得分。</p>
+                    <p style="margin-top: 0.5rem;">结果：传球被截，他们输了。</p>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">所有人都说："Pete做了一个糟糕的决定，应该被解雇。"</p>
+                    <p style="margin-top: 0.5rem; color: var(--gold);">不。他做了一个好决定，但他没有抽到A。他只是抽到了其他牌。这没关系。</p>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-box left">
+                    <h3 class="comparison-title" style="color: #ff6b6b;">🎰 彩票悖论</h3>
+                    <p style="color: var(--text-muted);">如果你买了彩票并且赢了，你做了一个<strong>坏决定</strong>。你不应该买彩票。赢只是一个奇怪的异常——但牌堆对你不利。不要玩你无法可靠赢的游戏。</p>
+                </div>
+                <div class="comparison-divider">VS</div>
+                <div class="comparison-box right">
+                    <h3 class="comparison-title" style="color: #4ecdc4;">📊 正确的衡量</h3>
+                    <p style="color: var(--text-muted);">企业提拔那些做出坏决定但运气好的人，却不提拔那些做出好决定但运气不好的人。这是测量错误的东西——是"假代理"的问题。</p>
+                </div>
+            </div>
+
+            <div class="insight-block" style="margin-top: 2rem;">
+                <div class="insight-title">战略问题</div>
+                <p class="insight-text">当我们思考战略时，我们需要不断回到这个问题：<strong style="color: var(--accent);">牌堆是什么样的？</strong>不是关注我们工作有多努力，或者我们多么想让它成功——而是关注概率。在这个牌堆里有多少A？</p>
+            </div>
+        </div>
+
+        <!-- Slide 14: Call to Action -->
+        <div class="slide slide-content" data-slide="14">
+            <span class="section-label">🚀 行动召唤</span>
+            <h2 class="slide-heading">给五年后的自己<span class="highlight-text">一份礼物</span></h2>
+            
+            <div class="circles-container">
+                <div class="circle-item">
+                    <div class="circle us">
+                        <span class="circle-label">Circle of</span>
+                        <span class="circle-title" style="color: var(--accent);">Us</span>
+                    </div>
+                    <p class="circle-desc">你关心谁？从只关心自己到关心成千上万的人。</p>
+                </div>
+                <div class="circle-item">
+                    <div class="circle now">
+                        <span class="circle-label">Circle of</span>
+                        <span class="circle-title" style="color: var(--gold);">Now</span>
+                    </div>
+                    <p class="circle-desc">你的"现在"有多长？从7秒到十年。</p>
+                </div>
+            </div>
+
+            <div class="quote-block">
+                <p class="quote-text">"听这个播客的人手里握着杠杆，他们有影响力，他们有资源，他们不需要为了一分钱而奔波。他们可以创造真正重要的东西。"</p>
+                <p class="quote-author">— Seth Godin</p>
+            </div>
+
+            <div class="cta-box">
+                <h3 class="cta-title">深呼吸，然后问自己：</h3>
+                <p class="cta-text">"我能建造什么，让五年后的我会说谢谢？<br><br>谢谢你放弃了那些沉没成本。<br>谢谢你忽视了那些假代理。<br>谢谢你为了让事情变得更好而提出不舒服的问题。"</p>
+                <p style="font-size: 1.3rem; font-weight: 600;">因为那个人——五年后的你——很快就会到来。<br>今天是开始的好日子。</p>
+            </div>
+        </div>
+
+        <!-- Slide 15: Resources -->
+        <div class="slide slide-content" data-slide="15">
+            <span class="section-label">📚 延伸资源</span>
+            <h2 class="slide-heading">继续探索</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-1);">📖</div>
+                    <h3 class="card-title">《This Is Strategy》</h3>
+                    <p class="card-desc">Seth Godin最新著作，包含超过1000个问题，帮助你打开战略思维的大门。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-2);">🃏</div>
+                    <h3 class="card-title">Strategy Deck</h3>
+                    <p class="card-desc">200个问题的卡牌套装，可以和同事一起使用来挑战自己的战略思维。<br><strong>seth.blog/tis</strong></p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-3);">✍️</div>
+                    <h3 class="card-title">Seth's Blog</h3>
+                    <p class="card-desc">即将发布第10000篇博文。全球阅读量最大的博客之一。<br><strong>seth.blog</strong></p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-4);">🍫</div>
+                    <h3 class="card-title">推荐阅读</h3>
+                    <p class="card-desc">《Unreasonable Hospitality》by Will Guidara<br>《Thinking in Bets》by Annie Duke<br>《Rebel Without a Crew》by Robert Rodriguez</p>
+                </div>
+            </div>
+
+            <div class="insight-block" style="margin-top: 2rem;">
+                <div class="insight-title">关于AI的使用</div>
+                <p class="insight-text">Seth每天使用AI超过一小时。他认为AI是我们这个世纪的"电力"。他特别推荐<strong style="color: var(--accent);">Claude.ai</strong>："它是我亲爱的朋友。它有同理心，有自我意识，会警告你它可能会产生幻觉。当它犯错时，它急于改正。"</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; color: var(--text-muted);">
+                <p>Source: The Tim Ferriss Show #792</p>
+                <p style="margin-top: 0.5rem;">Seth Godin on Playing the Right Game and Strategy as a Superpower</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">←</button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">15</span></span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">→</button>
+    </div>
+
+    <div class="keyboard-hints">
+        <kbd>←</kbd> <kbd>→</kbd> 导航 &nbsp;|&nbsp; <kbd>Home</kbd> <kbd>End</kbd> 首尾
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show current slide
+            const activeSlide = document.querySelector(`[data-slide="${currentSlide}"]`);
+            if (activeSlide) {
+                activeSlide.classList.add('active');
+            }
+            
+            // Update counter
+            document.getElementById('currentSlide').textContent = currentSlide;
+            
+            // Update progress bar
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                case 'ArrowDown':
+                case ' ':
+                case 'PageDown':
+                    e.preventDefault();
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                case 'PageUp':
+                    e.preventDefault();
+                    prevSlide();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    goToSlide(1);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    goToSlide(totalSlides);
+                    break;
+            }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Mouse wheel support
+        let wheelTimeout;
+        document.addEventListener('wheel', (e) => {
+            clearTimeout(wheelTimeout);
+            wheelTimeout = setTimeout(() => {
+                if (e.deltaY > 0) {
+                    nextSlide();
+                } else if (e.deltaY < 0) {
+                    prevSlide();
+                }
+            }, 50);
+        }, { passive: true });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
