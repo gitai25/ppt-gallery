@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI教母李飞飞：北极星与文明技术</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent-light: #ff6b6b;
+            --gold: #ffd93d;
+            --teal: #4ecdc4;
+            --text-light: #f8f9fa;
+            --text-muted: #adb5bd;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--primary);
+            color: var(--text-light);
+            overflow: hidden;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5vh 8vw;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(30px);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .slide.prev {
+            transform: translateX(-30px);
+        }
+
+        /* Slide Backgrounds */
+        .slide-cover {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+
+        .slide-story {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+        }
+
+        .slide-parents {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+        }
+
+        .slide-mentor {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        }
+
+        .slide-northstar {
+            background: linear-gradient(135deg, #141E30 0%, #243B55 100%);
+        }
+
+        .slide-imagenet {
+            background: linear-gradient(135deg, #1a1a2e 0%, #4a3f69 100%);
+        }
+
+        .slide-method {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+        }
+
+        .slide-civilization {
+            background: linear-gradient(135deg, #2c003e 0%, #512b58 50%, #2c003e 100%);
+        }
+
+        .slide-spatial {
+            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+        }
+
+        .slide-future {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .slide-learning {
+            background: linear-gradient(135deg, #0d1b2a 0%, #2d3436 100%);
+        }
+
+        .slide-philosophy {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+        }
+
+        .slide-end {
+            background: linear-gradient(135deg, #1a1a2e 0%, #302b63 50%, #24243e 100%);
+        }
+
+        /* Cover Slide */
+        .cover-content {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            background: rgba(233, 69, 96, 0.15);
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--accent-light);
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .cover-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cover-meta {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: var(--gold);
+        }
+
+        /* Content Slides */
+        .slide-header {
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 3vh;
+        }
+
+        .slide-number {
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .slide-title .highlight {
+            color: var(--accent-light);
+        }
+
+        .slide-title .gold {
+            color: var(--gold);
+        }
+
+        .slide-title .teal {
+            color: var(--teal);
+        }
+
+        .slide-body {
+            width: 100%;
+            max-width: 1100px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Quote Style */
+        .quote-block {
+            position: relative;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .quote-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            line-height: 1.7;
+            font-style: italic;
+            color: rgba(255,255,255,0.95);
+        }
+
+        .quote-author {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--gold);
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(255,255,255,0.06);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--gold);
+        }
+
+        .card-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* Key Points */
+        .key-points {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+        }
+
+        .point-marker {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .point-content h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-light);
+        }
+
+        .point-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--teal) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--primary);
+        }
+
+        .timeline-year {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .insight-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-light);
+            margin-bottom: 0.8rem;
+        }
+
+        .insight-text {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        /* Framework Box */
+        .framework {
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .framework-title {
+            font-size: 1rem;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .framework-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .framework-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+        }
+
+        .framework-icon {
+            font-size: 1.5rem;
+        }
+
+        .framework-text {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 100;
+        }
+
+        .nav-progress {
+            flex: 1;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .nav-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--teal) 100%);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            min-width: 70px;
+            text-align: center;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 3vh 5vw 80px 5vw;
+            }
+
+            .cover-meta {
+                gap: 1.5rem;
+            }
+
+            .key-point {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .point-marker {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .nav-bar {
+                padding: 0 1rem;
+            }
+
+            .nav-progress {
+                margin: 0 1rem;
+            }
+        }
+
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.03;
+        }
+
+        .circle-decoration {
+            width: 400px;
+            height: 400px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            right: -100px;
+            top: -100px;
+        }
+
+        .line-decoration {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            bottom: 30%;
+            left: 5%;
+        }
+
+        /* Prose text */
+        .prose {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .prose + .prose {
+            margin-top: 1.5rem;
+        }
+
+        .prose strong {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .prose em {
+            color: var(--teal);
+            font-style: normal;
+        }
+
+        /* Touch hint */
+        .touch-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+            display: none;
+        }
+
+        @media (hover: none) {
+            .touch-hint {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 0: Cover -->
+        <section class="slide slide-cover active" data-slide="0">
+            <div class="cover-content">
+                <div class="cover-badge">TIM FERRISS SHOW #839</div>
+                <h1 class="cover-title">AI教母李飞飞<br>北极星与文明技术</h1>
+                <p class="cover-subtitle">从成都少女到斯坦福教授，从ImageNet到World Labs<br>一位科学家关于好奇心、勇气与人类尊严的深度对话</p>
+                <div class="cover-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">嘉宾</div>
+                        <div class="meta-value">李飞飞博士</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">身份</div>
+                        <div class="meta-value">斯坦福教授 · World Labs CEO</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">主题</div>
+                        <div class="meta-value">AI · 人生哲学 · 教育</div>
+                    </div>
+                </div>
+            </div>
+            <div class="decoration circle-decoration"></div>
+        </section>
+
+        <!-- Slide 1: Two Cities -->
+        <section class="slide slide-story" data-slide="1">
+            <div class="slide-header">
+                <div class="slide-number">01 / 12</div>
+                <h2 class="slide-title">两座城市的故事<br><span class="highlight">从成都到新泽西</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">童年 · 成都</div>
+                                <div class="timeline-text">在中国中产阶级家庭长大，城市边缘的公寓楼，周末在稻田里追逐水牛，与父亲一起寻找昆虫</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">12岁</div>
+                                <div class="timeline-text">父亲先行前往美国，母女二人留守</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">15岁</div>
+                                <div class="timeline-text">与母亲移民新泽西，从零开始学习英语，面对全新的文化与环境</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">后来</div>
+                                <div class="timeline-text">进入普林斯顿攻读物理，后转向AI研究</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quote-block">
+                            <p class="quote-text">当你要去一个完全不同的国家，语言零基础、人脉零连接，在那个没有互联网、没有AI的年代——你几乎是在前往另一个星球。</p>
+                        </div>
+                        <div class="insight-box">
+                            <div class="insight-label">回望的智慧</div>
+                            <p class="insight-text">十几岁的飞飞不理解为什么要移民。成年后的飞飞意识到：父母是多么勇敢——她自己可能都不敢做出这样的决定。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Parents -->
+        <section class="slide slide-parents" data-slide="2">
+            <div class="slide-header">
+                <div class="slide-number">02 / 12</div>
+                <h2 class="slide-title">非典型的中国父母<br><span class="gold">好奇心与韧性的双重馈赠</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div class="card">
+                        <div class="card-icon">🦋</div>
+                        <div class="card-title">父亲：永远的好奇男孩</div>
+                        <div class="card-text">
+                            <p style="margin-bottom: 1rem;">热爱自然，痴迷昆虫，对女儿的成绩和竞赛奖项毫无兴趣。在物质匮乏的80年代中国，带着女儿在田野里寻找虫子。</p>
+                            <p style="margin-bottom: 1rem;">移民美国后，生活艰辛，但他最快乐的事是逛yard sales——把旧货市场当作寻宝之旅。</p>
+                            <p style="color: var(--gold);">他的遗产：对自然界永不熄灭的好奇心，以及用孩子的眼光看世界的能力。</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔥</div>
+                        <div class="card-title">母亲：叛逆的生存者</div>
+                        <div class="card-text">
+                            <p style="margin-bottom: 1rem;">数学一塌糊涂，但深谙文学与纪律。文化大革命粉碎了她的学术梦想，却锻造出钢铁般的意志。</p>
+                            <p style="margin-bottom: 1rem;">不追问成绩，但要求专注：做作业就做作业，玩就好好玩。对规则的执行，从不妥协。</p>
+                            <p style="color: var(--gold);">她的信念："我没有计划，但我相信我会活下来。而且我会确保飞飞活下来。"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight-box" style="margin-top: 2rem;">
+                    <div class="insight-label">代际传承</div>
+                    <p class="insight-text">技术热情来自天性，纪律来自母亲，好奇心来自父亲。但最重要的是——他们从不用成就来衡量爱。至今，李飞飞的家中和办公室里，没有挂任何奖项或荣誉。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Mentor -->
+        <section class="slide slide-mentor" data-slide="3">
+            <div class="slide-header">
+                <div class="slide-number">03 / 12</div>
+                <h2 class="slide-title">导师的力量<br><span class="teal">Bob Isabella与午餐时间的微积分</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="prose">
+                            <p><strong>Bob Isabella</strong>是帕森高中的数学老师。当学校无法开设完整的AP微积分BC课程时，他做了一个决定——</p>
+                        </div>
+                        <div class="prose">
+                            <p>牺牲自己唯一的午餐时间，为一个孤独的ESL移民女孩开设<em>一对一微积分课</em>。</p>
+                        </div>
+                        <div class="prose">
+                            <p>他不只是教数学。他与飞飞谈论书籍、文化、科幻小说，倾听一个正在经历人生剧变的少女的困惑。他的整个家庭成为飞飞在美国的"美国家人"。</p>
+                        </div>
+                        <div class="insight-box" style="margin-top: 1.5rem;">
+                            <div class="insight-label">多年后的领悟</div>
+                            <p class="insight-text">当飞飞自己成为教育者，她才真正理解：整天教书有多疲惫。而Bob在那之上，还愿意用午餐时间单独教她——这份礼物的分量，年少时无法称量。</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quote-block">
+                            <p class="quote-text">美国的公立学校教师，是这个社会被低估的英雄。他们面对各种背景的孩子，面对时代的变迁，默默付出。那些故事，没有人书写。这也是我写书的原因之一。</p>
+                            <p class="quote-author">——李飞飞</p>
+                        </div>
+                        <div class="framework" style="margin-top: 2rem;">
+                            <div class="framework-title">Bob教会她的</div>
+                            <div class="framework-items">
+                                <div class="framework-item">
+                                    <span class="framework-icon">📚</span>
+                                    <span class="framework-text">知识可以是友谊的纽带</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">🤝</span>
+                                    <span class="framework-text">无条件的支持改变人生轨迹</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">🌟</span>
+                                    <span class="framework-text">一个人可以为另一个人多走一英里</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: North Star -->
+        <section class="slide slide-northstar" data-slide="4">
+            <div class="slide-header">
+                <div class="slide-number">04 / 12</div>
+                <h2 class="slide-title">追寻北极星<br><span class="highlight">从物理学到智能之问</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="prose">
+                            <p>少女时代的飞飞，痴迷于<strong>战斗机</strong>：F-117隐形战机、F-16战隼……她能如数家珍。这份热爱，指向了物理学。</p>
+                        </div>
+                        <div class="prose">
+                            <p>在普林斯顿，她在Jadwin Hall（物理系）度过无数个深夜。物理教给她的不只是方程式——而是<em>提出宏大问题的勇气</em>。</p>
+                        </div>
+                        <div class="key-points" style="margin-top: 1.5rem;">
+                            <div class="key-point">
+                                <div class="point-marker">?</div>
+                                <div class="point-content">
+                                    <h4>物理学的宏大问题</h4>
+                                    <p>最小的物质是什么？时空如何定义？宇宙有多大？宇宙的起源是什么？</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quote-block">
+                            <p class="quote-text">到本科结束时，我意识到——我想要自己的宏大问题。我不满足于追逐别人的问题。通过大量阅读，我发现我真正痴迷的不是物质世界，而是<em>智能</em>。</p>
+                        </div>
+                        <div class="card" style="margin-top: 2rem;">
+                            <div class="card-title">她的北极星问题</div>
+                            <div class="card-text">
+                                <p style="font-size: 1.2rem; color: var(--text-light);">什么是智能？<br>我们如何制造智能机器？</p>
+                                <p style="margin-top: 1rem; color: var(--text-muted);">当时，她甚至不知道这个领域叫做"人工智能"。她只知道，这是她愿意为之奋斗的问题。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: ImageNet Birth -->
+        <section class="slide slide-imagenet" data-slide="5">
+            <div class="slide-header">
+                <div class="slide-number">05 / 12</div>
+                <h2 class="slide-title">ImageNet的诞生<br><span class="gold">大数据假说的顿悟时刻</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="prose">
+                            <p>2007年，飞飞回到母校普林斯顿任教。整个AI领域陷入困境——研究者们不断发表论文，但<strong>真正的突破迟迟不来</strong>。</p>
+                        </div>
+                        <div class="prose">
+                            <p>当时的模式：写一个算法识别狗，再写一个识别猫，再写一个识别汽车……每个类别都需要专门设计。</p>
+                        </div>
+                        <div class="prose">
+                            <p>飞飞开始思考：<em>问题会不会不在模型，而在数据？</em></p>
+                        </div>
+                        <div class="insight-box" style="margin-top: 1.5rem;">
+                            <div class="insight-label">灵感来源</div>
+                            <p class="insight-text">心理学家的研究显示：幼儿在早期就能学习海量视觉对象。如果孩子是通过接触无数图像来学习"看"世界，机器是否也可以？</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">15M+</div>
+                                <div class="stat-label">高质量标注图像</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2007-2009</div>
+                                <div class="stat-label">构建时间</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2012</div>
+                                <div class="stat-label">里程碑论文年份</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">1/3</div>
+                                <div class="stat-label">现代AI诞生的三要素之一</div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top: 2rem;">
+                            <div class="card-title">现代AI的三角基石 (2012)</div>
+                            <div class="card-text">
+                                <p>① <strong>ImageNet</strong>：大规模高质量数据集</p>
+                                <p>② <strong>神经网络算法</strong>：深度学习架构</p>
+                                <p>③ <strong>GPU</strong>：高速并行计算能力</p>
+                                <p style="margin-top: 1rem; color: var(--gold);">三者汇聚，开启了现代AI时代。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Scientific Method -->
+        <section class="slide slide-method" data-slide="6">
+            <div class="slide-header">
+                <div class="slide-number">06 / 12</div>
+                <h2 class="slide-title">成功的科学<br><span class="teal">ImageNet为何有效</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="key-points">
+                    <div class="key-point">
+                        <div class="point-marker">1</div>
+                        <div class="point-content">
+                            <h4>正确的科学假说</h4>
+                            <p>不是"让数据更大"，而是"围绕对象分类组织数据"。如果围绕RGB颜色或城市场景构建，效果将完全不同。<strong>问对问题，比解决问题更重要。</strong></p>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="point-marker">2</div>
+                        <div class="point-content">
+                            <h4>质量与规模的平衡</h4>
+                            <p>什么是"高质量"？高分辨率？真实场景？专业摄影？日常杂乱的照片？每个维度都需要深入研究。"足够大就不需要质量"是危险的假设。</p>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="point-marker">3</div>
+                        <div class="point-content">
+                            <h4>绝望中的创新：众包标注</h4>
+                            <p>需要数千万张图片的人工标注，普林斯顿本科生太贵太慢。Amazon Mechanical Turk刚诞生一年——飞飞用它实现了"全球人口的大规模并行处理"。</p>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="point-marker">4</div>
+                        <div class="point-content">
+                            <h4>质量控制的博弈</h4>
+                            <p>如何阻止标注者在每张图里都"发现"熊猫？答案：资格测试筛选认真的工人，预埋已知答案的图片监控准确率，多维度验证确保标签质量。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="quote-block" style="margin-top: 2rem;">
+                    <p class="quote-text">科学史的叙事太聚焦于单个天才了。ImageNet是无数人工作的延续——认知科学家、心理学家、工程师……我只是有幸站在了正确的交汇点。</p>
+                    <p class="quote-author">——李飞飞</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Civilization Technology -->
+        <section class="slide slide-civilization" data-slide="7">
+            <div class="slide-header">
+                <div class="slide-number">07 / 12</div>
+                <h2 class="slide-title">文明级技术<br><span class="highlight">AI正在缺失什么</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="prose">
+                            <p>AI是<strong>文明级技术</strong>——因为它正在深刻改变经济、社会、文化和政治。</p>
+                        </div>
+                        <div class="stats-grid" style="margin-top: 1.5rem;">
+                            <div class="stat-item">
+                                <div class="stat-number">50%</div>
+                                <div class="stat-label">去年美国GDP增长归因于AI</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4%→2%</div>
+                                <div class="stat-label">去除AI后的GDP增速</div>
+                            </div>
+                        </div>
+                        <div class="prose" style="margin-top: 1.5rem;">
+                            <p>从好莱坞到华尔街，从政治竞选到TikTok，从日本出租车后座的屏幕到每个父母的焦虑——<em>AI无处不在</em>。</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quote-block">
+                            <p class="quote-text">硅谷热衷于谈论技术和增长。政客热衷于谈论能赢得选票的话题。但真正缺失的，是<em>人</em>。</p>
+                        </div>
+                        <div class="card" style="margin-top: 2rem;">
+                            <div class="card-title">被遗忘的核心</div>
+                            <div class="card-text">
+                                <p>人会使用AI，人会被AI影响，人应该在AI发展中有发言权。</p>
+                                <p style="margin-top: 1rem;">无论AI如何进步，<strong>人的尊严</strong>——作为个体、作为社区、作为社会——都不应被剥夺。</p>
+                                <p style="margin-top: 1rem; color: var(--accent-light);">焦虑源于：尊严感和能动性正在从某些人身上滑落。我们需要改变这一点。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Spatial Intelligence -->
+        <section class="slide slide-spatial" data-slide="8">
+            <div class="slide-header">
+                <div class="slide-number">08 / 12</div>
+                <h2 class="slide-title">空间智能<br><span class="gold">World Labs在构建什么</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="prose">
+                            <p><strong>空间智能</strong>是超越语言的能力。当你打包三明治、在山间徒步、粉刷卧室——你在运用空间智能。</p>
+                        </div>
+                        <div class="prose">
+                            <p>这是"看见"与"行动"之间的完整闭环：理解三维世界，然后与之互动、改变它、创造它。</p>
+                        </div>
+                        <div class="framework" style="margin-top: 1.5rem;">
+                            <div class="framework-title">打包三明治需要的空间智能</div>
+                            <div class="framework-items">
+                                <div class="framework-item">
+                                    <span class="framework-icon">🍞</span>
+                                    <span class="framework-text">知道面包的形状与质地</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">🔪</span>
+                                    <span class="framework-text">理解刀具如何与食材交互</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">🥬</span>
+                                    <span class="framework-text">掌握生菜铺放的空间关系</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">📦</span>
+                                    <span class="framework-text">完成装袋的动作规划</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-title">应用场景</div>
+                            <div class="card-text">
+                                <p><strong>🎭 高中戏剧</strong> — 低预算学校用AI生成中世纪法国小镇布景</p>
+                                <p style="margin-top: 0.8rem;"><strong>🎮 游戏开发</strong> — 快速创建可探索的3D世界</p>
+                                <p style="margin-top: 0.8rem;"><strong>🎬 VFX制作</strong> — 为实景拍摄生成数字环境</p>
+                                <p style="margin-top: 0.8rem;"><strong>🧠 心理治疗</strong> — 为OCD患者创建可控的触发环境进行暴露疗法</p>
+                                <p style="margin-top: 0.8rem;"><strong>🤖 机器人训练</strong> — 模拟环境生成海量训练数据</p>
+                            </div>
+                        </div>
+                        <div class="insight-box" style="margin-top: 1.5rem;">
+                            <div class="insight-label">为什么做World Labs</div>
+                            <p class="insight-text">人类是唯一建造文明的物种。科技是建造文明最强大的工具之一。我相信人类的进步，所以我还在做技术。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Underappreciated -->
+        <section class="slide slide-future" data-slide="9">
+            <div class="slide-header">
+                <div class="slide-number">09 / 12</div>
+                <h2 class="slide-title">被低估的趋势<br><span class="teal">硅谷之外的人正在错过什么</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="key-points">
+                    <div class="key-point">
+                        <div class="point-marker">1</div>
+                        <div class="point-content">
+                            <h4>空间智能 (Spatial Intelligence)</h4>
+                            <p>所有人都在谈大语言模型，但<strong>世界建模、像素、3D理解</strong>被严重低估。它是叙事、娱乐、体验、机器人模拟的底层基础设施。</p>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="point-marker">2</div>
+                        <div class="point-content">
+                            <h4>AI对教育的重塑</h4>
+                            <p>AI将加速那些<em>想要学习的人</em>的学习。这将重新定义"资质"——不再是哪所学校、什么学位，而是你学了什么、用什么工具、成长速度多快。</p>
+                        </div>
+                    </div>
+                    <div class="key-point">
+                        <div class="point-marker">3</div>
+                        <div class="point-content">
+                            <h4>劳动市场的微妙变化</h4>
+                            <p>"后稀缺乌托邦"是炒作，"所有工作都将消失"也是炒作。真实的变化发生在知识工作者、蓝领、服务业的每一个细分领域——这些<strong>混乱的中间地带</strong>被政策制定者和学者严重低估。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="quote-block" style="margin-top: 2rem;">
+                    <p class="quote-text">我希望美国人记住：你们是历史上最具创新精神的民族之一。你们有自由、活力和民主发言权。请对AI的未来抱有更多希望和自我能动性。</p>
+                    <p class="quote-author">——李飞飞</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Learning to Learn -->
+        <section class="slide slide-learning" data-slide="10">
+            <div class="slide-header">
+                <div class="slide-number">10 / 12</div>
+                <h2 class="slide-title">学习的能力<br><span class="highlight">给年轻人的建议</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="quote-block">
+                            <p class="quote-text">在工具稀缺的时代，跟随既定轨道是合理的：小学、中学、大学、证书。但AI改变了一切。</p>
+                        </div>
+                        <div class="prose" style="margin-top: 2rem;">
+                            <p>World Labs在招聘软件工程师时，飞飞坦言：<strong>学位的重要性正在降低</strong>。</p>
+                        </div>
+                        <div class="prose">
+                            <p>她更看重的是：</p>
+                        </div>
+                        <div class="framework" style="margin-top: 1rem;">
+                            <div class="framework-items">
+                                <div class="framework-item">
+                                    <span class="framework-icon">📖</span>
+                                    <span class="framework-text">你学到了什么？</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">🛠️</span>
+                                    <span class="framework-text">你用什么工具？</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">⚡</span>
+                                    <span class="framework-text">你多快能用新工具增强自己？</span>
+                                </div>
+                                <div class="framework-item">
+                                    <span class="framework-icon">🧠</span>
+                                    <span class="framework-text">你对与AI协作的心态是什么？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-title">为什么心态如此重要</div>
+                            <div class="card-text">
+                                <p style="margin-bottom: 1rem;">飞飞不会雇佣任何<strong>不愿意使用AI协作工具</strong>的工程师——不是因为AI工具完美，而是因为这反映了：</p>
+                                <p>① 对快速增长工具集的适应能力</p>
+                                <p>② 开放的心态</p>
+                                <p>③ 用工具增强自己的意愿</p>
+                            </div>
+                        </div>
+                        <div class="insight-box" style="margin-top: 2rem;">
+                            <div class="insight-label">永恒的价值</div>
+                            <p class="insight-text">学习如何学习——这个古老的智慧，在AI时代变得更加重要。不是学什么内容，而是学习这个能力本身。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Teacher's Wisdom -->
+        <section class="slide slide-method" data-slide="11">
+            <div class="slide-header">
+                <div class="slide-number">11 / 12</div>
+                <h2 class="slide-title">重新定义评估<br><span class="gold">一位高中老师的智慧</span></h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="prose">
+                            <p>飞飞听到的一个故事，来自一位高中英语老师：</p>
+                        </div>
+                        <div class="quote-block" style="margin-top: 1.5rem;">
+                            <p class="quote-text">开学第一天，老师对学生说："我要展示最好的AI写的作文。我会告诉你们它好在哪里，不足在哪里。我给它打B-。"</p>
+                        </div>
+                        <div class="prose" style="margin-top: 1.5rem;">
+                            <p>"如果你懒得自己写，直接用AI，这就是你的上限。"</p>
+                        </div>
+                        <div class="prose">
+                            <p>"你可以用AI，完全没问题。但你也可以自己思考、学习、创造，在此基础上更进一步。你可以拿A，可以拿A+。"</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-icon">💡</div>
+                            <div class="card-title">正确的评估结构</div>
+                            <div class="card-text">
+                                <p style="margin-bottom: 1rem;">不要把人与AI对立，然后试图监控AI的使用与否。</p>
+                                <p style="margin-bottom: 1rem;">而是<strong>展示工具的基准线</strong>，然后定义人类学习者应该达到的更高标准。</p>
+                                <p style="color: var(--gold);">让学生明白：工具是地板，不是天花板。</p>
+                            </div>
+                        </div>
+                        <div class="insight-box" style="margin-top: 2rem;">
+                            <div class="insight-label">更深的启示</div>
+                            <p class="insight-text">如果"AI给的"和"学生给的"看起来一样，那不是学生的问题——是<strong>评估结构本身</strong>出了问题。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Philosophy -->
+        <section class="slide slide-philosophy" data-slide="12">
+            <div class="slide-header">
+                <div class="slide-number">12 / 12</div>
+                <h2 class="slide-title">北极星哲学<br><span class="teal">如果有一块广告牌</span></h2>
+            </div>
+            <div class="slide-body" style="text-align: center;">
+                <div class="quote-block" style="max-width: 800px; margin: 0 auto; border-left: none; text-align: center; padding: 0;">
+                    <p class="quote-text" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">What is your North Star?</p>
+                    <p class="quote-text" style="font-size: clamp(1.8rem, 4vw, 2.5rem); margin-top: 0.5rem;">你的北极星是什么？</p>
+                </div>
+                <div class="prose" style="max-width: 700px; margin: 3rem auto 0; text-align: left;">
+                    <p>人类之所以为人，是因为我们能超越基本需求而活——追逐梦想、使命、目标与热情。</p>
+                </div>
+                <div class="prose" style="max-width: 700px; margin: 1.5rem auto 0; text-align: left;">
+                    <p>每个人的北极星都不一样。不是每个人都要把AI当作北极星。</p>
+                </div>
+                <div class="prose" style="max-width: 700px; margin: 1.5rem auto 0; text-align: left;">
+                    <p>但找到它——那是教育的本质，是成为完整的人的核心。</p>
+                </div>
+                <div class="insight-box" style="max-width: 700px; margin: 2rem auto 0;">
+                    <div class="insight-label">飞飞名字的故事</div>
+                    <p class="insight-text">妈妈生产时，爸爸迟到了——路上他抓到一只鸟。"飞飞"的意思是"飞翔"。她的整个人生，就是那只被放飞的鸟的故事。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: End -->
+        <section class="slide slide-end" data-slide="13">
+            <div class="cover-content">
+                <h1 class="cover-title" style="font-size: clamp(2rem, 5vw, 3rem);">感谢观看</h1>
+                <p class="cover-subtitle" style="margin-bottom: 2rem;">基于 Tim Ferriss Show #839 播客访谈重构</p>
+                <div class="cover-meta" style="flex-direction: column; gap: 1rem; align-items: center;">
+                    <div class="meta-item">
+                        <div class="meta-label">嘉宾</div>
+                        <div class="meta-value">李飞飞博士 · 斯坦福教授 · World Labs CEO</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">著作</div>
+                        <div class="meta-value">《The Worlds I See》</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">公司</div>
+                        <div class="meta-value">worldlabs.ai</div>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">重构 by 讲义重构师 · 认知考古学方法论</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <button class="nav-btn" id="prevBtn" aria-label="上一页">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+        <div class="nav-progress">
+            <div class="nav-progress-bar" id="progressBar"></div>
+        </div>
+        <span class="nav-info" id="slideInfo">1 / 14</span>
+        <button class="nav-btn" id="nextBtn" aria-label="下一页">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+            </svg>
+        </button>
+    </nav>
+
+    <div class="touch-hint">← 左右滑动翻页 →</div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const slideInfo = document.getElementById('slideInfo');
+
+        function updateSlide(newIndex) {
+            if (newIndex < 0 || newIndex >= totalSlides) return;
+            
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add('prev');
+            
+            currentSlide = newIndex;
+            
+            slides.forEach((slide, index) => {
+                slide.classList.remove('prev');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update navigation
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideInfo.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        // Button navigation
+        prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                updateSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                updateSlide(currentSlide - 1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                updateSlide(totalSlides - 1);
+            }
+        });
+
+        // Touch navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    updateSlide(currentSlide + 1);
+                } else {
+                    updateSlide(currentSlide - 1);
+                }
+            }
+        }
+
+        // Initialize
+        updateSlide(0);
+    </script>
+</body>
+</html>

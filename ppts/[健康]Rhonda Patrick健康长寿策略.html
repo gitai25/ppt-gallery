@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhonda Patrick 博士 · 健康长寿策略精要</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #4fd1c5;
+            --accent-warm: #f6ad55;
+            --text-light: #f7fafc;
+            --text-dark: #1a202c;
+            --bg-gradient-1: #0f2027;
+            --bg-gradient-2: #203a43;
+            --bg-gradient-3: #2c5364;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
+            color: var(--text-light);
+        }
+
+        .slides-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .slide {
+            min-width: 100vw;
+            width: 100vw;
+            height: 100vh;
+            padding: 3rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(79, 209, 197, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* 标题页特殊样式 */
+        .slide-title {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4fd1c5, #63b3ed, #b794f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-title .subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2rem;
+        }
+
+        .slide-title .meta {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2rem;
+        }
+
+        .speaker-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .speaker-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #63b3ed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .speaker-details {
+            text-align: left;
+        }
+
+        .speaker-details h3 {
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .speaker-details p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 0.3rem;
+        }
+
+        /* 内容页通用样式 */
+        .slide h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .slide h2 .icon {
+            font-size: 1.5em;
+        }
+
+        .slide h3 {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--accent-warm);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+        }
+
+        .content-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            border-left: 4px solid var(--accent);
+            backdrop-filter: blur(10px);
+        }
+
+        .content-card h4 {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-card p, .content-card li {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-card li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .content-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* 数据高亮 */
+        .stat-box {
+            background: linear-gradient(135deg, rgba(79,209,197,0.2), rgba(99,179,237,0.1));
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(79,209,197,0.3);
+        }
+
+        .stat-number {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #63b3ed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 0.5rem;
+        }
+
+        /* 引用框 */
+        .quote-box {
+            background: rgba(246, 173, 85, 0.1);
+            border-left: 4px solid var(--accent-warm);
+            padding: 1.5rem 2rem;
+            border-radius: 0 1rem 1rem 0;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* 警告框 */
+        .warning-box {
+            background: rgba(245, 101, 101, 0.15);
+            border-left: 4px solid #fc8181;
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 0.8rem 0.8rem 0;
+            margin: 1rem 0;
+        }
+
+        .warning-box::before {
+            content: '⚠️ ';
+        }
+
+        /* 协议/实操框 */
+        .protocol-box {
+            background: rgba(72, 187, 120, 0.15);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .protocol-box h4 {
+            color: #68d391;
+            margin-bottom: 1rem;
+        }
+
+        /* 品牌/产品标签 */
+        .brand-tag {
+            display: inline-block;
+            background: rgba(99, 179, 237, 0.2);
+            color: #90cdf4;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            margin: 0.2rem;
+        }
+
+        /* 页码 */
+        .page-number {
+            position: absolute;
+            bottom: 2rem;
+            right: 3rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* 导航按钮 */
+        .nav-buttons {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            background: rgba(0,0,0,0.6);
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(79, 209, 197, 0.4);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .slide-counter {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            padding: 0 0.5rem;
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* 两栏布局 */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+        }
+
+        /* 三栏布局 */
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1400px;
+        }
+
+        /* 列表样式 */
+        .key-points {
+            list-style: none;
+        }
+
+        .key-points li {
+            padding: 1rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
+            line-height: 1.6;
+        }
+
+        .key-points li:last-child {
+            border-bottom: none;
+        }
+
+        .key-points li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8em;
+        }
+
+        /* 时间线 */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-warm));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.3rem;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 1.5rem;
+            }
+
+            .two-col, .three-col {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .speaker-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .speaker-details {
+                text-align: center;
+            }
+
+            .nav-buttons {
+                padding: 0.6rem 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 打印样式 */
+        @media print {
+            .slide {
+                page-break-after: always;
+                min-height: 100vh;
+            }
+            .nav-buttons, .progress-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progress"></div>
+    
+    <div class="slides-container" id="slidesContainer">
+        
+        <!-- 封面 -->
+        <section class="slide slide-title">
+            <h1>健康长寿策略精要</h1>
+            <p class="subtitle">禁食 · 心脏逆龄 · 桑拿 · 补充剂 · 运动科学</p>
+            <div class="speaker-info">
+                <div class="speaker-avatar">RP</div>
+                <div class="speaker-details">
+                    <h3>Rhonda Patrick, Ph.D.</h3>
+                    <p>生物医学科学家 · FoundMyFitness 创始人</p>
+                    <p>脂肪酸研究所副研究员</p>
+                </div>
+            </div>
+            <p class="meta">Tim Ferriss Show #819 · 讲义重构</p>
+            <span class="page-number">1 / 20</span>
+        </section>
+
+        <!-- 核心框架 -->
+        <section class="slide">
+            <h2><span class="icon">🎯</span> 核心框架：低垂果实策略</h2>
+            <div class="quote-box">
+                "投入产出比最高的干预措施——简单易行，却能带来显著效果。"
+            </div>
+            <div class="three-col" style="margin-top: 2rem;">
+                <div class="stat-box">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">桑拿降低全因死亡率</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">20年</div>
+                    <div class="stat-label">训练可逆转心脏老化</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">66%</div>
+                    <div class="stat-label">桑拿降低痴呆风险</div>
+                </div>
+            </div>
+            <ul class="key-points" style="margin-top: 2rem; max-width: 900px;">
+                <li><strong>补充剂策略</strong>：多维生素、维生素D、Omega-3、萝卜硫素、肌酸</li>
+                <li><strong>禁食干预</strong>：间歇性禁食 (16:8) → 延长禁食 → 代谢灵活性</li>
+                <li><strong>运动处方</strong>：Zone 2 + HIIT (挪威4x4) → VO2 Max优化</li>
+                <li><strong>热应激</strong>：桑拿 (≤190°F) → 热休克蛋白 → 心血管保护</li>
+            </ul>
+            <span class="page-number">2 / 20</span>
+        </section>
+
+        <!-- 多维生素认知保护 -->
+        <section class="slide">
+            <h2><span class="icon">💊</span> 多维生素：被低估的认知保护</h2>
+            <div class="two-col">
+                <div>
+                    <h3>三项随机对照试验的颠覆性发现</h3>
+                    <div class="content-card">
+                        <h4>研究设计</h4>
+                        <ul>
+                            <li>受试者：65岁以上健康老年人</li>
+                            <li>干预时长：2年</li>
+                            <li>使用产品：<span class="brand-tag">Centrum</span> 标准多维生素</li>
+                            <li>对照组：安慰剂</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>关键成分</h4>
+                        <p>超过40种必需营养素 + 非维生素活性物质（叶黄素、玉米黄质等类胡萝卜素）</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>核心结果</h3>
+                    <div class="stat-box" style="margin-bottom: 1.5rem;">
+                        <div class="stat-number">2年</div>
+                        <div class="stat-label">整体认知老化减缓</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">4.8年</div>
+                        <div class="stat-label">情景记忆老化减缓</div>
+                    </div>
+                    <div class="warning-box" style="margin-top: 1.5rem;">
+                        适用于无神经退行性疾病的健康老年人。病理状态需要更强干预。
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">3 / 20</span>
+        </section>
+
+        <!-- 维生素D -->
+        <section class="slide">
+            <h2><span class="icon">☀️</span> 维生素D：普遍缺乏的危机</h2>
+            <div class="two-col">
+                <div>
+                    <h3>流行病学现实</h3>
+                    <div class="stat-box">
+                        <div class="stat-number">70%</div>
+                        <div class="stat-label">美国人口维生素D不足</div>
+                    </div>
+                    <div class="content-card" style="margin-top: 1.5rem;">
+                        <h4>老年人合成效率下降</h4>
+                        <p>70岁老人的皮肤维生素D3合成能力仅为20岁时的 <strong>1/4</strong></p>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>肤色影响</h4>
+                        <p>深肤色人群需要在阳光下停留 <strong>6-10倍</strong> 时间才能合成等量维生素D</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>吸收障碍因素</h3>
+                    <ul class="key-points">
+                        <li><strong>镁缺乏</strong>：50%人口镁不足，镁是转化酶的辅因子</li>
+                        <li><strong>基因变异</strong>：某些SNP导致转化效率低下</li>
+                        <li><strong>补充剂质量</strong>：实际含量与标签严重不符</li>
+                    </ul>
+                    <div class="protocol-box" style="margin-top: 1.5rem;">
+                        <h4>最优血清水平</h4>
+                        <p><strong>40-60 ng/mL</strong> — 全因死亡率最低区间</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.95rem; opacity: 0.8;">建议：检测血清25-OH-D，根据结果调整剂量（通常5,000-7,000 IU/天）</p>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">4 / 20</span>
+        </section>
+
+        <!-- Omega-3 -->
+        <section class="slide">
+            <h2><span class="icon">🐟</span> Omega-3：大脑的优质燃料</h2>
+            <div class="two-col">
+                <div>
+                    <h3>ApoE4携带者的特殊考量</h3>
+                    <div class="content-card">
+                        <h4>风险背景</h4>
+                        <ul>
+                            <li>1个ApoE4等位基因 → 阿尔茨海默风险 <strong>2倍</strong></li>
+                            <li>2个ApoE4等位基因 → 风险高达 <strong>10倍</strong></li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>DHA吸收障碍</h4>
+                        <ul>
+                            <li>ApoE4导致血脑屏障早期损伤</li>
+                            <li>自由脂肪酸形式难以被动扩散进入脑部</li>
+                            <li>轻度认知衰退患者补充鱼油效果较差</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>优化策略</h3>
+                    <div class="protocol-box">
+                        <h4>剂量提升</h4>
+                        <p>日剂量 ≥ <strong>2克DHA</strong>，此时身体开始将其转化为磷脂形式</p>
+                    </div>
+                    <div class="protocol-box" style="margin-top: 1rem;">
+                        <h4>磷脂形式优先</h4>
+                        <ul>
+                            <li><strong>食物来源</strong>：沙丁鱼、三文鱼籽（最高浓度）</li>
+                            <li><strong>补充剂</strong>：磷虾油（浓度较低，需大量服用）</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem; border-left-color: var(--accent-warm);">
+                        <h4>推荐品牌</h4>
+                        <p><span class="brand-tag">Nordic Naturals</span> <span class="brand-tag">Pure Encapsulations</span></p>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">选择第三方检测、NSF认证产品</p>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">5 / 20</span>
+        </section>
+
+        <!-- 萝卜硫素 -->
+        <section class="slide">
+            <h2><span class="icon">🥦</span> 萝卜硫素：最强效的Nrf2激活剂</h2>
+            <div class="two-col">
+                <div>
+                    <h3>作用机制</h3>
+                    <div class="content-card">
+                        <h4>Nrf2通路激活</h4>
+                        <ul>
+                            <li>转录因子Nrf2调控抗氧化、抗炎基因</li>
+                            <li>应激响应持续 <strong>24-48小时</strong></li>
+                            <li>小剂量应激 → 毒物兴奋效应（Hormesis）</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>核心效益</h4>
+                        <ul>
+                            <li>↑ 谷胱甘肽产生（血浆及脑部）</li>
+                            <li>↑ II相解毒酶活性</li>
+                            <li>空气污染人群24小时内苯排泄量增加 <strong>60%</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>来源与剂量</h3>
+                    <div class="protocol-box">
+                        <h4>最佳食物来源</h4>
+                        <p><strong>西兰花芽</strong> — 活性前体glucoraphanin含量是成熟西兰花的 <strong>100倍</strong></p>
+                    </div>
+                    <div class="protocol-box" style="margin-top: 1rem;">
+                        <h4>补充剂方案</h4>
+                        <p><span class="brand-tag">Avmacol Advanced</span></p>
+                        <p style="margin-top: 0.5rem;">每日2粒 · 已有12项人体研究验证</p>
+                    </div>
+                    <div class="quote-box" style="margin-top: 1.5rem;">
+                        "我给妈妈吃是为了帮她排毒，但她反馈说震颤明显减轻了。"
+                        <br><small>— Rhonda Patrick（母亲患有本态性震颤）</small>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">6 / 20</span>
+        </section>
+
+        <!-- 间歇性禁食概述 -->
+        <section class="slide">
+            <h2><span class="icon">⏱️</span> 间歇性禁食：不只是减肥工具</h2>
+            <div class="quote-box">
+                "间歇性禁食的大部分减重效果来自热量限制——人们自然少吃约200卡/天。但等热量条件下的代谢益处是独立存在的。"
+            </div>
+            <div class="three-col" style="margin-top: 2rem;">
+                <div class="content-card">
+                    <h4>代谢优化</h4>
+                    <ul>
+                        <li>改善空腹血糖</li>
+                        <li>降低餐后血糖</li>
+                        <li>改善HbA1c</li>
+                        <li>优化血脂谱</li>
+                        <li>降低血压</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>酮体生成</h4>
+                    <ul>
+                        <li>肝糖原耗竭 ~12小时</li>
+                        <li>开始动员脂肪酸</li>
+                        <li>β-羟基丁酸(BHB)产生</li>
+                        <li>高效清洁燃料</li>
+                        <li>信号分子功能</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>修复激活</h4>
+                    <ul>
+                        <li>自噬清除蛋白聚集物</li>
+                        <li>线粒体自噬修复损伤</li>
+                        <li>清除α-突触核蛋白</li>
+                        <li>清除β-淀粉样蛋白</li>
+                        <li>分解代谢状态必需</li>
+                    </ul>
+                </div>
+            </div>
+            <span class="page-number">7 / 20</span>
+        </section>
+
+        <!-- 酮体的信号作用 -->
+        <section class="slide">
+            <h2><span class="icon">⚡</span> β-羟基丁酸(BHB)：不只是燃料</h2>
+            <div class="two-col">
+                <div>
+                    <h3>能量优势</h3>
+                    <div class="content-card">
+                        <h4>代谢效率</h4>
+                        <p>BHB产能所需能量 < 葡萄糖</p>
+                        <p style="margin-top: 0.8rem;">神经元优先使用BHB时，葡萄糖被"节省"用于合成 <strong>谷胱甘肽</strong>（葡萄糖节省效应）</p>
+                    </div>
+                    <div class="stat-box" style="margin-top: 1.5rem;">
+                        <div class="stat-number">清洁燃料</div>
+                        <div class="stat-label">减少氧化应激、提供稳定能量</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>信号分子功能</h3>
+                    <ul class="key-points">
+                        <li><strong>抗炎</strong>：抑制NLRP3炎症小体</li>
+                        <li><strong>表观遗传</strong>：HDAC抑制剂，调控基因表达</li>
+                        <li><strong>神经营养</strong>：激活脑源性神经营养因子(BDNF)</li>
+                        <li><strong>抗氧化</strong>：降低氧化应激相关基因表达</li>
+                    </ul>
+                    <div class="quote-box" style="margin-top: 1rem;">
+                        "当BHB出现，身体知道进入了食物稀缺模式——进化将这一信号硬编码进了我们的DNA。"
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">8 / 20</span>
+        </section>
+
+        <!-- 自噬与禁食时长 -->
+        <section class="slide">
+            <h2><span class="icon">🔄</span> 自噬：修复的时间窗口</h2>
+            <div class="two-col">
+                <div>
+                    <h3>人体自噬激活证据</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <strong>12-16小时</strong>
+                            <p>基础自噬维持，可能有轻微上调</p>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>24小时</strong>
+                            <p>人体研究显示自噬信号出现</p>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>48小时</strong>
+                            <p>更强劲的自噬激活</p>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>延长禁食</strong>
+                            <p>器官缩小、受损细胞凋亡</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>神经保护意义</h3>
+                    <div class="content-card">
+                        <h4>清除蛋白聚集物</h4>
+                        <ul>
+                            <li>β-淀粉样蛋白（阿尔茨海默病）</li>
+                            <li>α-突触核蛋白（帕金森病）</li>
+                            <li>心血管系统聚集物</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box" style="margin-top: 1.5rem;">
+                        <strong>最小有效剂量尚不明确</strong><br>
+                        目前缺乏敏感的人体自噬测量工具
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem; border-left-color: #68d391;">
+                        <h4>关键洞察</h4>
+                        <p>修复模式需要分解代谢状态——不要害怕"分解代谢"这个词</p>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">9 / 20</span>
+        </section>
+
+        <!-- 禁食与肌肉 -->
+        <section class="slide">
+            <h2><span class="icon">💪</span> 禁食与肌肉：打破误解</h2>
+            <div class="two-col">
+                <div>
+                    <h3>"瘦体重流失"的真相</h3>
+                    <div class="content-card">
+                        <h4>瘦体重 ≠ 肌肉</h4>
+                        <ul>
+                            <li><strong>水分</strong>：可达10磅以上</li>
+                            <li><strong>器官组织</strong>：延长禁食时缩小</li>
+                            <li><strong>内脏脂肪</strong>：可能被错误归类</li>
+                            <li><strong>肌肉</strong>：仅占部分</li>
+                        </ul>
+                    </div>
+                    <div class="quote-box" style="margin-top: 1rem;">
+                        "器官缩小是因为过度受损、自噬无法修复的细胞发生凋亡——这是清理过程的一部分。"
+                    </div>
+                </div>
+                <div>
+                    <h3>保护策略</h3>
+                    <div class="protocol-box">
+                        <h4>间歇性禁食 (16:8)</h4>
+                        <ul>
+                            <li>配合抗阻训练 → 可维持甚至增加肌肉</li>
+                            <li>确保蛋白质摄入充足</li>
+                            <li>肌肉流失担忧被夸大</li>
+                        </ul>
+                    </div>
+                    <div class="protocol-box" style="margin-top: 1rem;">
+                        <h4>延长禁食 (>7天)</h4>
+                        <ul>
+                            <li>轻度抗阻训练 → 机械力刺激肌蛋白合成</li>
+                            <li>复食阶段是关键生长期</li>
+                            <li>复食时优先补充蛋白质</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box" style="margin-top: 1rem;">
+                        延长禁食需注意胆结石风险
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">10 / 20</span>
+        </section>
+
+        <!-- VO2 Max -->
+        <section class="slide">
+            <h2><span class="icon">❤️</span> VO2 Max：最强大的长寿预测因子</h2>
+            <div class="two-col">
+                <div>
+                    <h3>风险量级对比</h3>
+                    <div class="stat-box">
+                        <div class="stat-number">5年</div>
+                        <div class="stat-label">高心肺适能者延长寿命</div>
+                    </div>
+                    <div class="content-card" style="margin-top: 1.5rem;">
+                        <h4>低心肺适能的死亡风险</h4>
+                        <p>等同于或<strong>高于</strong>：</p>
+                        <ul>
+                            <li>吸烟</li>
+                            <li>2型糖尿病</li>
+                            <li>心血管疾病</li>
+                        </ul>
+                    </div>
+                    <div class="quote-box" style="margin-top: 1rem;">
+                        "久坐不动本身就是一种疾病——我们需要这样看待它。"
+                    </div>
+                </div>
+                <div>
+                    <h3>功能储备的意义</h3>
+                    <div class="content-card">
+                        <h4>氧耗量参照</h4>
+                        <ul>
+                            <li><strong>静息</strong>：3 ml O₂/kg/min</li>
+                            <li><strong>对话</strong>：11 ml O₂/kg/min</li>
+                            <li><strong>功能悬崖</strong>：一切都变成最大努力</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem; border-left-color: var(--accent-warm);">
+                        <h4>训练的紧迫性</h4>
+                        <p>VO2 Max随年龄自然下降</p>
+                        <p style="margin-top: 0.5rem;">起点越高 → 功能悬崖越远 → 独立生活能力保持越久</p>
+                    </div>
+                    <div class="warning-box" style="margin-top: 1rem;">
+                        仅做中等强度运动，<strong>40%</strong>的人无法改善VO2 Max
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">11 / 20</span>
+        </section>
+
+        <!-- 挪威4x4 -->
+        <section class="slide">
+            <h2><span class="icon">🏃</span> 挪威4×4：VO2 Max优化协议</h2>
+            <div class="two-col">
+                <div>
+                    <h3>协议详解</h3>
+                    <div class="protocol-box">
+                        <h4>训练结构</h4>
+                        <ul>
+                            <li><strong>4分钟</strong> 高强度努力（可维持的最大强度）</li>
+                            <li><strong>3分钟</strong> 主动恢复</li>
+                            <li><strong>重复4次</strong></li>
+                            <li>总时长约28分钟</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>强度标准</h4>
+                        <ul>
+                            <li>心率 > 80% 最大心率</li>
+                            <li>无法进行对话</li>
+                            <li>"我能撑住这4分钟吗？" → 正确强度</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>个体化调整</h3>
+                    <div class="content-card">
+                        <h4>新手适应</h4>
+                        <p>对于久坐者，"高强度"可能只是 <strong>快走</strong></p>
+                        <p style="margin-top: 0.5rem;">关键是相对于个人能力的强度，而非绝对值</p>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem; border-left-color: #68d391;">
+                        <h4>替代方案</h4>
+                        <ul>
+                            <li><strong>1分钟开/1分钟关</strong> × 10次</li>
+                            <li><strong>Tabata</strong>：20秒开/10秒关 × 8次</li>
+                            <li>设备：划船机、自行车、跳绳、滑雪机</li>
+                        </ul>
+                    </div>
+                    <div class="stat-box" style="margin-top: 1.5rem;">
+                        <div class="stat-number">每周2次</div>
+                        <div class="stat-label">HIIT + Zone 2基础</div>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">12 / 20</span>
+        </section>
+
+        <!-- 心脏逆龄 -->
+        <section class="slide">
+            <h2><span class="icon">🫀</span> 逆转20年心脏老化：Ben Levine研究</h2>
+            <div class="two-col">
+                <div>
+                    <h3>研究设计</h3>
+                    <div class="content-card">
+                        <h4>受试者</h4>
+                        <ul>
+                            <li>年龄：50岁</li>
+                            <li>状态：久坐但无疾病</li>
+                            <li>对照组：瑜伽/柔韧性训练</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>干预方案</h4>
+                        <ul>
+                            <li>时长：<strong>2年</strong></li>
+                            <li>运动量：约 <strong>5小时/周</strong></li>
+                            <li>内容：挪威4×4 + 中等强度 + 抗阻训练</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>核心发现</h3>
+                    <div class="stat-box">
+                        <div class="stat-number">20年</div>
+                        <div class="stat-label">心脏老化逆转</div>
+                    </div>
+                    <div class="content-card" style="margin-top: 1.5rem;">
+                        <h4>结构性改变</h4>
+                        <ul>
+                            <li>心脏<strong>体积增大</strong></li>
+                            <li>心肌<strong>柔韧性恢复</strong></li>
+                            <li>50岁心脏 → 30岁心脏特征</li>
+                        </ul>
+                    </div>
+                    <div class="quote-box" style="margin-top: 1rem;">
+                        "50岁开始运动从来不晚——甚至90岁也能获益。"
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">13 / 20</span>
+        </section>
+
+        <!-- 乳酸与大脑 -->
+        <section class="slide">
+            <h2><span class="icon">🧠</span> 乳酸穿梭：运动对大脑的馈赠</h2>
+            <div class="two-col">
+                <div>
+                    <h3>乳酸的重新认识</h3>
+                    <div class="content-card">
+                        <h4>来源</h4>
+                        <p>高强度运动 → 无氧代谢 → 乳酸产生</p>
+                        <p style="margin-top: 0.5rem;">基线：0.9 mM → 运动后：7-15 mM</p>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>乳酸穿梭（George Brooks假说）</h4>
+                        <ul>
+                            <li>肌肉产生乳酸</li>
+                            <li>进入血液循环</li>
+                            <li>被大脑、心脏、肝脏利用</li>
+                            <li><strong>20分钟内</strong>回归基线</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>大脑效应</h3>
+                    <div class="stat-box">
+                        <div class="stat-number">1-2%</div>
+                        <div class="stat-label">一年训练后海马体增长</div>
+                    </div>
+                    <div class="content-card" style="margin-top: 1.5rem;">
+                        <h4>信号通路激活</h4>
+                        <ul>
+                            <li>↑ BDNF（脑源性神经营养因子）</li>
+                            <li>↑ 去甲肾上腺素</li>
+                            <li>↑ 血清素</li>
+                            <li>促进新神经元生成</li>
+                        </ul>
+                    </div>
+                    <div class="quote-box" style="margin-top: 1rem;">
+                        "乳酸是肌肉与大脑的通讯员：'我们正在承受压力，快启动保护机制！'"
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">14 / 20</span>
+        </section>
+
+        <!-- 桑拿 -->
+        <section class="slide">
+            <h2><span class="icon">🧖</span> 桑拿：热应激的神经保护</h2>
+            <div class="two-col">
+                <div>
+                    <h3>芬兰队列研究（20年随访）</h3>
+                    <div class="stat-box">
+                        <div class="stat-number">66%</div>
+                        <div class="stat-label">痴呆风险降低（4-7次/周）</div>
+                    </div>
+                    <div class="content-card" style="margin-top: 1.5rem;">
+                        <h4>全因死亡率</h4>
+                        <ul>
+                            <li>2-3次/周：<strong>-24%</strong></li>
+                            <li>4-7次/周：<strong>-40%</strong></li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem;">
+                        <h4>芬兰研究参数</h4>
+                        <p>温度：约 <strong>174°F (79°C)</strong></p>
+                        <p>时长：约 <strong>20分钟</strong></p>
+                    </div>
+                </div>
+                <div>
+                    <h3>机制与注意事项</h3>
+                    <div class="content-card">
+                        <h4>热休克蛋白(HSP)</h4>
+                        <ul>
+                            <li>163°F持续30分钟 → HSP↑ <strong>50%</strong></li>
+                            <li>修复错误折叠蛋白</li>
+                            <li>预防蛋白聚集（阿尔茨海默/帕金森）</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box" style="margin-top: 1.5rem;">
+                        <strong>温度警告</strong><br>
+                        波兰研究：>190°F (88°C) 的极高温桑拿与痴呆风险<strong>增加</strong>相关<br>
+                        头部过热可能有害
+                    </div>
+                    <div class="protocol-box" style="margin-top: 1rem;">
+                        <h4>最优方案</h4>
+                        <p><strong>170-190°F</strong> · <strong>20分钟</strong> · <strong>4+次/周</strong></p>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">15 / 20</span>
+        </section>
+
+        <!-- 桑拿替代方案 -->
+        <section class="slide">
+            <h2><span class="icon">🛁</span> 热疗替代方案</h2>
+            <div class="three-col">
+                <div class="content-card">
+                    <h4>桑拿</h4>
+                    <ul>
+                        <li>温度：170-190°F</li>
+                        <li>时长：20分钟</li>
+                        <li>频率：4-7次/周</li>
+                        <li>最有力证据支持</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>热水浴缸</h4>
+                    <ul>
+                        <li>温度：<strong>104°F (40°C)</strong></li>
+                        <li>时长：20分钟</li>
+                        <li>效果：与桑拿相当</li>
+                        <li>改善血压等参数</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>热水浴</h4>
+                    <ul>
+                        <li>温度：104°F</li>
+                        <li>需持续添加热水</li>
+                        <li>使用温度计监测</li>
+                        <li>最易获取的选项</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="quote-box" style="margin-top: 2rem; max-width: 800px;">
+                "保持在104°F，你会像在桑拿里一样出汗——不用担心。"
+            </div>
+            <div class="content-card" style="margin-top: 1.5rem; max-width: 600px; border-left-color: var(--accent-warm);">
+                <h4>个人实践</h4>
+                <p>Rhonda：晚间热水浴缸 → 改善睡眠<br>冬季偏好热疗，夏季转向冷暴露</p>
+            </div>
+            <span class="page-number">16 / 20</span>
+        </section>
+
+        <!-- 肌酸 -->
+        <section class="slide">
+            <h2><span class="icon">🧪</span> 肌酸：超越健身房的认知增强剂</h2>
+            <div class="two-col">
+                <div>
+                    <h3>传统认知 vs 新发现</h3>
+                    <div class="content-card">
+                        <h4>肌肉效益（已确立）</h4>
+                        <ul>
+                            <li>快速ATP再生</li>
+                            <li>增加训练容量（+1-2次/组）</li>
+                            <li>标准剂量：<strong>5g/天</strong></li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem; border-left-color: var(--accent-warm);">
+                        <h4>大脑效益（新兴研究）</h4>
+                        <ul>
+                            <li>认知增强需要<strong>更高剂量</strong></li>
+                            <li>5g主要被肌肉消耗</li>
+                            <li><strong>10g+</strong> 才能有效进入大脑</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>睡眠剥夺研究</h3>
+                    <div class="stat-box">
+                        <div class="stat-number">20-25g</div>
+                        <div class="stat-label">睡眠剥夺21小时后补偿剂量</div>
+                    </div>
+                    <div class="content-card" style="margin-top: 1.5rem;">
+                        <h4>研究结果</h4>
+                        <ul>
+                            <li>完全抵消认知损害</li>
+                            <li>认知表现<strong>超越</strong>正常睡眠基线</li>
+                            <li>老年人20g → 认知改善</li>
+                            <li>阿尔茨海默病先导研究：20g有效</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">17 / 20</span>
+        </section>
+
+        <!-- 肌酸实操 -->
+        <section class="slide">
+            <h2><span class="icon">📋</span> 肌酸：实操指南</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Rhonda的个人方案</h3>
+                    <div class="protocol-box">
+                        <h4>日常方案</h4>
+                        <ul>
+                            <li><strong>早晨</strong>：5g（训练前）</li>
+                            <li><strong>上午11点</strong>：5g</li>
+                            <li>总计：<strong>10g/天</strong></li>
+                        </ul>
+                    </div>
+                    <div class="protocol-box" style="margin-top: 1rem;">
+                        <h4>旅行/高需求日</h4>
+                        <ul>
+                            <li>2次 × 10g = <strong>20g</strong></li>
+                            <li>用于时差、早起演讲、播客等</li>
+                            <li>"感觉像是大脑升级，但没有咖啡因的颤抖"</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3>注意事项</h3>
+                    <div class="content-card">
+                        <h4>产品选择</h4>
+                        <p>形式：<strong>肌酸一水合物</strong>（金标准）</p>
+                        <p style="margin-top: 0.5rem;">认证：<span class="brand-tag">NSF认证</span> 确保纯度</p>
+                        <p style="margin-top: 0.5rem;">品牌示例：<span class="brand-tag">Thorne</span>（5g便携包装）</p>
+                    </div>
+                    <div class="warning-box" style="margin-top: 1.5rem;">
+                        <strong>胃肠道耐受性</strong><br>
+                        5g/次通常良好，10g+可能引起不适<br>
+                        分次服用，避免与大量咖啡因+MCT同服
+                    </div>
+                    <div class="quote-box" style="margin-top: 1rem;">
+                        "如果我漏服，下午的困倦感立刻回来——这不是安慰剂。"
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">18 / 20</span>
+        </section>
+
+        <!-- 综合方案 -->
+        <section class="slide">
+            <h2><span class="icon">🎯</span> 综合干预方案：Rhonda的父母案例</h2>
+            <div class="two-col">
+                <div>
+                    <h3>父亲（帕金森病 · 2017年诊断）</h3>
+                    <div class="protocol-box">
+                        <h4>补充剂方案</h4>
+                        <ul>
+                            <li><span class="brand-tag">多维生素</span></li>
+                            <li><span class="brand-tag">高DHA Omega-3</span> 2g/天</li>
+                            <li><span class="brand-tag">Ubiquinol (还原型CoQ10)</span></li>
+                        </ul>
+                    </div>
+                    <div class="stat-box" style="margin-top: 1rem;">
+                        <div class="stat-number">9年</div>
+                        <div class="stat-label">病情进展极慢，仅一侧手部震颤</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>母亲（本态性震颤 · 体位性震颤）</h3>
+                    <div class="protocol-box">
+                        <h4>补充剂方案</h4>
+                        <ul>
+                            <li><span class="brand-tag">多维生素</span></li>
+                            <li><span class="brand-tag">维生素D</span></li>
+                            <li><span class="brand-tag">Omega-3</span></li>
+                            <li><span class="brand-tag">Avmacol (萝卜硫素)</span> 2粒/天</li>
+                        </ul>
+                    </div>
+                    <div class="content-card" style="margin-top: 1rem; border-left-color: #68d391;">
+                        <h4>意外收获</h4>
+                        <p>萝卜硫素服用1-2周后震颤明显减轻</p>
+                        <p style="margin-top: 0.5rem;">现已开始 <strong>老年CrossFit课程</strong>（每周3次）</p>
+                    </div>
+                </div>
+            </div>
+            <span class="page-number">19 / 20</span>
+        </section>
+
+        <!-- 总结 -->
+        <section class="slide slide-title" style="background: linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #4a5568 100%);">
+            <h1 style="font-size: clamp(2rem, 4vw, 3rem);">核心行动清单</h1>
+            <div class="three-col" style="margin-top: 2rem; text-align: left;">
+                <div class="content-card">
+                    <h4>补充剂基础</h4>
+                    <ul>
+                        <li>多维生素（日常）</li>
+                        <li>维生素D 5,000-7,000 IU</li>
+                        <li>Omega-3 ≥ 2g DHA</li>
+                        <li>肌酸 10g/天</li>
+                        <li>萝卜硫素（可选）</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>运动处方</h4>
+                    <ul>
+                        <li>Zone 2：2.5小时/周</li>
+                        <li>HIIT（挪威4×4）：1-2次/周</li>
+                        <li>抗阻训练：2-3次/周</li>
+                        <li>总量目标：5小时/周</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h4>生活方式</h4>
+                    <ul>
+                        <li>间歇性禁食 16:8</li>
+                        <li>桑拿/热疗 4+次/周</li>
+                        <li>优化睡眠架构</li>
+                        <li>检测：维生素D、Omega-3指数</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="quote-box" style="max-width: 700px; margin: 2rem auto 0; text-align: center;">
+                "低垂果实策略——简单易行，投入产出比最高。<br>从今天开始，永远不晚。"
+            </div>
+            <p class="meta" style="margin-top: 2rem;">FoundMyFitness.com · @FoundMyFitness</p>
+            <span class="page-number">20 / 20</span>
+        </section>
+
+    </div>
+
+    <!-- 导航按钮 -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">← 上一页</button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">20</span></span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一页 →</button>
+    </div>
+
+    <script>
+        const container = document.getElementById('slidesContainer');
+        const progress = document.getElementById('progress');
+        const currentSlideEl = document.getElementById('currentSlide');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentIndex = 0;
+
+        // 更新显示
+        function updateDisplay() {
+            const scrollLeft = container.scrollLeft;
+            const slideWidth = window.innerWidth;
+            currentIndex = Math.round(scrollLeft / slideWidth);
+            
+            // 更新进度条
+            const progressWidth = ((currentIndex + 1) / totalSlides) * 100;
+            progress.style.width = progressWidth + '%';
+            
+            // 更新页码
+            currentSlideEl.textContent = currentIndex + 1;
+        }
+
+        // 跳转到指定页
+        function goToSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            
+            const slideWidth = window.innerWidth;
+            container.scrollTo({
+                left: index * slideWidth,
+                behavior: 'smooth'
+            });
+            currentIndex = index;
+            updateDisplay();
+        }
+
+        // 下一页
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
+        }
+
+        // 上一页
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
+        }
+
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                goToSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                goToSlide(totalSlides - 1);
+            }
+        });
+
+        // 触摸支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        container.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const threshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // 滚动监听
+        container.addEventListener('scroll', updateDisplay, { passive: true });
+
+        // 窗口大小改变时重新定位
+        window.addEventListener('resize', () => {
+            goToSlide(currentIndex);
+        });
+
+        // 初始化
+        document.getElementById('totalSlides').textContent = totalSlides;
+        updateDisplay();
+    </script>
+</body>
+</html>

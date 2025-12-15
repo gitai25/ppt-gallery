@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极端赢家的思维与取胜之道 | David Senra × Tim Ferriss</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --gold: #c9a962;
+            --gold-light: #e8d5a3;
+            --gold-dark: #9a7b3a;
+            --text-primary: #f0ebe3;
+            --text-secondary: #9a9590;
+            --text-muted: #6a6560;
+            --accent-blue: #4a6fa5;
+            --accent-red: #a54a4a;
+            --border-subtle: rgba(201, 169, 98, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+        }
+
+        body {
+            font-family: 'Source Sans 3', 'Noto Serif SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: auto;
+            overflow-y: hidden;
+            height: 100vh;
+        }
+
+        /* 横向滚动容器 */
+        .slides-container {
+            display: flex;
+            height: 100vh;
+            width: max-content;
+        }
+
+        /* 单个幻灯片 */
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 3rem 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
+            position: relative;
+            background: var(--bg-primary);
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(201, 169, 98, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(74, 111, 165, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* 封面样式 */
+        .slide-cover {
+            text-align: center;
+            background: 
+                linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .slide-cover::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(201, 169, 98, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(201, 169, 98, 0.1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .cover-title {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .cover-meta {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        /* 章节标题页 */
+        .slide-chapter {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .chapter-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            font-weight: 300;
+            color: rgba(201, 169, 98, 0.15);
+            position: absolute;
+            top: 2rem;
+            right: 5rem;
+            line-height: 1;
+        }
+
+        .chapter-title {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .chapter-desc {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        /* 内容页样式 */
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(201, 169, 98, 0.1);
+            border-left: 3px solid var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-title {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .slide-title .highlight {
+            color: var(--gold);
+        }
+
+        /* 引言块 */
+        .quote-block {
+            background: var(--bg-card);
+            border-left: 4px solid var(--gold);
+            padding: 2rem 2.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+
+        .quote-block::before {
+            content: '"';
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.3;
+            position: absolute;
+            top: 0.5rem;
+            left: 1rem;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.7;
+            color: var(--text-primary);
+            padding-left: 1rem;
+        }
+
+        .quote-author {
+            font-size: 0.95rem;
+            color: var(--gold);
+            margin-top: 1rem;
+            padding-left: 1rem;
+        }
+
+        /* 要点列表 */
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .point-card {
+            background: var(--bg-card);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .point-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .point-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(201, 169, 98, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .point-title {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .point-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 人物卡片 */
+        .person-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .person-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .person-card:hover {
+            border-color: var(--gold);
+        }
+
+        .person-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .person-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .person-insight {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* 对比布局 */
+        .compare-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .compare-side {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+
+        .compare-side.positive {
+            border-top: 3px solid var(--gold);
+        }
+
+        .compare-side.negative {
+            border-top: 3px solid var(--accent-red);
+        }
+
+        .compare-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .compare-side.positive .compare-label {
+            color: var(--gold);
+        }
+
+        .compare-side.negative .compare-label {
+            color: var(--accent-red);
+        }
+
+        /* 时间线 */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin-top: 1.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0.3rem;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-content {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 核心公式 */
+        .formula-box {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201, 169, 98, 0.05) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .formula-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .formula-explain {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* 书籍推荐 */
+        .book-card {
+            display: flex;
+            gap: 1.5rem;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            align-items: flex-start;
+        }
+
+        .book-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-title-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-note {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* 导航 */
+        .nav-bar {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(26, 26, 36, 0.95);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2rem;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover,
+        .nav-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(26, 26, 36, 0.95);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+            transition: width 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* 页码 */
+        .page-number {
+            position: absolute;
+            bottom: 2rem;
+            left: 5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* 两栏布局 */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .col-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .col-content strong {
+            color: var(--text-primary);
+        }
+
+        /* 列表样式 */
+        .insight-list {
+            list-style: none;
+        }
+
+        .insight-list li {
+            padding: 1rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .insight-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        .insight-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* 统计数字 */
+        .stat-row {
+            display: flex;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 2rem 3rem;
+            }
+            
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .compare-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .chapter-number {
+                font-size: 5rem;
+                right: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1.5rem 2rem;
+                min-width: 100vw;
+            }
+            
+            .cover-meta {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .points-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .person-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-bar {
+                display: none;
+            }
+            
+            .stat-row {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+            
+            .stat-item {
+                flex: 1 0 40%;
+            }
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-content > * {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .slide-content > *:nth-child(1) { animation-delay: 0.1s; }
+        .slide-content > *:nth-child(2) { animation-delay: 0.2s; }
+        .slide-content > *:nth-child(3) { animation-delay: 0.3s; }
+        .slide-content > *:nth-child(4) { animation-delay: 0.4s; }
+        .slide-content > *:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progress"></div>
+    
+    <div class="slides-container" id="slides">
+        
+        <!-- Slide 1: 封面 -->
+        <div class="slide slide-cover">
+            <div class="slide-content">
+                <div class="cover-badge">Founders Podcast × Tim Ferriss</div>
+                <h1 class="cover-title">极端赢家的思维与取胜之道</h1>
+                <p class="cover-subtitle">
+                    从400多位历史上最伟大的创始人与投资者身上，<br>
+                    提炼出那些隐藏在传记深处的智慧密码
+                </p>
+                <div class="cover-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">主讲人</div>
+                        <div class="meta-value">David Senra</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">对话者</div>
+                        <div class="meta-value">Tim Ferriss</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">研究样本</div>
+                        <div class="meta-value">400+ 传记</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">对话时长</div>
+                        <div class="meta-value">2小时56分钟</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">01 / 24</div>
+        </div>
+
+        <!-- Slide 2: 章节页 - 驱动力的本质 -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">01</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">驱动力的本质</h2>
+                <p class="chapter-desc">
+                    在研究了400多位历史上最成功的创始人和投资者之后，一个核心问题浮现出来：<br><br>
+                    是什么在真正驱动这些极端赢家？<br>
+                    是正能量还是负能量？<br>
+                    是爱还是恐惧？
+                </p>
+            </div>
+            <div class="page-number">02 / 24</div>
+        </div>
+
+        <!-- Slide 3: Brad Jacobs -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">案例研究</div>
+                <h2 class="slide-title">Brad Jacobs：<span class="highlight">唯一创建8家十亿美元公司的人</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <p>Brad Jacobs，68岁，可能是历史上唯一一个创建了<strong>八家独立的十亿美元公司</strong>的人。</p>
+                        <p>他23岁开始创业，是典型的"滚雪球之王"——从物流公司到卡车公司，再到建材供应链。</p>
+                        <p>他的第一笔收购就是<strong>90亿美元</strong>。</p>
+                        <p>但最让人惊讶的是：他是我见过的<strong>最有活力的人</strong>。</p>
+                    </div>
+                    <div class="col-content">
+                        <div class="quote-block">
+                            <p class="quote-text">研究极端赢家时，你会发现他们的驱动力通常是黑暗的——与父亲的问题、某种不安全感、永远觉得自己不够好、贫穷出身……</p>
+                            <p class="quote-text" style="margin-top: 1rem;">但Brad不同。他的驱动力来自<strong>爱</strong>。他没有任何负面情绪。他就是一个非常特别的人。</p>
+                            <p class="quote-author">— David Senra</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">03 / 24</div>
+        </div>
+
+        <!-- Slide 4: 例外名单 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">稀有物种</div>
+                <h2 class="slide-title">400人中只有<span class="highlight">3-4位</span>是"正能量驱动"</h2>
+                
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
+                    在追求商业卓越的同时，没有在个人生活中造成大量附带伤害的人，少之又少：
+                </p>
+                
+                <div class="person-grid">
+                    <div class="person-card">
+                        <div class="person-name">Ed Thorpe</div>
+                        <div class="person-role">量化投资之父</div>
+                        <div class="person-insight">"史上最全面掌控人生的人"</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Sol Price</div>
+                        <div class="person-role">Costco模式创始人</div>
+                        <div class="person-insight">"好丈夫、好父亲，够了就停"</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Brunello Cucinelli</div>
+                        <div class="person-role">人文主义企业家</div>
+                        <div class="person-insight">"朝九晚五，晚间阅读散步"</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Brad Jacobs</div>
+                        <div class="person-role">连续创业者</div>
+                        <div class="person-insight">"出于爱，而非恐惧"</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Michael Dell</div>
+                        <div class="person-role">戴尔创始人</div>
+                        <div class="person-insight">"有恐惧，但更有正能量"</div>
+                    </div>
+                </div>
+                
+                <div class="formula-box" style="margin-top: 2rem;">
+                    <p style="color: var(--text-secondary); font-size: 1rem;">
+                        为什么如此稀少？也许这些人本质上就是不同的物种——<br>
+                        他们从一开始就与其他396人有着根本性的差异。
+                    </p>
+                </div>
+            </div>
+            <div class="page-number">04 / 24</div>
+        </div>
+
+        <!-- Slide 5: 负面自我对话 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">内在对话</div>
+                <h2 class="slide-title">即使成功了，<span class="highlight">内心的声音依然是负面的</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <div class="quote-block">
+                            <p class="quote-text">我不认为有任何一个赢家，在庆祝胜利时的喜悦程度，能比得上他们因失败而惩罚自己的程度。</p>
+                            <p class="quote-author">— Tim Ferriss</p>
+                        </div>
+                        
+                        <div class="quote-block">
+                            <p class="quote-text">我今天早上醒来，看着镜子，对自己说：'你为什么这么糟糕？'</p>
+                            <p class="quote-author">— Jensen Huang，NVIDIA创始人<br><small>（在NVIDIA史上最好的季度之后说的）</small></p>
+                        </div>
+                    </div>
+                    <div class="col-content">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">危险的信条</h3>
+                        
+                        <div class="book-card">
+                            <div class="book-icon">⚠️</div>
+                            <div class="book-info">
+                                <div class="book-title-text">"卓越是承受痛苦的能力"</div>
+                                <div class="book-author">— 四季酒店创始人</div>
+                                <div class="book-note">这句话可能有一定道理，但对于本就倾向于自我惩罚的人来说，把它当作人生格言是非常危险的。<br><br><strong>并非所有痛苦都是有益的。</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">05 / 24</div>
+        </div>
+
+        <!-- Slide 6: 章节页 - 学习的本质 -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">02</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">学习的本质</h2>
+                <p class="chapter-desc">
+                    如果更多的信息就是答案，<br>
+                    我们早就都是拥有六块腹肌的亿万富翁了。<br><br>
+                    — Derek Sivers
+                </p>
+            </div>
+            <div class="page-number">06 / 24</div>
+        </div>
+
+        <!-- Slide 7: 学习的真正定义 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">核心洞见</div>
+                <h2 class="slide-title">学习不是<span class="highlight">记忆信息</span>，而是<span class="highlight">改变行为</span></h2>
+                
+                <div class="formula-box">
+                    <div class="formula-text">学习 = 行为改变</div>
+                    <p class="formula-explain">如果你没有改变行为，这一切都只是脑力体操——你在浪费时间。</p>
+                </div>
+                
+                <div class="points-grid">
+                    <div class="point-card">
+                        <div class="point-icon">📚</div>
+                        <div class="point-title">单向对话</div>
+                        <div class="point-desc">每周坐下来阅读一位历史上最伟大企业家的传记，就像与他们进行一场单向对话——你只能倾听。</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">🎙️</div>
+                        <div class="point-title">主动加工</div>
+                        <div class="point-desc">每周坐下来整理思绪，把它变成主动服务。不是被动消费，而是主动提炼。</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">🔄</div>
+                        <div class="point-title">持续应用</div>
+                        <div class="point-desc">提取好的想法，应用到自己的生意中。因为喜欢这些想法，就不断重复这个过程。</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">07 / 24</div>
+        </div>
+
+        <!-- Slide 8: 影响力的链条 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">方法论</div>
+                <h2 class="slide-title">追溯<span class="highlight">影响力的链条</span></h2>
+                
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
+                    如果你崇拜某人，他们会告诉你是谁影响了他们。然后你必须去读那些人的书。<br>
+                    你会发现：<strong>想法并不是从他们开始的，也不会随我们而终</strong>——必须代代相传。
+                </p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">起点</div>
+                        <div class="timeline-content">Munger & Buffett → 他们反复提到 <strong>Henry Singleton</strong></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">发现</div>
+                        <div class="timeline-content">Munger说Singleton是他见过的<strong>最聪明的人</strong>。Buffett说商学院不研究Singleton是犯罪。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">深入</div>
+                        <div class="timeline-content">原来我以为是Buffett和Munger的想法，其实来自Singleton。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">继续</div>
+                        <div class="timeline-content">Buffett提到 <strong>David Ogilvy</strong> → Ogilvy提到 <strong>Claude Hopkins</strong> → Hopkins的《Scientific Advertising》被Lasker锁在保险柜里20年。</div>
+                    </div>
+                </div>
+                
+                <div class="quote-block" style="margin-top: 2rem;">
+                    <p class="quote-text">凯撒研究亚历山大。乔布斯研究Edwin Land。Edwin Land研究Alexander Graham Bell。<br>在美国创业史上，一切都可以追溯到本杰明·富兰克林。</p>
+                </div>
+            </div>
+            <div class="page-number">08 / 24</div>
+        </div>
+
+        <!-- Slide 9: 章节页 - 笔记方法论 -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">03</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">笔记方法论</h2>
+                <p class="chapter-desc">
+                    我完全是直觉和感受驱动的。<br>
+                    坐下来读一本书，不思考——<br>
+                    如果有什么跳出来，就划线。<br><br>
+                    就像科马克·麦卡锡说的：潜意识比语言更古老。
+                </p>
+            </div>
+            <div class="page-number">09 / 24</div>
+        </div>
+
+        <!-- Slide 10: 物理阅读工具 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">David的工具箱</div>
+                <h2 class="slide-title"><span class="highlight">物理书 + 笔 + 便签 + 剪刀 + 尺子</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <ul class="insight-list">
+                            <li><strong>物理书</strong>：因为这是我爱上阅读的方式。不是Kindle，不是数字。</li>
+                            <li><strong>笔</strong>：划线时不思考，完全靠直觉。</li>
+                            <li><strong>便签</strong>：在划线的句子旁边写下浮现的想法——比如"这让我想起James J. Hill建设铁路时的做法"。</li>
+                            <li><strong>剪刀</strong>：把便签裁剪成合适的大小，贴在页面上。</li>
+                            <li><strong>尺子</strong>：确保线条是直的。<em>必须是直的。</em></li>
+                        </ul>
+                    </div>
+                    <div class="col-content">
+                        <div class="quote-block">
+                            <p class="quote-text">我不是在听你说什么，而是在寻找背后的本质。当我和Rick讨论一笔大交易时，我想的是这和Fred Smith建立FedEx有什么相似之处，和Jim Casey建立UPS有什么相似之处，和Buffett收购See's Candy的思考方式有什么相似之处。</p>
+                            <p class="quote-author">— David Senra</p>
+                        </div>
+                        
+                        <div class="formula-box" style="margin-top: 1.5rem;">
+                            <p style="color: var(--text-secondary); font-size: 1rem;">
+                                <strong>Jerry Seinfeld的信条：</strong><br>
+                                艰难的方式，就是正确的方式。<br>
+                                我喜欢艰难的方式。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">10 / 24</div>
+        </div>
+
+        <!-- Slide 11: Tim的方法 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">Tim的方法</div>
+                <h2 class="slide-title">多次阅读的<span class="highlight">时间标记法</span></h2>
+                
+                <div class="points-grid">
+                    <div class="point-card">
+                        <div class="point-icon">1️⃣</div>
+                        <div class="point-title">第一次阅读</div>
+                        <div class="point-desc">划线或在段落旁边用括号标记。如果内容太密集，就用括号而不是逐行划线。</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">2️⃣</div>
+                        <div class="point-title">第二次阅读</div>
+                        <div class="point-desc">在仍然突出的内容旁边画一个圈着的"2"。观察什么在第二次阅读时依然共鸣。</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">📑</div>
+                        <div class="point-title">前页索引</div>
+                        <div class="point-desc">在书的前几页空白处建立自己的索引——记录重要的页码、需要查找的人名。</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-icon">✅</div>
+                        <div class="point-title">下一步行动</div>
+                        <div class="point-desc">在前页右下角画一个方框，写下"Next Steps"——至少一个具体的下一步行动。</div>
+                    </div>
+                </div>
+                
+                <div class="quote-block" style="margin-top: 2rem;">
+                    <p class="quote-text">有时候隔五年再读同一本书，你会发现完全不同的东西共鸣——因为你的人生经历和处境已经不同了。我喜欢看到自己如何随时间变化。</p>
+                    <p class="quote-author">— Tim Ferriss</p>
+                </div>
+            </div>
+            <div class="page-number">11 / 24</div>
+        </div>
+
+        <!-- Slide 12: 章节页 - 故事的力量 -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">04</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">故事的力量</h2>
+                <p class="chapter-desc">
+                    人们购买故事。<br><br>
+                    三十美元的历史书里，<br>
+                    有价值数十亿美元的想法。<br><br>
+                    — Charlie Munger
+                </p>
+            </div>
+            <div class="page-number">12 / 24</div>
+        </div>
+
+        <!-- Slide 13: Claude Hopkins案例 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">经典案例</div>
+                <h2 class="slide-title">Schlitz啤酒：<span class="highlight">从第五到第一</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Claude Hopkins被Schlitz啤酒公司聘请，当时他们是市场<strong>第五名</strong>。
+                        </p>
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Hopkins做了他一贯的事——大量研究。他参观了酿酒厂，被整个过程震撼了：三重过滤的水、复杂的发酵过程……
+                        </p>
+                        
+                        <div class="quote-block">
+                            <p class="quote-text">为什么你们不告诉消费者这些？</p>
+                            <p class="quote-text" style="margin-top: 0.5rem;"><em>"因为我们的流程和其他酿酒商没什么不同。"</em></p>
+                            <p class="quote-text" style="margin-top: 0.5rem;"><strong>"但没有人在讲这个故事。"</strong></p>
+                        </div>
+                    </div>
+                    <div class="col-content">
+                        <div class="formula-box">
+                            <div class="formula-text">结果：从第五升至第一</div>
+                            <p class="formula-explain">Hopkins写了1500-2000字的长文，详细描述啤酒的酿造过程——因为人们购买故事。</p>
+                        </div>
+                        
+                        <div class="book-card" style="margin-top: 1.5rem;">
+                            <div class="book-icon">📖</div>
+                            <div class="book-info">
+                                <div class="book-title-text">Scientific Advertising</div>
+                                <div class="book-author">Claude Hopkins</div>
+                                <div class="book-note">Albert Lasker把这本书锁在保险柜里20年——里面是他公司成功的秘密。David Ogilvy说自己不是天才，只是在重复Hopkins的工作。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">13 / 24</div>
+        </div>
+
+        <!-- Slide 14: 章节页 - 播客创业之路 -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">05</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">5.5年无人问津</h2>
+                <p class="chapter-desc">
+                    我在迈阿密的厨房里，<br>
+                    用100美元的麦克风，没有防喷罩，<br>
+                    录制了5年半的播客。<br><br>
+                    直到Patrick O'Shaughnessy的一条推文改变了一切。
+                </p>
+            </div>
+            <div class="page-number">14 / 24</div>
+        </div>
+
+        <!-- Slide 15: 播客创业历程 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">创业故事</div>
+                <h2 class="slide-title">从<span class="highlight">社会主义播客</span>学来的商业模式</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">发现</div>
+                        <div class="timeline-content">通过Graphtreon发现Chapo Trap House——一个社会主义播客——有<strong>25,000个付费订阅者</strong>，每人每月至少5美元。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">启发</div>
+                        <div class="timeline-content">如果喜剧播客可以卖订阅，<strong>商业播客</strong>也可以——因为好的商业想法能帮人赚更多钱。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">目标</div>
+                        <div class="timeline-content">"我不需要富有，我只需要靠这个为生。"目标是卖3000个订阅 × $100 = <strong>$300,000/年</strong>——"牙医的收入"。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">坚持</div>
+                        <div class="timeline-content">每天看订阅邮件——一天5-10个。<strong>看到顶级创始人和VC的邮箱</strong>出现在订阅列表里，知道方向是对的。</div>
+                    </div>
+                </div>
+                
+                <div class="stat-row" style="margin-top: 2rem;">
+                    <div class="stat-item">
+                        <div class="stat-number">5.5</div>
+                        <div class="stat-label">年无人关注</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$100</div>
+                        <div class="stat-label">麦克风成本</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">7,000</div>
+                        <div class="stat-label">全平台粉丝（当时）</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">条推文改变一切</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">15 / 24</div>
+        </div>
+
+        <!-- Slide 16: 转折点 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">关键转折</div>
+                <h2 class="slide-title">Patrick O'Shaughnessy的<span class="highlight">一条推文</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <div class="quote-block">
+                            <p class="quote-text">我很少能找到好的播客听。我觉得David Senra的Founders Podcast非常出色。你应该去听听。</p>
+                            <p class="quote-author">— Patrick O'Shaughnessy</p>
+                        </div>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1.5rem;">
+                            那天晚上，David登录邮箱，发现<strong>无法停止滚动</strong>——订阅邮件像洪水一样涌入。
+                        </p>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1rem;">
+                            这就是<strong>信任延伸</strong>的力量。Patrick把他十年建立的信任，转移给了一个从未见过的陌生人。
+                        </p>
+                    </div>
+                    <div class="col-content">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">为什么Patrick的推荐如此有效？</h3>
+                        
+                        <ul class="insight-list">
+                            <li>你和Andrew Huberman就像"男性奥普拉"——你推荐什么，人们就买什么。</li>
+                            <li>不是因为粉丝数量，而是因为<strong>信任</strong>。</li>
+                            <li>Patrick的推荐从未让人失望过——所以他的话有份量。</li>
+                            <li>Warren Buffett说：<strong>品牌是一个承诺</strong>。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">16 / 24</div>
+        </div>
+
+        <!-- Slide 17: 章节页 - Edwin Land -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">06</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">Edwin Land：创业者的守护神</h2>
+                <p class="chapter-desc">
+                    如果只能崇拜一个人，我们应该崇拜Edwin Land。<br><br>
+                    乔布斯25岁时这样说，<br>
+                    乔布斯临终前仍在谈论这个人。
+                </p>
+            </div>
+            <div class="page-number">17 / 24</div>
+        </div>
+
+        <!-- Slide 18: Edwin Land详解 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">人物研究</div>
+                <h2 class="slide-title">乔布斯的<span class="highlight">偶像</span>与<span class="highlight">原型</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            Edwin Land是宝丽来的创始人，70多岁时乔布斯多次拜访他。当时Land拥有<strong>美国历史上第三多的专利</strong>——仅次于爱迪生。
+                        </p>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            Land<strong>发明了即时摄影这个行业</strong>，然后统治了它。在他之前，拍了照片要等两周才能冲洗出来——可能发现拍的是自己的脚。
+                        </p>
+                        
+                        <div class="quote-block">
+                            <p class="quote-text">乔布斯那句著名的"在人文与科技的交汇处"——这是直接引用Edwin Land的话。</p>
+                        </div>
+                    </div>
+                    <div class="col-content">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">Edwin Land的两条人生信条</h3>
+                        
+                        <div class="formula-box">
+                            <div class="formula-text" style="font-size: 1.4rem;">不要做任何别人也能做的事</div>
+                            <p class="formula-explain">差异化的重要性。Dyson也说：即使更差，也要不同。</p>
+                        </div>
+                        
+                        <div class="formula-box" style="margin-top: 1rem;">
+                            <div class="formula-text" style="font-size: 1.4rem;">任何值得做的事，都值得过度去做</div>
+                            <p class="formula-explain">他从哈佛辍学两次。哈佛没教他这个。</p>
+                        </div>
+                        
+                        <div class="book-card" style="margin-top: 1.5rem;">
+                            <div class="book-icon">📖</div>
+                            <div class="book-info">
+                                <div class="book-title-text">Land's Polaroid</div>
+                                <div class="book-note">250页，由与Land共事20年的人撰写——比完整传记更有洞见。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">18 / 24</div>
+        </div>
+
+        <!-- Slide 19: 章节页 - 企业家原型 -->
+        <div class="slide slide-chapter">
+            <div class="chapter-number">07</div>
+            <div class="slide-content">
+                <h2 class="chapter-title">企业家原型</h2>
+                <p class="chapter-desc">
+                    Larry Ellison说：我是短跑选手。<br>
+                    我有极其激烈的工作期——连续几周、几个月——<br>
+                    然后我需要去我的游艇上，和一群意大利模特待在一起。<br><br>
+                    Bill Gates不同：他会睡在办公桌下面三个小时，然后继续工作。
+                </p>
+            </div>
+            <div class="page-number">19 / 24</div>
+        </div>
+
+        <!-- Slide 20: 反商业亿万富翁 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">原型分析</div>
+                <h2 class="slide-title"><span class="highlight">反商业亿万富翁</span>：痴迷于产品质量的人</h2>
+                
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
+                    这类创始人只关心两件事：<strong>产品质量</strong>和<strong>长期控制权</strong>。<br>
+                    讽刺的是——做出最好的产品，保持控制权，钱自然会来。
+                </p>
+                
+                <div class="person-grid">
+                    <div class="person-card">
+                        <div class="person-name">Steve Jobs</div>
+                        <div class="person-insight">确保Mac内部也很美观——即使用户打不开</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">James Dyson</div>
+                        <div class="person-insight">"即使更差，也要不同"</div>
+                    </div>
+                    <div class="person-card">
+                        <div class="person-name">Yvon Chouinard</div>
+                        <div class="person-insight">Patagonia创始人</div>
+                    </div>
+                </div>
+                
+                <div class="compare-layout" style="margin-top: 2rem;">
+                    <div class="compare-side positive">
+                        <div class="compare-label">他们的选择</div>
+                        <ul class="insight-list">
+                            <li>不融资或极少融资</li>
+                            <li>不上市或私有化</li>
+                            <li>做非财务决策</li>
+                            <li>长期思考</li>
+                        </ul>
+                    </div>
+                    <div class="compare-side positive">
+                        <div class="compare-label">Larry Ellison的案例</div>
+                        <p style="color: var(--text-secondary); line-height: 1.7;">Oracle IPO融资3200万美元后，<strong>再也没有稀释股权</strong>。1990年差点破产也不卖。现在回购股票，持股从24%涨回41%。公司已经50年了。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">20 / 24</div>
+        </div>
+
+        <!-- Slide 21: Daniel Ek的智慧 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">导师智慧</div>
+                <h2 class="slide-title">Daniel Ek：<span class="highlight">记住人们为什么爱你</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Spotify创始人Daniel Ek是David最重要的导师之一。他比David大几岁，但智慧远超年龄。
+                        </p>
+                        
+                        <div class="quote-block">
+                            <p class="quote-text">你很容易被理解，所以很容易被帮助。我知道什么对你重要，所以我可以帮你。</p>
+                            <p class="quote-author">— Daniel Ek</p>
+                        </div>
+                        
+                        <div class="quote-block" style="margin-top: 1rem;">
+                            <p class="quote-text">每个年轻创始人都觉得自己必须成为Elon或Steve Jobs。但我不是那样的人——而Spotify依然成功了。</p>
+                            <p class="quote-author">— Daniel Ek</p>
+                        </div>
+                    </div>
+                    <div class="col-content">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">Daniel用故事传达的建议</h3>
+                        
+                        <div class="formula-box">
+                            <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.8;">
+                                "记住人们为什么爱你——<br>
+                                你坐在房间里大量阅读，<br>
+                                然后在另一边创造出教育和激励人们的东西。<br><br>
+                                <strong>一旦你停止这样做，开始对各种干扰说'是'，魔法就会消失。</strong>"
+                            </p>
+                        </div>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1.5rem;">
+                            Daniel从不直接说"David，去做这个"。他会讲一个关于别人的故事——几小时后你才意识到他在给你建议。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">21 / 24</div>
+        </div>
+
+        <!-- Slide 22: Michael Ovitz的教训 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">人生智慧</div>
+                <h2 class="slide-title">"这不可能是我的人生"：<span class="highlight">最强大的动力</span></h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Michael Ovitz，曾经好莱坞最有权势的人，CAA创始人，控制了90%的人才市场。
+                        </p>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            他在山谷长大，<strong>能看到贝弗利山的豪宅</strong>。那种对比——"这不可能是我的人生"——成为了最强大的驱动力。
+                        </p>
+                        
+                        <div class="quote-block">
+                            <p class="quote-text">他在书里写道：当他终于搬进Brentwood的第一套房子——65万美元——他早上醒来简直不敢相信：我真的住在Brentwood了？我做到了？</p>
+                        </div>
+                    </div>
+                    <div class="col-content">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">关于真正的朋友</h3>
+                        
+                        <div class="quote-block">
+                            <p class="quote-text">你这辈子会遇到几千个人。我建议你把所有时间花在真正重要的少数人身上。</p>
+                            <p class="quote-text" style="margin-top: 1rem;">对我来说，Rick就是这样的人——因为<strong>他会告诉我真相</strong>。</p>
+                            <p class="quote-author">— Michael Ovitz</p>
+                        </div>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1.5rem;">
+                            当你变得非常成功和有名，每个人都想讨好你。真正<strong>爱你本人</strong>而不是你的地位、愿意告诉你真相的人，少之又少。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">22 / 24</div>
+        </div>
+
+        <!-- Slide 23: 低内省的价值 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="section-tag">争议观点</div>
+                <h2 class="slide-title"><span class="highlight">低内省</span>在找到使命后的价值</h2>
+                
+                <div class="two-col">
+                    <div class="col-content">
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Sam Walton早上醒来不会问："我今天有什么感受？我应该做什么？人生的意义是什么？"
+                        </p>
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            他想的是："我创立了Walmart。我要再开一家。再开一家。再开一家。让每家都变得更好。"
+                        </p>
+                        
+                        <div class="formula-box">
+                            <p style="color: var(--text-secondary); font-size: 1rem;">
+                                <strong>悲哀的是</strong>——大多数人可能永远找不到自己的使命。<br>
+                                但一旦找到，低内省就是一种优势。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-content">
+                        <h3 style="color: var(--gold); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">风险与考量</h3>
+                        
+                        <ul class="insight-list">
+                            <li>这种原型在创业者中确实过度代表</li>
+                            <li>企业家/投资者中社会路径者的比例可能是普通人群的5倍</li>
+                            <li>因为如果做对了，创业提供人类历史上最大的物质回报</li>
+                            <li>所以自然会吸引那些不太在乎他人的人</li>
+                        </ul>
+                        
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1.5rem;">
+                            <strong>问题是：</strong>你能否分辨什么是"因为这个特质而成功"，还是"尽管有这个特质仍然成功"？
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-number">23 / 24</div>
+        </div>
+
+        <!-- Slide 24: 终章 -->
+        <div class="slide slide-cover">
+            <div class="slide-content">
+                <div class="cover-badge">核心智慧</div>
+                <h1 class="cover-title">在每一个时代，人性都是相同的</h1>
+                
+                <div class="points-grid" style="max-width: 900px; margin: 2rem auto;">
+                    <div class="point-card">
+                        <div class="point-title">学习 = 行为改变</div>
+                        <div class="point-desc">不改变行为的学习只是脑力体操</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-title">追溯影响力链条</div>
+                        <div class="point-desc">你崇拜的人会告诉你是谁影响了他们</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-title">建立真实于自己的事业</div>
+                        <div class="point-desc">因为它自然于你，你就能持续做下去</div>
+                    </div>
+                    <div class="point-card">
+                        <div class="point-title">保护魔法</div>
+                        <div class="point-desc">记住人们为什么爱你，不要对干扰说是</div>
+                    </div>
+                </div>
+                
+                <div class="quote-block" style="max-width: 700px; margin: 2rem auto;">
+                    <p class="quote-text">在每一个时代，人类都是不诚实的，政府都是腐败的。我们做的事情没有什么是新的。我们只是在反复讲述同样的故事。</p>
+                    <p class="quote-author">— Will Durant，《历史的教训》</p>
+                </div>
+            </div>
+            <div class="page-number">24 / 24</div>
+        </div>
+
+    </div>
+
+    <!-- 导航 -->
+    <nav class="nav-bar" id="navBar"></nav>
+    
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" aria-label="上一页">←</button>
+        <button class="nav-btn" id="nextBtn" aria-label="下一页">→</button>
+    </div>
+
+    <script>
+        const container = document.getElementById('slides');
+        const slides = document.querySelectorAll('.slide');
+        const navBar = document.getElementById('navBar');
+        const progress = document.getElementById('progress');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        // 创建导航点
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(i));
+            navBar.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.nav-dot');
+
+        function updateNav() {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+            progress.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+        }
+
+        function goToSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            currentSlide = index;
+            slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+            updateNav();
+        }
+
+        // 滚动监听
+        container.addEventListener('scroll', () => {
+            const scrollLeft = container.scrollLeft;
+            const slideWidth = window.innerWidth;
+            const newSlide = Math.round(scrollLeft / slideWidth);
+            if (newSlide !== currentSlide) {
+                currentSlide = newSlide;
+                updateNav();
+            }
+        });
+
+        // 按钮控制
+        document.getElementById('prevBtn').addEventListener('click', () => goToSlide(currentSlide - 1));
+        document.getElementById('nextBtn').addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                goToSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                goToSlide(currentSlide - 1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                goToSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                goToSlide(totalSlides - 1);
+            }
+        });
+
+        // 触摸支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        container.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    goToSlide(currentSlide + 1);
+                } else {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
