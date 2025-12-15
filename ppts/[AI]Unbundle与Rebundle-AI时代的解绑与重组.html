@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unbundle & Rebundle | AI时代的解绑与重组</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f0f1a;
+            --secondary: #1a1a2e;
+            --accent: #00d4ff;
+            --accent-warm: #ff6b35;
+            --accent-purple: #a855f7;
+            --gold: #fbbf24;
+            --emerald: #10b981;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --surface: rgba(255,255,255,0.05);
+            --gradient-cyber: linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+            --gradient-warm: linear-gradient(135deg, #ff6b35 0%, #fbbf24 100%);
+            --gradient-cool: linear-gradient(135deg, #10b981 0%, #00d4ff 100%);
+            --gradient-deep: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 3rem 5%;
+            overflow-y: auto;
+            background: var(--primary);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title Slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .topic-badge {
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            background: var(--surface);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-en {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--text-muted);
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .keyword-tag {
+            padding: 0.5rem 1.2rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        /* Content Slides */
+        .slide-content {
+            padding-top: 2rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--surface);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .slide-heading {
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-cyan {
+            color: var(--accent);
+        }
+
+        .highlight-orange {
+            color: var(--accent-warm);
+        }
+
+        .highlight-purple {
+            color: var(--accent-purple);
+        }
+
+        .highlight-gold {
+            color: var(--gold);
+        }
+
+        .highlight-green {
+            color: var(--emerald);
+        }
+
+        .gradient-text {
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card-grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 2rem 2.5rem;
+            border-radius: 0 16px 16px 0;
+            margin: 2rem 0;
+        }
+
+        .quote-block.warm {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(251, 191, 36, 0.08) 100%);
+            border-left-color: var(--accent-warm);
+        }
+
+        .quote-text {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .quote-source {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            flex: 1;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .column-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .column-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6em;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .bullet-list li strong {
+            color: var(--text);
+        }
+
+        /* Big Number */
+        .big-number {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 800;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        /* Diagram Flow */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .flow-item {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-purple));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Comparison Table */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-side {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .comparison-side.before {
+            border-left: 4px solid var(--text-muted);
+        }
+
+        .comparison-side.after {
+            border-left: 4px solid var(--emerald);
+        }
+
+        .comparison-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Center Quote Slide */
+        .slide-center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .mega-quote {
+            font-size: clamp(1.5rem, 4vw, 2.8rem);
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Pyramid */
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .pyramid-level {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .pyramid-level:nth-child(1) {
+            width: 40%;
+            background: var(--gradient-cyber);
+        }
+
+        .pyramid-level:nth-child(2) {
+            width: 60%;
+            background: var(--gradient-deep);
+        }
+
+        .pyramid-level:nth-child(3) {
+            width: 80%;
+            background: var(--gradient-warm);
+        }
+
+        @media (max-width: 600px) {
+            .pyramid-level {
+                width: 90% !important;
+            }
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(15, 15, 26, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-cyber);
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 4%;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .quote-block {
+                padding: 1.5rem;
+            }
+
+            .nav-controls {
+                bottom: 1rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .nav-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Vertical List with Numbers */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+        }
+
+        .numbered-list li {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .numbered-list li::before {
+            counter-increment: item;
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--gradient-cyber);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(0, 212, 255, 0.15) 100%);
+            border: 2px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .formula-text {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 600;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        /* Icon Circle */
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Feature Cards */
+        .feature-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active">
+            <div class="title-container">
+                <div class="topic-badge">AI Business Strategy</div>
+                <div class="title-en">UNBUNDLE & REBUNDLE</div>
+                <h1 class="main-title">解绑与重组</h1>
+                <p class="subtitle">AI时代的商业新范式</p>
+                <div class="keyword-tags">
+                    <span class="keyword-tag">模块化能力</span>
+                    <span class="keyword-tag">价值重组</span>
+                    <span class="keyword-tag">指数增长</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Core Insight -->
+        <div class="slide slide-content">
+            <span class="section-label">核心洞察</span>
+            <h2 class="slide-heading">当能力可以被<span class="highlight-cyan">无限拆解</span>，<br>价值就在<span class="highlight-orange">重新组合</span>中诞生</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <div class="quote-block">
+                        <p class="quote-text">"在能力被极度拆解的世界里，通过rebundle解决复杂问题的人将拥有前所未有的杠杆"</p>
+                    </div>
+                    <p>这是AI时代最大的商业红利。</p>
+                </div>
+                <div class="column-content">
+                    <h3>两个核心动作</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Unbundle（解绑）</strong>：将产品/服务拆解成最小可用单元</li>
+                        <li><strong>Rebundle（重组）</strong>：以创新方式重新组合，创造新价值</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem; color: var(--accent-warm);">单点AI工具的窗口期很短暂 —— 必须迅速证明价值，否则被并购或淘汰。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Grammarly Case -->
+        <div class="slide slide-content">
+            <span class="section-label">战略案例</span>
+            <h2 class="slide-heading">Grammarly的<span class="highlight-purple">战略转向</span></h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-warm);">M&A</div>
+                    <h3 class="card-title">并购动作</h3>
+                    <p class="card-desc">收购Coda（协作文档）和Superhuman（邮件客户端），改组为Superhuman集团</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-cyber);">AI</div>
+                    <h3 class="card-title">战略升级</h3>
+                    <p class="card-desc">从单点语法工具 → Agent平台，让AI服务无缝嵌入各类应用</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-deep);">+</div>
+                    <h3 class="card-title">目标愿景</h3>
+                    <p class="card-desc">不只是"写得更好"，而是成为用户数字生活的核心目的地</p>
+                </div>
+            </div>
+
+            <div class="quote-block warm" style="margin-top: 2rem;">
+                <p class="quote-text">"有护城河，但没有城堡"</p>
+                <p class="quote-source">——分发能力强（浏览器插件覆盖广），但缺乏用户真正停留的核心场景</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Moat without Castle -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">战略洞察</span>
+            <div class="icon-circle" style="background: var(--gradient-warm);">🏰</div>
+            <h2 class="slide-heading" style="margin-bottom: 1rem;">"有护城河，但没城堡"</h2>
+            <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 3rem;">Grammarly拥有强大的分发能力，却没有用户真正停留的目的地</p>
+
+            <div class="comparison">
+                <div class="comparison-side before">
+                    <h4 class="comparison-title" style="color: var(--text-muted);">❌ 单点工具困境</h4>
+                    <ul class="bullet-list">
+                        <li>用户用完即走</li>
+                        <li>价值感知弱</li>
+                        <li>易被替代</li>
+                        <li>难以涨价</li>
+                    </ul>
+                </div>
+                <div class="comparison-side after">
+                    <h4 class="comparison-title" style="color: var(--emerald);">✓ 目的地平台</h4>
+                    <ul class="bullet-list">
+                        <li>用户主动停留</li>
+                        <li>场景深度绑定</li>
+                        <li>网络效应</li>
+                        <li>定价权增强</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Bundle Theory -->
+        <div class="slide slide-content">
+            <span class="section-label">理论框架</span>
+            <h2 class="slide-heading">Bundle的<span class="highlight-gold">核心逻辑</span></h2>
+
+            <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;">如何将多个产品/服务打包成一个更有吸引力的组合？</p>
+
+            <div class="formula-box">
+                <p class="formula-text">最好的Bundle = <span class="highlight-cyan">刚需用户尽可能错开</span> + <span class="highlight-orange">非刚需用户尽可能重叠</span></p>
+            </div>
+
+            <div class="two-column" style="margin-top: 2rem;">
+                <div class="column-content">
+                    <h3>为什么这个原则有效？</h3>
+                    <ul class="bullet-list">
+                        <li><strong>刚需错开</strong>：每个人都因为不同的刚需被吸引进来，扩大用户基数</li>
+                        <li><strong>非刚需重叠</strong>：用户进来后发现还有其他有价值的东西，提升整体价值感知</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>经典案例：有线电视</h3>
+                    <p>ESPN对体育迷是刚需，HBO对剧迷是刚需，Discovery对纪录片爱好者是刚需...</p>
+                    <p style="color: var(--accent); margin-top: 1rem;">每个人为自己的刚需付费，却得到了整个包的内容。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: User Classification -->
+        <div class="slide slide-content">
+            <span class="section-label">用户分析</span>
+            <h2 class="slide-heading">用户<span class="highlight-cyan">三分法</span></h2>
+
+            <div class="card-grid card-grid-3">
+                <div class="card" style="border-top: 3px solid var(--emerald);">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #10b981 0%, #34d399 100%);">💰</div>
+                    <h3 class="card-title">刚需用户</h3>
+                    <p class="card-desc">无论如何都会购买<br><br>• 高支付意愿<br>• 价格敏感度低<br>• 核心用户群</p>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--gold);">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">🤔</div>
+                    <h3 class="card-title">非刚需用户</h3>
+                    <p class="card-desc">感兴趣但不愿全价<br><br>• 有购买意愿<br>• 价格敏感度高<br>• Bundle主要目标</p>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--text-muted);">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);">✖</div>
+                    <h3 class="card-title">无关用户</h3>
+                    <p class="card-desc">完全不感兴趣<br><br>• 无购买意愿<br>• 不应追求<br>• 避免资源浪费</p>
+                </div>
+            </div>
+
+            <div class="quote-block" style="margin-top: 2rem;">
+                <p class="quote-text">Bundle的艺术在于：让每个用户都觉得自己"赚到了"</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Bundle Principle -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">核心原则</span>
+            <h2 class="mega-quote" style="margin-bottom: 3rem;">
+                "<span class="highlight-cyan">刚需错开</span>，<span class="highlight-orange">非刚需重叠</span>"
+            </h2>
+
+            <div class="feature-row">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">刚需错开</div>
+                    <div class="feature-desc">不同用户被不同产品吸引入场</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-title">非刚需重叠</div>
+                    <div class="feature-desc">进来后发现还有更多价值</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <div class="feature-title">整体提升</div>
+                    <div class="feature-desc">用户量与价值感知同时增长</div>
+                </div>
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 1rem; margin-top: 2rem;">这解释了为什么"大而全"的平台往往能击败"小而精"的单点工具</p>
+        </div>
+
+        <!-- Slide 8: MCC Pricing -->
+        <div class="slide slide-content">
+            <span class="section-label">定价逻辑</span>
+            <h2 class="slide-heading"><span class="highlight-purple">MCC</span>：边际流失贡献</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>什么是MCC？</h3>
+                    <p><strong>Marginal Churn Contribution</strong></p>
+                    <p>衡量某个功能/服务被移除时，会导致多少用户流失</p>
+
+                    <div class="quote-block" style="margin-top: 1.5rem;">
+                        <p class="quote-text">定价不应基于使用量，而应基于"失去它的代价"</p>
+                    </div>
+                </div>
+                <div class="column-content">
+                    <h3>MCC vs 传统定价</h3>
+                    <div class="comparison" style="grid-template-columns: 1fr;">
+                        <div class="comparison-side before" style="margin-bottom: 1rem;">
+                            <h4 class="comparison-title" style="color: var(--text-muted);">传统：按使用量</h4>
+                            <p style="color: var(--text-muted);">用得多付得多，看起来"公平"，但忽略了真实价值</p>
+                        </div>
+                        <div class="comparison-side after">
+                            <h4 class="comparison-title" style="color: var(--emerald);">MCC：按依赖度</h4>
+                            <p style="color: var(--text-muted);">离不开的功能价值更高，即使使用频率低</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Container Revolution -->
+        <div class="slide slide-content">
+            <span class="section-label">历史类比</span>
+            <h2 class="slide-heading"><span class="highlight-gold">集装箱革命</span>的启示</h2>
+
+            <div class="flow-diagram">
+                <div class="flow-item">
+                    <div style="font-size: 1.5rem;">📦</div>
+                    <div style="margin-top: 0.5rem;">标准化</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.5rem;">🔓</div>
+                    <div style="margin-top: 0.5rem;">供应链解绑</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.5rem;">🔧</div>
+                    <div style="margin-top: 0.5rem;">局部创新</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.5rem;">🚀</div>
+                    <div style="margin-top: 0.5rem;">指数增长</div>
+                </div>
+            </div>
+
+            <div class="two-column" style="margin-top: 2rem;">
+                <div class="column-content">
+                    <h3>集装箱的革命</h3>
+                    <ul class="bullet-list">
+                        <li>标准化接口，任何货物都能装</li>
+                        <li>生产与运输解绑</li>
+                        <li>各环节可独立优化</li>
+                        <li>全球供应链成为可能</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>AI的类似革命</h3>
+                    <ul class="bullet-list">
+                        <li>知识能力模块化</li>
+                        <li>能力与应用解绑</li>
+                        <li>分形式增长成为可能</li>
+                        <li>任何人可组合出新产品</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Bundle Evolution -->
+        <div class="slide slide-content">
+            <span class="section-label">演进路径</span>
+            <h2 class="slide-heading">三层Bundle<span class="highlight-cyan">演进</span>：Spotify案例</h2>
+
+            <div class="pyramid">
+                <div class="pyramid-level">跨界组合（播客+音乐+有声书）</div>
+                <div class="pyramid-level">音频包（曲库订阅）</div>
+                <div class="pyramid-level">单曲销售</div>
+            </div>
+
+            <div class="timeline" style="margin-top: 3rem;">
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Layer 1: 单曲 → 曲库</h4>
+                    <p class="timeline-desc">从买单首歌到订阅整个音乐库，用户获得"无限"选择</p>
+                </div>
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Layer 2: 曲库 → 音频包</h4>
+                    <p class="timeline-desc">加入播客、有声书，从"听歌"变成"听一切"</p>
+                </div>
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Layer 3: 音频包 → 生态组合</h4>
+                    <p class="timeline-desc">与视频、社交、健身等跨界融合，成为生活方式平台</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Future Career -->
+        <div class="slide slide-content">
+            <span class="section-label">未来趋势</span>
+            <h2 class="slide-heading">职业形态的<span class="highlight-orange">重构</span></h2>
+
+            <div class="flow-diagram">
+                <div class="flow-item" style="background: rgba(100,100,100,0.2);">
+                    <div style="font-weight: 600;">固定职业</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">一份工作一辈子</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item" style="background: rgba(251,191,36,0.15);">
+                    <div style="font-weight: 600;">项目制组合</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">多重身份并行</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item" style="background: rgba(0,212,255,0.15);">
+                    <div style="font-weight: 600;">能力向量化</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">技能模块自由匹配</div>
+                </div>
+            </div>
+
+            <div class="card-grid" style="margin-top: 2rem;">
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--accent);">个人能力解绑</h3>
+                    <p class="card-desc">你的技能不再绑定在一个职位上，而是被拆解成可组合的模块：写作能力、分析能力、沟通能力...</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--gold);">AI增强匹配</h3>
+                    <p class="card-desc">AI可以更精准地匹配人与机会，让"能力向量"与"需求向量"实现最优配对</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--emerald);">价值创造新方式</h3>
+                    <p class="card-desc">不是"我是什么"，而是"我能组合出什么"——职业身份的流动化</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Core Conclusion -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">核心结论</span>
+            <div class="icon-circle" style="background: var(--gradient-cyber);">⚡</div>
+            <h2 class="mega-quote">
+                在能力被<span class="highlight-cyan">极度拆解</span>的世界里，<br>
+                通过<span class="highlight-orange">rebundle</span>解决复杂问题的人<br>
+                将拥有<span class="highlight-purple">前所未有的杠杆</span>
+            </h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 2rem;">这是AI时代最大的商业红利</p>
+        </div>
+
+        <!-- Slide 13: Summary -->
+        <div class="slide slide-content">
+            <span class="section-label">要点回顾</span>
+            <h2 class="slide-heading">关键<span class="highlight-gold">Takeaways</span></h2>
+
+            <ol class="numbered-list">
+                <li>
+                    <strong>Unbundle的窗口期短暂</strong><br>
+                    <span style="color: var(--text-muted);">单点AI工具必须迅速证明价值，否则面临被并购或淘汰</span>
+                </li>
+                <li>
+                    <strong>Bundle策略的核心</strong><br>
+                    <span style="color: var(--text-muted);">刚需用户尽可能错开，非刚需用户尽可能重叠</span>
+                </li>
+                <li>
+                    <strong>定价基于MCC而非使用量</strong><br>
+                    <span style="color: var(--text-muted);">衡量"失去它的代价"而非"使用它的频率"</span>
+                </li>
+                <li>
+                    <strong>AI如同集装箱革命</strong><br>
+                    <span style="color: var(--text-muted);">知识能力模块化 → 全球流动 → 分形式增长</span>
+                </li>
+                <li>
+                    <strong>个人职业的重构</strong><br>
+                    <span style="color: var(--text-muted);">从固定身份到能力向量化匹配</span>
+                </li>
+            </ol>
+
+            <div class="formula-box" style="margin-top: 2rem;">
+                <p class="formula-text">🎯 行动指南：找到你能独特组合的能力模块，创造不可替代的价值</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" aria-label="上一页">←</button>
+        <span class="page-indicator" id="pageIndicator">1 / 13</span>
+        <button class="nav-btn" id="nextBtn" aria-label="下一页">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            pageIndicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Touch support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Click to advance (optional)
+        document.querySelector('.presentation').addEventListener('click', (e) => {
+            if (e.target.closest('.nav-controls') || e.target.closest('a') || e.target.closest('button')) {
+                return;
+            }
+            const clickX = e.clientX;
+            const windowWidth = window.innerWidth;
+            if (clickX > windowWidth * 0.7) {
+                nextSlide();
+            } else if (clickX < windowWidth * 0.3) {
+                prevSlide();
+            }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
