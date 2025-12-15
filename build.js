@@ -64,7 +64,9 @@ function scanPPTs() {
 
         // 提取额外信息
         const author = extractAuthor(content);
-        const slideCount = (content.match(/class="slide[^"]*"/g) || []).length || null;
+        // 匹配主幻灯片：class="slide " 或 class="slide" (独立的slide类)
+        const slideMatches = content.match(/class="slide[\s"]/g) || [];
+        const slideCount = slideMatches.length || null;
 
         ppts.push({
           ...parsed,
@@ -103,7 +105,6 @@ function generateHTML(ppts) {
           <div class="ppt-meta">
             <span class="ppt-category-tag">${ppt.category}</span>
             ${authorHtml}
-            <span class="ppt-meta-item">${ppt.size}</span>
             ${slideHtml}
             <span class="ppt-meta-item ppt-date">${ppt.mtimeFormatted}</span>
           </div>
