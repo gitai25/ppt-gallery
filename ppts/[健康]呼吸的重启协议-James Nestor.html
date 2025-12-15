@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呼吸的重启协议 | James Nestor 深度解析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #38b2ac;
+            --accent-light: #81e6d9;
+            --warm: #ed8936;
+            --warm-light: #fbd38d;
+            --text: #2d3748;
+            --text-light: #718096;
+            --bg: #f7fafc;
+            --white: #ffffff;
+            --gradient-breath: linear-gradient(135deg, #667eea 0%, #38b2ac 100%);
+            --gradient-warm: linear-gradient(135deg, #ed8936 0%, #f6ad55 100%);
+            --gradient-deep: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 6%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Cover Slide */
+        .slide-cover {
+            background: var(--gradient-deep);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .slide-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338b2ac' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: rgba(56, 178, 172, 0.3);
+            color: var(--accent-light);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(56, 178, 172, 0.5);
+        }
+
+        .cover-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--accent-light);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cover-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .cover-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breath-animation {
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            animation: breathe 4s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(0.8); opacity: 0.4; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Section Title Slides */
+        .slide-section {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .section-number {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--accent);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .section-desc {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Slides */
+        .slide-content {
+            background: var(--white);
+        }
+
+        .slide-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .slide-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.3rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-tag.warm { background: var(--warm); }
+        .slide-tag.deep { background: var(--primary); }
+
+        .slide-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--primary);
+            line-height: 1.3;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .content-card {
+            background: var(--bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .content-card.highlight {
+            background: linear-gradient(135deg, rgba(56,178,172,0.1) 0%, rgba(102,126,234,0.1) 100%);
+            border-left-color: var(--warm);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-text {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Quote Style */
+        .quote-block {
+            background: var(--gradient-breath);
+            color: var(--white);
+            padding: 3rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .quote-block::before {
+            content: '"';
+            font-size: 6rem;
+            position: absolute;
+            top: -1rem;
+            left: 1rem;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .quote-text {
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-author {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg);
+            border-radius: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 280px;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-breath);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Warning/Alert Box */
+        .alert-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left: 4px solid #e53e3e;
+            padding: 1.5rem 2rem;
+            border-radius: 0 1rem 1rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .alert-title {
+            color: #c53030;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 1rem 1rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .insight-title {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* List Styles */
+        .styled-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .styled-list li {
+            padding: 1rem 0 1rem 2.5rem;
+            position: relative;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .styled-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Comparison Table */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .compare-table th {
+            background: var(--gradient-deep);
+            color: var(--white);
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        .compare-table td {
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: var(--white);
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 1.8rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-4.5px);
+        }
+
+        .timeline-date {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .timeline-content {
+            margin-top: 0.5rem;
+        }
+
+        /* Tool Card */
+        .tool-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .tool-info h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .tool-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Protocol Box */
+        .protocol-box {
+            background: var(--white);
+            border: 2px solid var(--accent);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .protocol-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .protocol-steps {
+            counter-reset: step;
+        }
+
+        .protocol-steps li {
+            counter-increment: step;
+            padding: 0.8rem 0 0.8rem 3rem;
+            position: relative;
+        }
+
+        .protocol-steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .nav-progress {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .progress-bar {
+            width: 150px;
+            height: 4px;
+            background: var(--bg);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-breath);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        .slide-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 6%;
+            right: 6%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Special Slides */
+        .slide-dark {
+            background: var(--gradient-deep);
+            color: var(--white);
+        }
+
+        .slide-dark .slide-title {
+            color: var(--white);
+        }
+
+        .slide-dark .card-title {
+            color: var(--accent-light);
+        }
+
+        .slide-dark .card-text {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .slide-dark .content-card {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--accent-light);
+        }
+
+        /* Highlight Text */
+        .highlight-text {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .highlight-warm {
+            color: var(--warm);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 5rem 5% 3rem;
+            }
+
+            .nav-bar {
+                padding: 0.8rem 1rem;
+            }
+
+            .progress-bar {
+                width: 80px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cover-meta {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .quote-block {
+                padding: 2rem 1.5rem;
+            }
+
+            .quote-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Touch hints for mobile */
+        .touch-hint {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .touch-hint {
+                display: block;
+            }
+        }
+
+        /* Keyboard hints */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .keyboard-hint.visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .keyboard-hint {
+                display: none;
+            }
+        }
+
+        /* Emphasis box */
+        .emphasis-box {
+            background: linear-gradient(135deg, var(--accent) 0%, #667eea 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .emphasis-large {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .emphasis-sub {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-title">呼吸的重启协议</div>
+        <div class="nav-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">20</span></span>
+        </div>
+    </nav>
+
+    <div class="keyboard-hint" id="keyboardHint">
+        ← → 或 ↑ ↓ 切换页面 | 滚轮翻页
+    </div>
+
+    <!-- Slide 1: Cover -->
+    <section class="slide slide-cover" id="slide-1">
+        <div class="cover-content">
+            <span class="cover-badge">Tim Ferriss Show #829</span>
+            <div class="breath-animation"></div>
+            <h1 class="cover-title">呼吸的重启协议</h1>
+            <p class="cover-subtitle">重塑健康、修复睡眠、提升表现的呼吸科学</p>
+            <div class="cover-meta">
+                <span>🎙️ James Nestor</span>
+                <span>📖 《Breath》作者 | 300万+销量</span>
+                <span>⏱️ 1h 50min 深度解析</span>
+            </div>
+        </div>
+        <div class="touch-hint">↓ 向下滑动或点击继续</div>
+    </section>
+
+    <!-- Slide 2: Opening Context -->
+    <section class="slide slide-content" id="slide-2">
+        <div class="slide-header">
+            <span class="slide-tag">背景</span>
+            <h2 class="slide-title">为什么Tim等了5年才做这期访谈？</h2>
+        </div>
+        
+        <div class="quote-block">
+            <p class="quote-text">这本书从20多个不同方向向我袭来——从朋友、运动员、医生……我想让它先慢慢渗透全球，然后再回来谈那些真正沉淀下来的东西。</p>
+            <p class="quote-author">— Tim Ferriss</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">📚</div>
+                <h3 class="card-title">《Breath》的影响力</h3>
+                <p class="card-text">美国记者与作家协会最佳非虚构类书籍，皇家学会年度科学图书决赛入围，44种语言全球发行</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🔬</div>
+                <h3 class="card-title">持续的研究旅程</h3>
+                <p class="card-text">Nestor在书出版后继续深入研究，与更多研究者、医生交流，发现了更多关键洞察</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Section - Origins -->
+    <section class="slide slide-section" id="slide-3">
+        <span class="section-number">01</span>
+        <h2 class="section-title">被遗忘的先驱</h2>
+        <p class="section-desc">在Wim Hof之前，有一位90岁的法国老人已经实践了60年</p>
+    </section>
+
+    <!-- Slide 4: Maurice Dub Story -->
+    <section class="slide slide-content" id="slide-4">
+        <div class="slide-header">
+            <span class="slide-tag">案例</span>
+            <h2 class="slide-title">Maurice Dub：呼吸重生的传奇</h2>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-date">童年</span>
+                        <div class="timeline-content">严重肺部感染，预定接受肺叶切除手术</div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">转折点</span>
+                        <div class="timeline-content">传教士教他"瑜伽呼吸法"，他请求延迟手术几周自我康复</div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">1950年代</span>
+                        <div class="timeline-content">不仅康复，还获得了"超人般的力量"</div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">71岁</span>
+                        <div class="timeline-content">在5000米海拔骑行穿越喜马拉雅</div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">晚年</span>
+                        <div class="timeline-content">每天在法国阿尔卑斯山的冰湖中游泳数小时，直到93岁去世</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">55</div>
+                        <div class="stat-label">分钟冰水浸泡</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">150</div>
+                        <div class="stat-label">英里撒哈拉沙漠跑步</div>
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">💡 关键洞察</div>
+                    <p>这些"超人"能力不是天赋——是可以<strong>学习的机械技能</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Tummo -->
+    <section class="slide slide-content" id="slide-5">
+        <div class="slide-header">
+            <span class="slide-tag">技术</span>
+            <h2 class="slide-title">Tummo：产热呼吸法的两种版本</h2>
+        </div>
+
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>维度</th>
+                    <th>传统Tummo（苯教）</th>
+                    <th>商业版/Wim Hof式</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>呼吸节奏</strong></td>
+                    <td>非常缓慢</td>
+                    <td>极度强烈的过度换气</td>
+                </tr>
+                <tr>
+                    <td><strong>核心机制</strong></td>
+                    <td>降低代谢，体温却上升（违反常理）</td>
+                    <td>30次深呼吸 → 屏息 → 吸气憋住30秒 → 循环</td>
+                </tr>
+                <tr>
+                    <td><strong>进阶技术</strong></td>
+                    <td>需要与苯教僧侣学习10年+</td>
+                    <td>吸气憋住时，横膈膜如活塞般产生压力</td>
+                </tr>
+                <tr>
+                    <td><strong>可学性</strong></td>
+                    <td>极难获得真传</td>
+                    <td>可通过工作坊快速学习</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert-box">
+            <div class="alert-title">⚠️ 安全警告</div>
+            <p>冷暴露训练有很多冻伤和失去手指脚趾的案例。不要立即赤脚在雪中徒步。<strong>永远不要在水中练习这些呼吸法。</strong></p>
+        </div>
+    </section>
+
+    <!-- Slide 6: Personal Story -->
+    <section class="slide slide-content" id="slide-6">
+        <div class="slide-header">
+            <span class="slide-tag warm">转折</span>
+            <h2 class="slide-title">James的呼吸觉醒之路</h2>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">😷</div>
+                <h3 class="card-title">问题：所有健康基础都到位了</h3>
+                <p class="card-text">12年前，饮食、睡眠8小时、持续锻炼——但慢性呼吸问题不断：肺炎、支气管炎，夜间能听到自己呼吸的声音</p>
+            </div>
+            <div class="content-card highlight">
+                <div class="card-icon">✨</div>
+                <h3 class="card-title">转机：Sudarshan Kriya</h3>
+                <p class="card-text">Art of Living周末工作坊。练习时汗水浸透了衬衫、袜子、牛仔裤，头发湿透——只是坐在阴冷的房间角落呼吸</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🎯</div>
+                <h3 class="card-title">结果：从此再无呼吸问题</h3>
+                <p class="card-text">"我意识到身体里还有什么东西被锁住需要释放。这不是安慰剂，是真实的生理反应，有可测量的科学。"</p>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">💡 核心洞察</div>
+            <p>呼吸是<strong>自主神经与意识控制的交界面</strong>——一个可以主动操控自动功能的API接口</p>
+        </div>
+    </section>
+
+    <!-- Slide 7: Section - ADHD -->
+    <section class="slide slide-section" id="slide-7">
+        <span class="section-number">02</span>
+        <h2 class="section-title">颠覆性发现</h2>
+        <p class="section-desc">ADHD可能不存在——你看到的是睡眠剥夺的孩子</p>
+    </section>
+
+    <!-- Slide 8: ADHD Connection -->
+    <section class="slide slide-dark" id="slide-8">
+        <div class="slide-header">
+            <span class="slide-tag">研究</span>
+            <h2 class="slide-title">ADHD与睡眠呼吸障碍：几乎完全重叠的韦恩图</h2>
+        </div>
+
+        <div class="emphasis-box">
+            <div class="emphasis-large">≈ 完全重叠</div>
+            <div class="emphasis-sub">夜间呼吸问题儿童群体 ∩ ADHD诊断儿童群体</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3 class="card-title">研究者的愤怒</h3>
+                <p class="card-text">顶尖机构的医生们已经呼喊多年，但零响应。ADHD儿童从未被评估呼吸，从未被评估睡眠——直接开药了事</p>
+            </div>
+            <div class="content-card">
+                <h3 class="card-title">家长的愤怒</h3>
+                <p class="card-text">每次演讲后都有排队的人：孩子病了3年其实不必要，花费了无数医疗费用，却是从记者的书里才知道真相</p>
+            </div>
+            <div class="content-card">
+                <h3 class="card-title">后果链条</h3>
+                <p class="card-text">夜间呼吸障碍 → 抑制身体发育 → 造成神经损伤 → 增加未来糖尿病风险 → 一系列长期健康问题</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Assessment Methods -->
+    <section class="slide slide-content" id="slide-9">
+        <div class="slide-header">
+            <span class="slide-tag">实操</span>
+            <h2 class="slide-title">居家评估：你的孩子有呼吸问题吗？</h2>
+        </div>
+
+        <div class="protocol-box">
+            <div class="protocol-title">🔍 三步自检法</div>
+            <ol class="protocol-steps">
+                <li><strong>白天观察</strong>：孩子是否经常用嘴呼吸？不需要50%的时间，只要你能注意到就算</li>
+                <li><strong>夜间监听</strong>：等孩子入睡后悄悄进入房间。如果你能听到呼吸声，他们正在挣扎；如果嘴巴张开，他们正在挣扎；如果打鼾或有呼吸暂停，情况严重</li>
+                <li><strong>APP记录</strong>：使用 <strong>SnoreLab</strong> 或 <strong>SnoreClock</strong>（免费），放在距离睡眠者约4英尺处，整夜录音并生成睡眠评分图</li>
+            </ol>
+        </div>
+
+        <div class="alert-box">
+            <div class="alert-title">⚠️ 避开传统路径的陷阱</div>
+            <p>传统路径：睡眠实验室 → 因睡不着给安眠药 → 安眠药影响呼吸数据 → 诊断睡眠呼吸障碍 → 开CPAP → <strong>50%的人8周内放弃使用</strong></p>
+        </div>
+    </section>
+
+    <!-- Slide 10: Mouth Tape -->
+    <section class="slide slide-content" id="slide-10">
+        <div class="slide-header">
+            <span class="slide-tag">工具</span>
+            <h2 class="slide-title">口贴：James坚持7年的睡眠游戏规则改变者</h2>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">为什么口贴有效？</h3>
+                <ul class="styled-list">
+                    <li>鼻呼吸 = 正确呼吸 = 更高效的氧气利用</li>
+                    <li>口呼吸 = 挣扎呼吸 = 睡眠质量下降</li>
+                    <li>嘴闭合时：打鼾减少、睡眠更深、恢复更好</li>
+                </ul>
+
+                <div class="protocol-box" style="margin-top: 1.5rem;">
+                    <div class="protocol-title">📈 渐进适应协议</div>
+                    <ol class="protocol-steps">
+                        <li>白天戴10分钟处理邮件</li>
+                        <li>第二天20分钟</li>
+                        <li>两周后：午睡15分钟</li>
+                        <li>最终：整夜使用</li>
+                    </ol>
+                </div>
+            </div>
+            <div>
+                <div class="tool-card">
+                    <div class="tool-icon">🩹</div>
+                    <div class="tool-info">
+                        <h4>普通微孔胶带</h4>
+                        <p>药店30种任选一种，只需要嘴唇上一小条——不是绑架式的封住整个嘴</p>
+                    </div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">👶</div>
+                    <div class="tool-info">
+                        <h4>MyoTape（适合儿童）</h4>
+                        <p>Patrick McKeown开发，环绕嘴唇外围而非贴在嘴上，可以说话，只是温柔提醒闭嘴</p>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">💡 家长反馈</div>
+                    <p>10-11岁还在尿床的孩子转为鼻呼吸后<strong>停止尿床</strong>；ADHD症状在<strong>两周内消失</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Section - CO2 -->
+    <section class="slide slide-section" id="slide-11">
+        <span class="section-number">03</span>
+        <h2 class="section-title">你呼吸的空气</h2>
+        <p class="section-desc">室内CO2：被忽视的认知杀手</p>
+    </section>
+
+    <!-- Slide 12: CO2 Science -->
+    <section class="slide slide-content" id="slide-12">
+        <div class="slide-header">
+            <span class="slide-tag deep">数据</span>
+            <h2 class="slide-title">CO2浓度与认知功能：30-40年的政府研究</h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">424</div>
+                <div class="stat-label">ppm · 室外基准</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1000</div>
+                <div class="stat-label">ppm · 开始感觉闷</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1500</div>
+                <div class="stat-label">ppm · 认知测试下降50%</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2500</div>
+                <div class="stat-label">ppm · 头痛、慢性偏头痛</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card highlight">
+                <h3 class="card-title">✈️ 飞机上的真相</h3>
+                <p class="card-text">登机后所有人开始昏昏欲睡——不是因为累，而是CO2达到约<strong>2500 ppm</strong>。James记录的每一趟航班都超过1000 ppm</p>
+            </div>
+            <div class="content-card highlight">
+                <h3 class="card-title">🏨 酒店的悖论</h3>
+                <p class="card-text">LEED认证、绿色认证、最贵的酒店空气质量<strong>最差</strong>——为省空调费循环所有房间的废气。曾记录到<strong>2800 ppm</strong></p>
+            </div>
+        </div>
+
+        <div class="tool-card" style="margin-top: 1.5rem;">
+            <div class="tool-icon">📊</div>
+            <div class="tool-info">
+                <h4>推荐设备：Aranet 4</h4>
+                <p>测试了10种CO2监测器对比专业设备，Amazon上大多数都是垃圾。Aranet 4最准确，电池续航3-4个月</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: Travel Kit -->
+    <section class="slide slide-content" id="slide-13">
+        <div class="slide-header">
+            <span class="slide-tag">装备</span>
+            <h2 class="slide-title">James的旅行生存包：一年100天在路上</h2>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">💤</div>
+                <h3 class="card-title">睡眠优化</h3>
+                <p class="card-text">口贴（最关键，忘带会半夜12:30找便利店）<br>红色小夜灯×2（可调光）<br>红色LED灯泡（塑料外壳便于携带）</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🌡️</div>
+                <h3 class="card-title">环境控制</h3>
+                <p class="card-text">CO2监测器<br>预订时确认：窗户能否打开<br>长途飞行后冷水淋浴</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">💊</div>
+                <h3 class="card-title">补剂包</h3>
+                <p class="card-text">大剂量Vitamin D（需配合K2、E、A）<br>CoQ10<br>纳豆激酶<br>"Granny药盒"强烈推荐</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">⚡</div>
+                <h3 class="card-title">实验性设备</h3>
+                <p class="card-text">频率治疗设备（苏联时期技术）<br>40+预设程序：接地、脑波、心血管、呼吸<br>"正在收集数据验证，但效果显著"</p>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">💡 酒店预订技巧</div>
+            <p>让助理打电话问："请问窗户能打开吗？哪怕只是一点点？"——选择能开窗的酒店</p>
+        </div>
+    </section>
+
+    <!-- Slide 14: Section - Athletes -->
+    <section class="slide slide-section" id="slide-14">
+        <span class="section-number">04</span>
+        <h2 class="section-title">运动员的呼吸优化</h2>
+        <p class="section-desc">精英教练的第一优先级：呼吸重训</p>
+    </section>
+
+    <!-- Slide 15: Athletic Breathing -->
+    <section class="slide slide-content" id="slide-15">
+        <div class="slide-header">
+            <span class="slide-tag">训练</span>
+            <h2 class="slide-title">运动员呼吸的反直觉真相</h2>
+        </div>
+
+        <div class="quote-block">
+            <p class="quote-text">你以为运动员会是世界上最好的呼吸者？他们绝对不是。他们和普通人一样功能障碍——只是学会了忍受痛苦来赢得比赛。</p>
+            <p class="quote-author">— James Nestor</p>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">核心问题：横膈膜失联</h3>
+                <p>大多数运动员只用胸部呼吸，横膈膜几乎不动</p>
+                <ul class="styled-list">
+                    <li>胸式呼吸 = 每次只吸一点点</li>
+                    <li>需要呼吸40-100次/分钟</li>
+                    <li>心率飙升，耐力下降</li>
+                    <li>恢复时间延长</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">正确方式：横膈膜呼吸</h3>
+                <p>横膈膜是肺下方的肌肉器官</p>
+                <ul class="styled-list">
+                    <li>吸气时横膈膜下降</li>
+                    <li>呼气时横膈膜放松上升</li>
+                    <li>每分钟10-20次 vs 40-100次</li>
+                    <li>心率下降 + HRV上升</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">💡 LeBron的赛间呼吸</div>
+            <p>注意看LeBron在比赛间隙做什么——<strong>放大呼吸法</strong>、<strong>交替鼻孔呼吸</strong>，你可以看到他的横膈膜运动</p>
+        </div>
+    </section>
+
+    <!-- Slide 16: BOLT Test -->
+    <section class="slide slide-content" id="slide-16">
+        <div class="slide-header">
+            <span class="slide-tag">测试</span>
+            <h2 class="slide-title">BOLT测试：身体氧气水平的简易评估</h2>
+        </div>
+
+        <div class="protocol-box">
+            <div class="protocol-title">🎯 Body Oxygen Level Test 操作步骤</div>
+            <ol class="protocol-steps">
+                <li>放松肩膀，放松眉间，放松舌头</li>
+                <li>通过鼻子平静呼吸：吸气…呼气</li>
+                <li>再做两次：吸气…呼气…吸气…呼气</li>
+                <li>让最后一口气自然呼出，<strong>在呼气末端</strong>捏住鼻子</li>
+                <li>开始计时，直到你感到<strong>第一次想呼吸的冲动</strong>——横膈膜抖动、吞咽、任何微弱的想呼吸感觉</li>
+                <li>停止计时，这就是你的BOLT分数</li>
+            </ol>
+        </div>
+
+        <div class="alert-box">
+            <div class="alert-title">⚠️ 不是比赛！</div>
+            <p>不要作弊：不是Laird Hamilton式的憋到极限。正常呼吸，正常呼出，只测量第一次想呼吸的时间</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3 class="card-title">分数解读</h3>
+                <p class="card-text">更高的分数 = 更好的CO2耐受性 = 更高效的呼吸。专注呼吸训练1-2周后，分数通常翻倍</p>
+            </div>
+            <div class="content-card">
+                <h3 class="card-title">变量影响</h3>
+                <p class="card-text">疲劳、长途飞行、压力 → 分数下降<br>休息良好、状态好 → 分数可能是平时的3倍</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 17: Breathing Devices -->
+    <section class="slide slide-content" id="slide-17">
+        <div class="slide-header">
+            <span class="slide-tag">设备</span>
+            <h2 class="slide-title">呼吸阻力训练设备</h2>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">原理：棒球棒上的甜甜圈</h3>
+                <p>像在球棒上套重物——挥几下后取下，球棒变得轻盈。呼吸设备创造额外阻力，帮助建立更好的肌肉记忆</p>
+                
+                <div class="tool-card" style="margin-top: 1.5rem;">
+                    <div class="tool-icon">🍼</div>
+                    <div class="tool-info">
+                        <h4>Relaxator（瑞典设计）</h4>
+                        <p>Anders Olsson开发，可放入口袋，像"成人奶嘴"——专注工作4小时时含在嘴里，延长呼气</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">使用场景：Email Apnea</h3>
+                <p>NIH研究了20年的现象：专注时呼吸会出问题——屏息、浅呼吸、血压上升、头痛</p>
+
+                <div class="protocol-box" style="margin-top: 1rem;">
+                    <div class="protocol-title">📧 专注工作时的呼吸方案</div>
+                    <ol class="protocol-steps">
+                        <li>含住Relaxator或简单的吸管</li>
+                        <li>提醒身体保持呼吸节奏</li>
+                        <li>呼气是吸气的2倍长</li>
+                        <li>进入副交感神经状态</li>
+                    </ol>
+                </div>
+
+                <div class="alert-box">
+                    <div class="alert-title">⚠️ 背部疼痛警告</div>
+                    <p>如果用圆背姿势做呼吸训练，你会感到像做了6小时硬拉一样的背部酸痛——从低剂量开始</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 18: Section - Sleep -->
+    <section class="slide slide-section" id="slide-18">
+        <span class="section-number">05</span>
+        <h2 class="section-title">睡眠优化实战</h2>
+        <p class="section-desc">从呼吸角度重塑睡眠质量</p>
+    </section>
+
+    <!-- Slide 19: Sleep Protocol -->
+    <section class="slide slide-content" id="slide-19">
+        <div class="slide-header">
+            <span class="slide-tag warm">实操</span>
+            <h2 class="slide-title">James的完整睡眠优化协议</h2>
+        </div>
+
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-title">评估阶段</div>
+                <div class="step-desc">SnoreLab记录一周<br>佩戴血氧监测设备<br>收集基线数据</div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-title">鼻呼吸训练</div>
+                <div class="step-desc">白天开始<br>渐进使用口贴<br>确认不打鼾不口呼吸</div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-title">睡姿调整</div>
+                <div class="step-desc">侧卧优于仰卧<br>T恤背后贴乒乓球<br>自动提醒翻身</div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-title">进阶优化</div>
+                <div class="step-desc">床头抬高6英寸<br>（倾斜床疗法）<br>持续监测调整</div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-title">💡 COVID俯卧疗法的启示</div>
+            <p>肺部扩张主要发生在<strong>背部</strong>而非胸前。仰卧时抑制扩张——这就是COVID患者采用俯卧/侧卧能挽救更多生命的原因</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3 class="card-title">生理性 vs 心理性</h3>
+                <p class="card-text">有时睡眠问题是压力导致的（醒来后思绪翻涌）。但先排除生理问题——确保呼吸通畅、流畅、正常后，再深入心理层面</p>
+            </div>
+            <div class="content-card">
+                <h3 class="card-title">乒乓球T恤技巧</h3>
+                <p class="card-text">在T恤背后贴一个乒乓球或袜子——无意识时会因不适而自动翻到侧卧，配合SnoreLab监测效果</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 20: Coherent Breathing -->
+    <section class="slide slide-content" id="slide-20">
+        <div class="slide-header">
+            <span class="slide-tag">科学</span>
+            <h2 class="slide-title">祈祷的呼吸科学：跨文化的共振频率</h2>
+        </div>
+
+        <div class="quote-block">
+            <p class="quote-text">不同文化的祈祷——佛教、锡克教、天主教——都要求在大约5-6秒内呼气。这不是巧合，这是人体设计的最佳效率状态。</p>
+            <p class="quote-author">— James Nestor</p>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">研究发现（意大利，2001）</h3>
+                <ul class="styled-list">
+                    <li>佛教咒语："Om mani padme hum"</li>
+                    <li>锡克教唱诵："Sat Nam"</li>
+                    <li>天主教玫瑰经祈祷循环</li>
+                    <li>所有祈祷都需要约5-6秒呼气 + 5-6秒吸气</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">身体反应</h3>
+                <ul class="styled-list">
+                    <li>心率变异性（HRV）飙升</li>
+                    <li>血压下降</li>
+                    <li>大脑氧气增加</li>
+                    <li>所有身体系统进入<strong>相干状态</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="protocol-box">
+            <div class="protocol-title">🧘 Coherent Breathing 协议</div>
+            <ol class="protocol-steps">
+                <li>不需要祈祷，只需要呼吸</li>
+                <li>吸气5-6秒</li>
+                <li>呼气5-6秒</li>
+                <li>用HeartMath等设备可实时看到HRV变化</li>
+                <li>几秒钟内感受身体进入峰值效率状态</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Slide 21: Final Message -->
+    <section class="slide slide-dark" id="slide-21">
+        <div class="slide-header">
+            <span class="slide-tag">核心</span>
+            <h2 class="slide-title">James的最终信息：回归基础</h2>
+        </div>
+
+        <div class="quote-block" style="background: rgba(255,255,255,0.1);">
+            <p class="quote-text">呼吸工作坊现在是大生意——有培训、有课程、有时尚、有珠宝。但这一切在某种程度上是在做一个不必要的障碍，让人们觉得呼吸很复杂。实际上，这是每个人与生俱来就拥有的能力。</p>
+            <p class="quote-author">— James Nestor</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3 class="card-title">90%的人有呼吸功能障碍</h3>
+                <p class="card-text">最有帮助的事不是报名高级呼吸课——而是成为一个<strong>正常的呼吸者</strong></p>
+            </div>
+            <div class="content-card">
+                <h3 class="card-title">先基础，后高级</h3>
+                <p class="card-text">很多人上完工作坊，出门还是口呼吸、还在打鼾。这就像上烹饪学校只学做甜点，不学做正餐</p>
+            </div>
+            <div class="content-card">
+                <h3 class="card-title">简单 ≠ 无效</h3>
+                <p class="card-text">看起来太简单所以被忽视——但当你实践并查看科学数据时，你会明白这有多强大</p>
+            </div>
+        </div>
+
+        <div class="emphasis-box" style="background: var(--accent); margin-top: 2rem;">
+            <div class="emphasis-large">在追求高级技术之前，先让你的呼吸正常化</div>
+            <div class="emphasis-sub">然后见证它带来的改变</div>
+        </div>
+    </section>
+
+    <!-- Slide 22: Resources -->
+    <section class="slide slide-content" id="slide-22">
+        <div class="slide-header">
+            <span class="slide-tag">资源</span>
+            <h2 class="slide-title">延伸资源与推荐阅读</h2>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">📚</div>
+                <h3 class="card-title">书籍</h3>
+                <p class="card-text">《Breath: The New Science of a Lost Art》— James Nestor<br>《The Body Electric》— Robert Becker<br>《Deep》— James Nestor</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">📱</div>
+                <h3 class="card-title">工具APP</h3>
+                <p class="card-text">SnoreLab / SnoreClock — 睡眠呼吸记录<br>HeartMath — HRV实时监测<br>Aranet 4 — CO2监测</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🛠️</div>
+                <h3 class="card-title">产品</h3>
+                <p class="card-text">MyoTape — 儿童友好口贴<br>Relaxator — 呼吸阻力训练器<br>微孔胶带 — 任意药店可购</p>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🔗</div>
+                <h3 class="card-title">网站</h3>
+                <p class="card-text">mrjamesnestor.com — 免费呼吸协议、音轨<br>consciousbreathing.com — Anders Olsson</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem; color: var(--text-light);">
+            <p>基于 Tim Ferriss Show #829 重构</p>
+            <p style="margin-top: 0.5rem;">认知考古学 · 讲义重构师</p>
+        </div>
+    </section>
+
+    <script>
+        // Slide navigation and progress
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressFill = document.getElementById('progressFill');
+        const currentSlideEl = document.getElementById('currentSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        const keyboardHint = document.getElementById('keyboardHint');
+
+        totalSlidesEl.textContent = totalSlides;
+
+        // Show keyboard hint briefly
+        setTimeout(() => {
+            keyboardHint.classList.add('visible');
+            setTimeout(() => {
+                keyboardHint.classList.remove('visible');
+            }, 3000);
+        }, 1000);
+
+        // Update progress on scroll
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progressFill.style.width = scrollPercent + '%';
+
+            // Update current slide number
+            let current = 1;
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2) {
+                    current = index + 1;
+                }
+            });
+            currentSlideEl.textContent = current;
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        updateProgress();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const currentScroll = window.scrollY;
+            let targetSlide = null;
+
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                slides.forEach((slide, index) => {
+                    const rect = slide.getBoundingClientRect();
+                    if (!targetSlide && rect.top > 50) {
+                        targetSlide = slide;
+                    }
+                });
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                for (let i = slides.length - 1; i >= 0; i--) {
+                    const rect = slides[i].getBoundingClientRect();
+                    if (rect.bottom < window.innerHeight - 50) {
+                        targetSlide = slides[i];
+                        break;
+                    }
+                }
+            }
+
+            if (targetSlide) {
+                targetSlide.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Touch navigation for mobile
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartY - touchEndY;
+
+            if (Math.abs(diff) < swipeThreshold) return;
+
+            let targetSlide = null;
+
+            if (diff > 0) {
+                // Swipe up - next slide
+                slides.forEach((slide) => {
+                    const rect = slide.getBoundingClientRect();
+                    if (!targetSlide && rect.top > 50) {
+                        targetSlide = slide;
+                    }
+                });
+            } else {
+                // Swipe down - previous slide
+                for (let i = slides.length - 1; i >= 0; i--) {
+                    const rect = slides[i].getBoundingClientRect();
+                    if (rect.bottom < window.innerHeight - 50) {
+                        targetSlide = slides[i];
+                        break;
+                    }
+                }
+            }
+
+            if (targetSlide) {
+                targetSlide.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
