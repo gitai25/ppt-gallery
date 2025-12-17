@@ -3,6 +3,20 @@ const path = require('path');
 
 const PPTS_DIR = './ppts';
 const OUTPUT_FILE = './index.html';
+const METADATA_FILE = './ppts-metadata.json';
+
+// 加载或创建元数据文件
+function loadMetadata() {
+  if (fs.existsSync(METADATA_FILE)) {
+    return JSON.parse(fs.readFileSync(METADATA_FILE, 'utf-8'));
+  }
+  return {};
+}
+
+// 保存元数据文件
+function saveMetadata(metadata) {
+  fs.writeFileSync(METADATA_FILE, JSON.stringify(metadata, null, 2), 'utf-8');
+}
 
 // 解析文件名: [分类]标题.html -> { category, title, filename }
 function parseFileName(filename) {
@@ -53,14 +67,27 @@ function scanPPTs() {
 
   const files = fs.readdirSync(PPTS_DIR);
   const ppts = [];
+  const metadata = loadMetadata();
+  let metadataChanged = false;
 
   for (const file of files) {
     if (file.endsWith('.html')) {
       const parsed = parseFileName(file);
       if (parsed) {
         const filePath = path.join(PPTS_DIR, file);
-        const stats = fs.statSync(filePath);
         const content = fs.readFileSync(filePath, 'utf-8');
+
+        // 检查是否有记录的首次添加时间
+        let addedDate;
+        if (metadata[file]) {
+          addedDate = new Date(metadata[file].addedAt);
+        } else {
+          // 新文件，记录当前时间
+          addedDate = new Date();
+          metadata[file] = { addedAt: addedDate.toISOString() };
+          metadataChanged = true;
+          console.log(`  New: ${parsed.title}`);
+        }
 
         // 提取额外信息
         const author = extractAuthor(content);
@@ -71,17 +98,21 @@ function scanPPTs() {
         ppts.push({
           ...parsed,
           author,
-          size: formatSize(stats.size),
-          mtime: stats.mtime,
-          mtimeFormatted: formatDate(stats.mtime),
+          addedAt: addedDate,
+          addedAtFormatted: formatDate(addedDate),
           slideCount
         });
       }
     }
   }
 
-  // 按更新时间倒序排列（最新的在前）
-  return ppts.sort((a, b) => b.mtime - a.mtime);
+  // 保存元数据
+  if (metadataChanged) {
+    saveMetadata(metadata);
+  }
+
+  // 按添加时间倒序排列（最新的在前）
+  return ppts.sort((a, b) => b.addedAt - a.addedAt);
 }
 
 // 分类颜色映射
@@ -125,7 +156,7 @@ function generateHTML(ppts) {
             <span class="ppt-category-tag" style="background: ${color.bg}; color: ${color.text}">${ppt.category}</span>
             ${authorHtml}
             ${slideHtml}
-            <span class="ppt-meta-item ppt-date">${ppt.mtimeFormatted}</span>
+            <span class="ppt-meta-item ppt-date">${ppt.addedAtFormatted}</span>
           </div>
         </div>
         <svg class="ppt-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
