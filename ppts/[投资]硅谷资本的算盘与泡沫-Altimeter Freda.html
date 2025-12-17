@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>硅谷资本的算盘与泡沫 | Altimeter合伙人Freda访谈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0a14;
+            --secondary: #111122;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --orange: #f97316;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --amber: #f59e0b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --surface: rgba(255,255,255,0.04);
+            --gradient-tech: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            --gradient-warm: linear-gradient(135deg, #f97316 0%, #f59e0b 100%);
+            --gradient-cool: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+            --gradient-rose: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 3rem 5%;
+            overflow-y: auto;
+            background: var(--primary);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title Slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(249, 115, 22, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .show-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.08em;
+        }
+
+        .main-title {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-tech);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .guest-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .guest-tag {
+            padding: 0.5rem 1.2rem;
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Content Slides */
+        .slide-content {
+            padding-top: 2rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--surface);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            margin-bottom: 1rem;
+        }
+
+        .slide-heading {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-purple {
+            color: var(--accent-light);
+        }
+
+        .highlight-orange {
+            color: var(--orange);
+        }
+
+        .highlight-emerald {
+            color: var(--emerald);
+        }
+
+        .highlight-rose {
+            color: var(--rose);
+        }
+
+        .highlight-amber {
+            color: var(--amber);
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.8rem 2rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1.5rem 0;
+        }
+
+        .quote-block.warm {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border-left-color: var(--orange);
+        }
+
+        .quote-text {
+            font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .quote-source {
+            color: var(--accent-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card-grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        /* Two Column */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            flex: 1;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .column-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+        }
+
+        .column-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.8rem;
+            margin-bottom: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .bullet-list li strong {
+            color: var(--text);
+        }
+
+        /* Center Slide */
+        .slide-center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .mega-quote {
+            font-size: clamp(1.3rem, 3.5vw, 2.4rem);
+            font-weight: 500;
+            line-height: 1.5;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .icon-large {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Grid */
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            background: var(--surface);
+            border-radius: 16px;
+            min-width: 160px;
+        }
+
+        .stat-value {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            background: var(--gradient-tech);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Founder Types */
+        .founder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .founder-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .founder-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .founder-type {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .founder-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Comparison */
+        .vs-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .vs-container {
+                grid-template-columns: 1fr;
+            }
+            .vs-divider {
+                transform: rotate(90deg);
+            }
+        }
+
+        .vs-side {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .vs-side.primary {
+            border: 2px solid var(--accent);
+        }
+
+        .vs-side.secondary {
+            border: 2px solid var(--orange);
+        }
+
+        .vs-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .vs-divider {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-muted);
+        }
+
+        /* Portfolio */
+        .portfolio-section {
+            margin: 1.5rem 0;
+        }
+
+        .portfolio-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .portfolio-tag {
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .portfolio-tag.highlight {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+
+        /* Principle Box */
+        .principle-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .principle-text {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Timeline Flow */
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .flow-item {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        @media (max-width: 600px) {
+            .flow-diagram {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+        }
+
+        .numbered-list li {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .numbered-list li::before {
+            counter-increment: item;
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--gradient-tech);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .numbered-list li strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .numbered-list li span {
+            color: var(--text-muted);
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(10, 10, 20, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-tech);
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 4%;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            .nav-controls {
+                bottom: 1rem;
+                padding: 0.6rem 1rem;
+            }
+            .nav-btn {
+                width: 38px;
+                height: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active">
+            <div class="title-container">
+                <div class="show-badge">张小珺商业访谈录 · EP125</div>
+                <h1 class="main-title">硅谷资本的<br>算盘与泡沫</h1>
+                <p class="subtitle">与Altimeter合伙人Freda的深度对话</p>
+                <div class="guest-info">
+                    <span class="guest-tag">🎯 OpenAI投资逻辑</span>
+                    <span class="guest-tag">💰 美股三主线</span>
+                    <span class="guest-tag">🔥 AI泡沫之辩</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Guest Intro -->
+        <div class="slide slide-content">
+            <span class="section-label">嘉宾介绍</span>
+            <h2 class="slide-heading">Freda Duan × <span class="highlight-purple">Altimeter Capital</span></h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>关于Altimeter</h3>
+                    <p>一家横跨一二级市场的顶级科技基金，以对科技公司的深度理解和集中下注著称。</p>
+
+                    <div class="portfolio-section">
+                        <p class="portfolio-title">一级市场投资</p>
+                        <div class="portfolio-tags">
+                            <span class="portfolio-tag highlight">OpenAI</span>
+                            <span class="portfolio-tag highlight">Anthropic</span>
+                            <span class="portfolio-tag">字节跳动</span>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-section">
+                        <p class="portfolio-title">二级市场投资</p>
+                        <div class="portfolio-tags">
+                            <span class="portfolio-tag highlight">NVIDIA</span>
+                            <span class="portfolio-tag">Snowflake</span>
+                            <span class="portfolio-tag">Robinhood</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column-content">
+                    <h3>投资风格</h3>
+                    <ul class="bullet-list">
+                        <li><strong>横跨一二级</strong>：打通一级市场洞察和二级市场执行</li>
+                        <li><strong>集中仓位</strong>：在看好的标的上下重注</li>
+                        <li><strong>深度研究</strong>：对公司商业模式有深刻理解</li>
+                        <li><strong>长期持有</strong>：愿意陪伴公司穿越周期</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Three Main Lines -->
+        <div class="slide slide-content">
+            <span class="section-label">投资主线</span>
+            <h2 class="slide-heading">美股投资<span class="highlight-orange">三条主线</span></h2>
+
+            <div class="card-grid card-grid-3">
+                <div class="card" style="border-top: 3px solid var(--accent);">
+                    <div class="card-icon" style="background: var(--gradient-tech);">🤖</div>
+                    <h3 class="card-title">AI革命</h3>
+                    <p class="card-desc">从底层算力到应用层，AI正在重塑每一个行业。OpenAI、Anthropic、NVIDIA是核心标的。</p>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--orange);">
+                    <div class="card-icon" style="background: var(--gradient-warm);">🏭</div>
+                    <h3 class="card-title">再工业化</h3>
+                    <p class="card-desc">美国制造业回流，供应链重构，能源转型带来的投资机会。</p>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--emerald);">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">💳</div>
+                    <h3 class="card-title">金融产业创新</h3>
+                    <p class="card-desc">金融科技持续颠覆传统金融，Robinhood代表新一代金融基础设施。</p>
+                </div>
+            </div>
+
+            <div class="quote-block" style="margin-top: 2rem;">
+                <p class="quote-text">"这三条主线相互交织，AI是底层推动力，再工业化是物理世界的重构，金融创新则是资本流动的革新"</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: OpenAI -->
+        <div class="slide slide-content">
+            <span class="section-label">核心标的</span>
+            <h2 class="slide-heading">OpenAI：对标<span class="highlight-purple">Netflix</span>的商业模式</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>为什么对标Netflix？</h3>
+                    <p>Netflix的收入结构清晰：订阅收入为主，边际成本递减，用户粘性强。OpenAI正在走向类似的路径。</p>
+
+                    <div class="quote-block">
+                        <p class="quote-text">"如果你想卖掉你的股份，我可以帮你找到买家"</p>
+                        <p class="quote-source">——Sam Altman</p>
+                    </div>
+                </div>
+                <div class="column-content">
+                    <h3>OpenAI四大收入支柱</h3>
+                    <ul class="bullet-list">
+                        <li><strong>ChatGPT订阅</strong>：C端付费用户持续增长</li>
+                        <li><strong>API服务</strong>：开发者生态的基础设施</li>
+                        <li><strong>企业解决方案</strong>：定制化AI服务</li>
+                        <li><strong>许可授权</strong>：技术授权和合作收入</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value">$2B+</div>
+                    <div class="stat-label">年化收入</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">100M+</div>
+                    <div class="stat-label">周活用户</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$150B</div>
+                    <div class="stat-label">估值</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Anthropic -->
+        <div class="slide slide-content">
+            <span class="section-label">投资机会</span>
+            <h2 class="slide-heading"><span class="highlight-orange">Anthropic</span>：另一个赌注</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>为什么同时投资Anthropic？</h3>
+                    <ul class="bullet-list">
+                        <li><strong>技术路线差异</strong>：Constitutional AI理念独特</li>
+                        <li><strong>团队背景</strong>：OpenAI核心团队出走创建</li>
+                        <li><strong>安全优先</strong>：更注重AI安全研究</li>
+                        <li><strong>企业市场</strong>：Claude在B端更受欢迎</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>投资逻辑</h3>
+                    <p>AI底层模型是"赢家通吃还是多强并立"尚不确定。同时投资OpenAI和Anthropic，是对冲风险的最佳策略。</p>
+
+                    <div class="quote-block warm">
+                        <p class="quote-text">"不是二选一，而是两个都要。在确定性不足时，最好的策略是多下注。"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Good or Bad Kids -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">资本偏好</span>
+            <div class="icon-large">🎭</div>
+            <h2 class="slide-heading" style="margin-bottom: 1rem;">硅谷资本喜欢<span class="highlight-purple">乖小孩</span>还是<span class="highlight-orange">坏小孩</span>？</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto 2rem;">
+                美国顶级基金如何看待创始人？答案可能出乎你的意料。
+            </p>
+
+            <div class="vs-container">
+                <div class="vs-side secondary">
+                    <div class="vs-title" style="color: var(--orange);">😈 坏小孩</div>
+                    <ul class="bullet-list" style="text-align: left;">
+                        <li>打破规则</li>
+                        <li>挑战权威</li>
+                        <li>野心勃勃</li>
+                        <li>不走寻常路</li>
+                    </ul>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="vs-side primary">
+                    <div class="vs-title" style="color: var(--accent-light);">😇 乖小孩</div>
+                    <ul class="bullet-list" style="text-align: left;">
+                        <li>遵守游戏规则</li>
+                        <li>可预测性强</li>
+                        <li>沟通顺畅</li>
+                        <li>稳定可靠</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Founder Types -->
+        <div class="slide slide-content">
+            <span class="section-label">创始人分类</span>
+            <h2 class="slide-heading">美国基金的<span class="highlight-purple">创始人画像</span></h2>
+
+            <div class="founder-grid">
+                <div class="founder-card">
+                    <div class="founder-icon">🦔</div>
+                    <div class="founder-type highlight-purple">刺猬型</div>
+                    <div class="founder-desc">专注一件事做到极致，对自己的领域有深刻洞见，不轻易被外界动摇</div>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-icon">⚔️</div>
+                    <div class="founder-type highlight-orange">反叛者</div>
+                    <div class="founder-desc">挑战行业既有规则，敢于与巨头正面对抗，具有颠覆性思维</div>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-icon">🔥</div>
+                    <div class="founder-type highlight-rose">哪吒型</div>
+                    <div class="founder-desc">"我命由我不由天"，极度自信，敢想敢干，不惧任何阻碍</div>
+                </div>
+            </div>
+
+            <div class="principle-box">
+                <p class="principle-text">最成功的创始人往往是<span class="highlight-purple">三种特质的混合体</span>：<br>专注如刺猬，勇敢如反叛者，自信如哪吒</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Primary vs Secondary -->
+        <div class="slide slide-content">
+            <span class="section-label">投资逻辑</span>
+            <h2 class="slide-heading">一级<span class="highlight-purple">靠共识</span>，二级<span class="highlight-orange">靠非共识</span></h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <div class="card" style="border-left: 4px solid var(--accent); margin-bottom: 1.5rem;">
+                        <h3 class="card-title" style="color: var(--accent-light);">一级市场：共识驱动</h3>
+                        <p class="card-desc">
+                            早期投资需要识别"会成为共识的非共识"。当一个趋势还没被广泛认可时入场，等它成为共识时退出。
+                        </p>
+                        <ul class="bullet-list" style="margin-top: 1rem;">
+                            <li>提前识别趋势</li>
+                            <li>建立行业关系</li>
+                            <li>长期陪伴成长</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="column-content">
+                    <div class="card" style="border-left: 4px solid var(--orange);">
+                        <h3 class="card-title" style="color: var(--orange);">二级市场：非共识制胜</h3>
+                        <p class="card-desc">
+                            二级市场价格反映了共识。要获得超额收益，必须找到市场错误定价的地方——即你正确而市场错误的时刻。
+                        </p>
+                        <ul class="bullet-list" style="margin-top: 1rem;">
+                            <li>寻找定价错误</li>
+                            <li>逆向思考</li>
+                            <li>等待市场纠正</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-block" style="margin-top: 1.5rem;">
+                <p class="quote-text">"在一级市场，你要比别人早看到未来；在二级市场，你要比别人更准确理解现在"</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Concentrated Bets -->
+        <div class="slide slide-content">
+            <span class="section-label">投资趋势</span>
+            <h2 class="slide-heading">美国基金趋势：<span class="highlight-emerald">集中仓位，下重注</span></h2>
+
+            <div class="flow-diagram">
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">🔍</div>
+                    <div style="margin-top: 0.5rem;">深度研究</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">🎯</div>
+                    <div style="margin-top: 0.5rem;">高度确信</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">💰</div>
+                    <div style="margin-top: 0.5rem;">集中下注</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">⏳</div>
+                    <div style="margin-top: 0.5rem;">长期持有</div>
+                </div>
+            </div>
+
+            <div class="card-grid" style="margin-top: 2rem;">
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--emerald);">为什么集中？</h3>
+                    <p class="card-desc">分散投资是对无知的保护。如果你真正理解一家公司，为什么要分散到你不那么理解的公司？</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--amber);">风险在哪里？</h3>
+                    <p class="card-desc">集中投资的风险不在于波动，而在于你的判断是否正确。深度研究是降低风险的唯一方式。</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--accent-light);">回报从何来？</h3>
+                    <p class="card-desc">超额回报来自少数几个大赢家。分散投资会稀释赢家的贡献。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: AI Bubble -->
+        <div class="slide slide-content">
+            <span class="section-label">泡沫之辩</span>
+            <h2 class="slide-heading">AI巨额投资：<span class="highlight-rose">泡沫还是机遇</span>？</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>质疑的声音</h3>
+                    <ul class="bullet-list">
+                        <li><strong>投入产出比</strong>：巨额资本支出，收入增长是否匹配？</li>
+                        <li><strong>收入来源</strong>：这些AI公司的收入是真实需求还是VC补贴？</li>
+                        <li><strong>竞争加剧</strong>：开源模型追赶，护城河在哪？</li>
+                        <li><strong>估值过高</strong>：当前估值是否透支了未来？</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>看好的理由</h3>
+                    <ul class="bullet-list">
+                        <li><strong>技术突破</strong>：每一代模型都带来质的飞跃</li>
+                        <li><strong>应用爆发</strong>：从聊天到Agent，应用场景不断扩展</li>
+                        <li><strong>企业采用</strong>：B端需求真实且持续增长</li>
+                        <li><strong>平台效应</strong>：先发优势会形成数据飞轮</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-block warm" style="margin-top: 1.5rem;">
+                <p class="quote-text">"泡沫和机遇往往是一枚硬币的两面。关键是你在哪个阶段入场，以什么价格入场。"</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: 2026 Outlook -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">展望未来</span>
+            <div class="icon-large">🔮</div>
+            <h2 class="slide-heading"><span class="highlight-purple">2026</span>：AI的关键验证年</h2>
+
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto 2rem;">
+                2026年将是AI产业的关键节点——技术投入能否转化为商业回报？
+            </p>
+
+            <div class="card-grid card-grid-3">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-tech);">📈</div>
+                    <h3 class="card-title">收入验证</h3>
+                    <p class="card-desc">AI公司需要证明收入增长能匹配估值预期</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-warm);">🤖</div>
+                    <h3 class="card-title">Agent爆发</h3>
+                    <p class="card-desc">从对话到行动，AI Agent将成为新的增长引擎</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-rose);">⚖️</div>
+                    <h3 class="card-title">格局初定</h3>
+                    <p class="card-desc">模型层的竞争格局将趋于明朗</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Summary -->
+        <div class="slide slide-content">
+            <span class="section-label">要点回顾</span>
+            <h2 class="slide-heading">硅谷资本的<span class="highlight-purple">算盘</span></h2>
+
+            <ol class="numbered-list">
+                <li>
+                    <strong>三条主线</strong>
+                    <span>AI革命 + 再工业化 + 金融产业创新</span>
+                </li>
+                <li>
+                    <strong>OpenAI对标Netflix</strong>
+                    <span>订阅模式、边际成本递减、用户粘性</span>
+                </li>
+                <li>
+                    <strong>创始人画像</strong>
+                    <span>刺猬型专注、反叛者勇气、哪吒型自信</span>
+                </li>
+                <li>
+                    <strong>一级靠共识，二级靠非共识</strong>
+                    <span>不同市场需要不同的思考方式</span>
+                </li>
+                <li>
+                    <strong>集中仓位，下重注</strong>
+                    <span>深度研究支撑高度确信</span>
+                </li>
+                <li>
+                    <strong>2026是关键验证年</strong>
+                    <span>AI投入需要转化为商业回报</span>
+                </li>
+            </ol>
+
+            <div class="principle-box" style="margin-top: 1.5rem;">
+                <p class="principle-text">🎯 在不确定中寻找确定性，在确定性上下重注</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" aria-label="上一页">←</button>
+        <span class="page-indicator" id="pageIndicator">1 / 12</span>
+        <button class="nav-btn" id="nextBtn" aria-label="下一页">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            pageIndicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        document.querySelector('.presentation').addEventListener('click', (e) => {
+            if (e.target.closest('.nav-controls') || e.target.closest('a') || e.target.closest('button')) {
+                return;
+            }
+            const clickX = e.clientX;
+            const windowWidth = window.innerWidth;
+            if (clickX > windowWidth * 0.7) {
+                nextSlide();
+            } else if (clickX < windowWidth * 0.3) {
+                prevSlide();
+            }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
