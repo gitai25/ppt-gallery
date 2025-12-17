@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芒格的投资智慧 | 与托德·库姆斯的对话</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0a12;
+            --secondary: #12121e;
+            --accent: #d4af37;
+            --accent-light: #f4d03f;
+            --copper: #b87333;
+            --emerald: #2ecc71;
+            --silver: #bdc3c7;
+            --text: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --surface: rgba(255,255,255,0.04);
+            --gradient-gold: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+            --gradient-warm: linear-gradient(135deg, #b87333 0%, #d4af37 100%);
+            --gradient-cool: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            --gradient-deep: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 3rem 5%;
+            overflow-y: auto;
+            background: var(--primary);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title Slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(184, 115, 51, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .author-badge {
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            background: var(--surface);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .meta-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Content Slides */
+        .slide-content {
+            padding-top: 2rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--surface);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .slide-heading {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-gold {
+            color: var(--accent);
+        }
+
+        .highlight-copper {
+            color: var(--copper);
+        }
+
+        .highlight-emerald {
+            color: var(--emerald);
+        }
+
+        .highlight-silver {
+            color: var(--silver);
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(184, 115, 51, 0.05) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 2rem 2.5rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1.5rem 0;
+        }
+
+        .quote-text {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .quote-source {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(212, 175, 55, 0.25);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            flex: 1;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .column-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .column-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.7rem;
+            top: 0.35rem;
+        }
+
+        .bullet-list li strong {
+            color: var(--text);
+        }
+
+        /* Center Slide */
+        .slide-center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .mega-quote {
+            font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+            font-weight: 500;
+            line-height: 1.5;
+            max-width: 900px;
+            margin: 0 auto;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .icon-large {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Person Card */
+        .person-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .person-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .person-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .person-info .role {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .person-info p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Principle Box */
+        .principle-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(184, 115, 51, 0.08) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .principle-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .principle-text {
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Stats */
+        .stat-highlight {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-gold);
+            border-radius: 12px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin: 1rem;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-side {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .comparison-side.wrong {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .comparison-side.right {
+            border-left: 4px solid var(--emerald);
+        }
+
+        .comparison-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+        }
+
+        .numbered-list li {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .numbered-list li::before {
+            counter-increment: item;
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .numbered-list li strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .numbered-list li span {
+            color: var(--text-muted);
+        }
+
+        /* Timeline */
+        .insight-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .insight-item {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.2rem 1.8rem;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .insight-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-text {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .flow-connector {
+            display: flex;
+            align-items: center;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .flow-connector {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(10, 10, 18, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 4%;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .quote-block {
+                padding: 1.5rem;
+            }
+
+            .nav-controls {
+                bottom: 1rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .nav-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .person-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* Feature Cards */
+        .feature-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            flex: 1;
+            min-width: 180px;
+            max-width: 280px;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active">
+            <div class="title-container">
+                <div class="author-badge">Charlie Munger</div>
+                <h1 class="main-title">芒格的投资智慧</h1>
+                <p class="subtitle">与托德·库姆斯的深度对话</p>
+                <div class="meta-info">
+                    <div class="meta-item">
+                        <span class="meta-icon">📖</span>
+                        <span>价值投资哲学</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">🎯</span>
+                        <span>复利与专注</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">💎</span>
+                        <span>性情修养</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Introduction -->
+        <div class="slide slide-content">
+            <span class="section-label">对话背景</span>
+            <h2 class="slide-heading">寻找<span class="highlight-gold">"迷你巴菲特"</span></h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <p>查理·芒格在这次对话中分享了他对投资、企业管理和人才识别的深刻洞见。</p>
+
+                    <div class="quote-block">
+                        <p class="quote-text">"我们要寻找的是迷你伍登、迷你辛格尔顿或迷你巴菲特"</p>
+                        <p class="quote-source">——查理·芒格</p>
+                    </div>
+
+                    <p>给予他们"集中的上场时间"，让最优秀的人发挥最大价值。</p>
+                </div>
+                <div class="column-content">
+                    <h3>核心主题</h3>
+                    <ul class="bullet-list">
+                        <li><strong>人才识别</strong>：如何发现真正优秀的人</li>
+                        <li><strong>理性决策</strong>：毫无感情的理性的力量</li>
+                        <li><strong>性情修养</strong>：稳定性情比聪慧更重要</li>
+                        <li><strong>复利思维</strong>：回避诱惑，抵抗压力</li>
+                        <li><strong>深度专注</strong>：1-2个机会胜过1000支股票</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: John Wooden -->
+        <div class="slide slide-content">
+            <span class="section-label">人才法则</span>
+            <h2 class="slide-heading">约翰·伍登的<span class="highlight-copper">集中上场时间</span>法则</h2>
+
+            <div class="person-card">
+                <div class="person-avatar">🏀</div>
+                <div class="person-info">
+                    <h4>约翰·伍登 (John Wooden)</h4>
+                    <p class="role">UCLA传奇篮球教练</p>
+                    <p>带领UCLA赢得10次NCAA冠军，被誉为"西木巫师"。他的成功秘诀不是培养更多球员，而是将几乎100%的上场时间集中在最优秀的7名运动员身上。</p>
+                </div>
+            </div>
+
+            <div class="principle-box">
+                <p class="principle-label">芒格的人才原则</p>
+                <p class="principle-text">找到最优秀的人，给他们<span class="highlight-gold">集中的上场时间</span></p>
+            </div>
+
+            <p style="color: var(--text-muted); text-align: center; margin-top: 1.5rem;">不是广撒网，而是深度押注于少数真正出色的人。这正是伯克希尔选择投资经理的方式。</p>
+        </div>
+
+        <!-- Slide 4: Henry Singleton -->
+        <div class="slide slide-content">
+            <span class="section-label">理性典范</span>
+            <h2 class="slide-heading">亨利·辛格尔顿：<span class="highlight-gold">毫无感情的理性</span></h2>
+
+            <div class="person-card">
+                <div class="person-avatar">📊</div>
+                <div class="person-info">
+                    <h4>亨利·辛格尔顿 (Henry Singleton)</h4>
+                    <p class="role">Teledyne创始人 / 资本配置大师</p>
+                    <p>被芒格誉为商业史上最出色的资本配置者之一。他在别人恐惧时贪婪——当市场低迷时大规模回购公司股票，而非在高价时追涨。</p>
+                </div>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-side wrong">
+                    <h4 class="comparison-title" style="color: #e74c3c;">❌ 大多数CEO</h4>
+                    <ul class="bullet-list">
+                        <li>股价高时回购（感觉良好）</li>
+                        <li>跟随市场情绪</li>
+                        <li>受短期压力影响</li>
+                    </ul>
+                </div>
+                <div class="comparison-side right">
+                    <h4 class="comparison-title" style="color: var(--emerald);">✓ 辛格尔顿</h4>
+                    <ul class="bullet-list">
+                        <li>股价低时回购（理性判断）</li>
+                        <li>逆向操作</li>
+                        <li>长期价值导向</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Emotionless Rationality -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">核心洞见</span>
+            <div class="icon-large">🧠</div>
+            <h2 class="mega-quote">
+                "<span class="highlight-gold">毫无感情的理性</span><br>所能带来的巨大力量"
+            </h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 2rem; max-width: 700px;">
+                这不是冷血，而是一种修养——让决策基于事实和逻辑，而非恐惧和贪婪。
+            </p>
+
+            <div class="feature-row" style="margin-top: 3rem;">
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <div class="feature-title">剥离情绪</div>
+                    <div class="feature-desc">认识到情绪是决策的敌人</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <div class="feature-title">遵循逻辑</div>
+                    <div class="feature-desc">用数据和事实说话</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏳</div>
+                    <div class="feature-title">长期视角</div>
+                    <div class="feature-desc">不为短期波动所动</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Temperament -->
+        <div class="slide slide-content">
+            <span class="section-label">性情修养</span>
+            <h2 class="slide-heading"><span class="highlight-emerald">稳定的性情</span>比聪慧更重要</h2>
+
+            <div class="quote-block">
+                <p class="quote-text">"在这个领域，稳定的性情是必须的。具备如辛格尔顿般的聪慧会有帮助，但性情更关键。"</p>
+                <p class="quote-source">——查理·芒格</p>
+            </div>
+
+            <div class="two-column" style="margin-top: 2rem;">
+                <div class="column-content">
+                    <h3>为什么性情比智商更重要？</h3>
+                    <ul class="bullet-list">
+                        <li><strong>智商决定上限</strong>，但性情决定能否到达上限</li>
+                        <li><strong>市场会考验你</strong>，不稳定的性情会在关键时刻崩溃</li>
+                        <li><strong>长期专注力</strong>比瞬间的天才洞察更稀缺</li>
+                        <li><strong>情绪失控</strong>会让所有分析化为乌有</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>稳定性情的表现</h3>
+                    <ul class="bullet-list">
+                        <li><strong>市场暴跌时</strong>：保持冷静，寻找机会</li>
+                        <li><strong>市场狂热时</strong>：保持警惕，避免跟风</li>
+                        <li><strong>被质疑时</strong>：坚持原则，不为所动</li>
+                        <li><strong>获得成功时</strong>：保持谦逊，持续学习</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Focus -->
+        <div class="slide slide-content">
+            <span class="section-label">投资哲学</span>
+            <h2 class="slide-heading">深度专注：<span class="highlight-gold">狂热者的优势</span></h2>
+
+            <div class="quote-block">
+                <p class="quote-text">"那些热衷于寻找伟大企业的狂热者，更有可能获得最好的投资成绩"</p>
+                <p class="quote-source">——查理·芒格</p>
+            </div>
+
+            <div class="insight-flow">
+                <div class="insight-item">
+                    <div class="insight-icon">🔍</div>
+                    <div class="insight-text">深入研究</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="insight-item">
+                    <div class="insight-icon">💡</div>
+                    <div class="insight-text">真正理解</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="insight-item">
+                    <div class="insight-icon">🎯</div>
+                    <div class="insight-text">重仓出击</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="insight-item">
+                    <div class="insight-icon">⏰</div>
+                    <div class="insight-text">长期持有</div>
+                </div>
+            </div>
+
+            <div class="principle-box">
+                <p class="principle-label">芒格的专注法则</p>
+                <p class="principle-text">成功投资者只需 <span class="highlight-gold">1-2个重大机会</span>，而非1000支股票</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Compound Interest -->
+        <div class="slide slide-content">
+            <span class="section-label">复利真相</span>
+            <h2 class="slide-heading">复利的<span class="highlight-copper">真正困难</span></h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>复利为什么难以实现？</h3>
+                    <div class="quote-block">
+                        <p class="quote-text">"要正确实现复利，需要回避诱惑和抵抗压力"</p>
+                    </div>
+                    <p>每个人都知道复利的威力，但很少有人能够真正享受到它，因为：</p>
+                    <ul class="bullet-list">
+                        <li><strong>诱惑无处不在</strong>：新概念、热门股、快钱机会</li>
+                        <li><strong>压力持续存在</strong>：短期业绩、客户赎回、同行比较</li>
+                        <li><strong>需要极度耐心</strong>：复利需要时间，而人性急躁</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>复利的敌人</h3>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4 class="card-title" style="color: #e74c3c;">🎰 频繁交易</h4>
+                        <p class="card-desc">每一次买卖都在打断复利的积累</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4 class="card-title" style="color: #e74c3c;">📊 追逐热点</h4>
+                        <p class="card-desc">高买低卖是复利的天敌</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title" style="color: #e74c3c;">😰 恐慌卖出</h4>
+                        <p class="card-desc">在最不该卖的时候卖出</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Closet Indexers -->
+        <div class="slide slide-content">
+            <span class="section-label">行业真相</span>
+            <h2 class="slide-heading"><span class="highlight-silver">95%</span>的投资公司是"<span class="highlight-copper">未出柜的指数跟踪者</span>"</h2>
+
+            <div class="quote-block">
+                <p class="quote-text">"95%的投资管理公司实为'未出柜的指数跟踪者'，因激励机制导致分散投资"</p>
+                <p class="quote-source">——查理·芒格</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-cool);">💼</div>
+                    <h3 class="card-title">激励机制的陷阱</h3>
+                    <p class="card-desc">基金经理的收入与规模挂钩，而非业绩。规模越大，越难以跑赢指数，于是干脆拥抱指数。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-warm);">📈</div>
+                    <h3 class="card-title">分散投资的真相</h3>
+                    <p class="card-desc">名义上是"分散风险"，实际上是"分散责任"。持有100支股票，本质上就是在跟踪指数。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-gold);">🎭</div>
+                    <h3 class="card-title">收费的不合理</h3>
+                    <p class="card-desc">收取主动管理的费用，提供被动管理的结果。这是投资行业最大的讽刺。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Real Active Management -->
+        <div class="slide slide-content">
+            <span class="section-label">真正的主动管理</span>
+            <h2 class="slide-heading">少数派的<span class="highlight-gold">勇气</span></h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>什么是真正的主动管理？</h3>
+                    <ul class="bullet-list">
+                        <li><strong>集中持仓</strong>：只持有真正理解且有信心的股票</li>
+                        <li><strong>与众不同</strong>：敢于在别人恐惧时买入</li>
+                        <li><strong>长期持有</strong>：不因短期波动而动摇</li>
+                        <li><strong>忍受寂寞</strong>：有时需要几年才能被市场认可</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>为什么很少人能做到？</h3>
+                    <ul class="bullet-list">
+                        <li><strong>职业风险</strong>：独立判断意味着可能失去工作</li>
+                        <li><strong>社会压力</strong>：与主流不同会被质疑</li>
+                        <li><strong>心理负担</strong>：集中持仓的波动更大</li>
+                        <li><strong>短期考核</strong>：季度业绩压力让人无法长期思考</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="principle-box" style="margin-top: 2rem;">
+                <p class="principle-label">芒格的建议</p>
+                <p class="principle-text">如果你想做真正的主动管理，就必须<span class="highlight-gold">回避诱惑、抵抗压力</span></p>
+            </div>
+        </div>
+
+        <!-- Slide 11: Core Quote -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">核心智慧</span>
+            <div class="icon-large">💎</div>
+            <h2 class="mega-quote">
+                "在这个领域，<br><span class="highlight-gold">稳定的性情是必须的</span>。<br>长期专注力比天赋更重要。"
+            </h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 2rem;">
+                ——查理·芒格
+            </p>
+        </div>
+
+        <!-- Slide 12: Summary -->
+        <div class="slide slide-content">
+            <span class="section-label">要点回顾</span>
+            <h2 class="slide-heading">芒格的<span class="highlight-gold">投资智慧</span></h2>
+
+            <ol class="numbered-list">
+                <li>
+                    <strong>寻找"迷你巴菲特"</strong>
+                    <span>找到最优秀的人，给他们集中的上场时间</span>
+                </li>
+                <li>
+                    <strong>毫无感情的理性</strong>
+                    <span>让决策基于事实和逻辑，而非恐惧和贪婪</span>
+                </li>
+                <li>
+                    <strong>性情比智商更重要</strong>
+                    <span>稳定的性情是投资成功的必要条件</span>
+                </li>
+                <li>
+                    <strong>深度专注</strong>
+                    <span>1-2个重大机会胜过1000支股票的分散</span>
+                </li>
+                <li>
+                    <strong>复利需要纪律</strong>
+                    <span>回避诱惑，抵抗压力，让时间发挥作用</span>
+                </li>
+            </ol>
+
+            <div class="principle-box" style="margin-top: 2rem;">
+                <p class="principle-text">🎯 成为少数派，做真正的主动管理者</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" aria-label="上一页">←</button>
+        <span class="page-indicator" id="pageIndicator">1 / 12</span>
+        <button class="nav-btn" id="nextBtn" aria-label="下一页">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            pageIndicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        document.querySelector('.presentation').addEventListener('click', (e) => {
+            if (e.target.closest('.nav-controls') || e.target.closest('a') || e.target.closest('button')) {
+                return;
+            }
+            const clickX = e.clientX;
+            const windowWidth = window.innerWidth;
+            if (clickX > windowWidth * 0.7) {
+                nextSlide();
+            } else if (clickX < windowWidth * 0.3) {
+                prevSlide();
+            }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
