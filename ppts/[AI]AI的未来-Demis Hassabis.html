@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI的未来 | Demis Hassabis深度对话</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #050510;
+            --secondary: #0d0d1a;
+            --accent: #00e5ff;
+            --accent-dim: #00b8d4;
+            --purple: #b388ff;
+            --pink: #ff80ab;
+            --green: #69f0ae;
+            --amber: #ffd740;
+            --text: #e8eaed;
+            --text-muted: #9aa0a6;
+            --surface: rgba(255,255,255,0.04);
+            --gradient-mind: linear-gradient(135deg, #00e5ff 0%, #b388ff 100%);
+            --gradient-warm: linear-gradient(135deg, #ff80ab 0%, #ffd740 100%);
+            --gradient-deep: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            --gradient-green: linear-gradient(135deg, #00bfa5 0%, #69f0ae 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 3rem 5%;
+            overflow-y: auto;
+            background: var(--primary);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title Slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(179, 136, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 128, 171, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .podcast-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-mind);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.2vw, 1.5rem);
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .speaker-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .speaker-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-mind);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .speaker-name {
+            text-align: left;
+        }
+
+        .speaker-name h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .speaker-name p {
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        /* Content Slides */
+        .slide-content {
+            padding-top: 2rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--surface);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .slide-heading {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-cyan {
+            color: var(--accent);
+        }
+
+        .highlight-purple {
+            color: var(--purple);
+        }
+
+        .highlight-pink {
+            color: var(--pink);
+        }
+
+        .highlight-green {
+            color: var(--green);
+        }
+
+        .highlight-amber {
+            color: var(--amber);
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.08) 0%, rgba(179, 136, 255, 0.05) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.8rem 2rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1.5rem 0;
+        }
+
+        .quote-block.warm {
+            background: linear-gradient(135deg, rgba(255, 128, 171, 0.08) 0%, rgba(255, 215, 64, 0.05) 100%);
+            border-left-color: var(--pink);
+        }
+
+        .quote-block.green {
+            background: linear-gradient(135deg, rgba(105, 240, 174, 0.08) 0%, rgba(0, 191, 165, 0.05) 100%);
+            border-left-color: var(--green);
+        }
+
+        .quote-text {
+            font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .quote-source {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card-grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 229, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        /* Two Column */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            flex: 1;
+        }
+
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .column-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .column-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.8rem;
+            margin-bottom: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .bullet-list li strong {
+            color: var(--text);
+        }
+
+        /* Center Slide */
+        .slide-center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .mega-quote {
+            font-size: clamp(1.3rem, 3.5vw, 2.4rem);
+            font-weight: 500;
+            line-height: 1.5;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .icon-large {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Balance Visual */
+        .balance-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .balance-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--surface);
+            border-radius: 16px;
+            min-width: 180px;
+            flex: 1;
+            max-width: 280px;
+        }
+
+        .balance-value {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: var(--gradient-mind);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .balance-label {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            color: var(--text);
+        }
+
+        .balance-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .balance-plus {
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 300;
+        }
+
+        /* Jagged Visual */
+        .jagged-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .jagged-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .jagged-label {
+            min-width: 120px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        .jagged-bar {
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-side {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .comparison-side.problem {
+            border-left: 4px solid var(--pink);
+        }
+
+        .comparison-side.solution {
+            border-left: 4px solid var(--green);
+        }
+
+        .comparison-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Impact Stats */
+        .impact-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .impact-item {
+            text-align: center;
+        }
+
+        .impact-multiplier {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .impact-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Principle Box */
+        .principle-box {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1) 0%, rgba(179, 136, 255, 0.08) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .principle-text {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .flow-item {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        @media (max-width: 600px) {
+            .flow-diagram {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+        }
+
+        .numbered-list li {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .numbered-list li::before {
+            counter-increment: item;
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--gradient-mind);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .numbered-list li strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .numbered-list li span {
+            color: var(--text-muted);
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(5, 5, 16, 0.95);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-mind);
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 4%;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            .nav-controls {
+                bottom: 1rem;
+                padding: 0.6rem 1rem;
+            }
+            .nav-btn {
+                width: 38px;
+                height: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active">
+            <div class="title-container">
+                <div class="podcast-badge">Google DeepMind Podcast</div>
+                <h1 class="main-title">AI的未来</h1>
+                <p class="subtitle">AGI、图灵机的极限与人类的意义</p>
+                <div class="speaker-info">
+                    <div class="speaker-avatar">🧠</div>
+                    <div class="speaker-name">
+                        <h4>Demis Hassabis</h4>
+                        <p>DeepMind联合创始人兼CEO</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Core Philosophy -->
+        <div class="slide slide-content">
+            <span class="section-label">核心追问</span>
+            <h2 class="slide-heading">图灵机的<span class="highlight-cyan">极限</span>在哪里？</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <div class="quote-block">
+                        <p class="quote-text">"我对图灵机的极限着迷已半生。假设万物可计算，除非涉及量子效应。"</p>
+                        <p class="quote-source">——Demis Hassabis</p>
+                    </div>
+                    <p>这是驱动Hassabis投身AI研究的根本问题：计算的边界在哪里？人类心智是否可以被完全模拟？</p>
+                </div>
+                <div class="column-content">
+                    <h3>AGI作为心智的镜子</h3>
+                    <ul class="bullet-list">
+                        <li><strong>模拟与对比</strong>：用AGI模拟心智，与真实心智对比</li>
+                        <li><strong>发现差异</strong>：找到什么是人类独有的</li>
+                        <li><strong>理解自我</strong>：通过构建来理解</li>
+                    </ul>
+                    <div class="quote-block green" style="margin-top: 1.5rem;">
+                        <p class="quote-text">"如果我们构建AGI并用它模拟心智，对比真实心智，我们就能看到差异——什么才是人类独有的"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Scaling + Innovation -->
+        <div class="slide slide-content">
+            <span class="section-label">技术路线</span>
+            <h2 class="slide-heading"><span class="highlight-purple">缩放</span> + <span class="highlight-cyan">创新</span> = AGI</h2>
+
+            <div class="balance-container">
+                <div class="balance-item">
+                    <div class="balance-value">50%</div>
+                    <div class="balance-label">缩放 (Scaling)</div>
+                    <div class="balance-desc">更大的模型、更多的数据</div>
+                </div>
+                <div class="balance-plus">+</div>
+                <div class="balance-item">
+                    <div class="balance-value">50%</div>
+                    <div class="balance-label">创新 (Innovation)</div>
+                    <div class="balance-desc">新架构、新方法</div>
+                </div>
+            </div>
+
+            <div class="quote-block">
+                <p class="quote-text">"要达到AGI需要两者。驳斥'缩放遇到瓶颈'的论断——存在'收益递减而非零收益'的中间态"</p>
+                <p class="quote-source">——Demis Hassabis</p>
+            </div>
+
+            <div class="card-grid" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--purple);">缩放不是终点</h3>
+                    <p class="card-desc">单纯扩大规模会遇到收益递减，但这不意味着停滞，而是需要新的突破</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title" style="color: var(--accent);">创新是关键</h3>
+                    <p class="card-desc">新的架构、训练方法、推理能力——这些才是突破瓶颈的钥匙</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: World Models -->
+        <div class="slide slide-content">
+            <span class="section-label">技术突破</span>
+            <h2 class="slide-heading"><span class="highlight-green">世界模型</span>的崛起</h2>
+
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">从语言到物理世界的理解——AI正在学会"看见"和"行动"</p>
+
+            <div class="card-grid card-grid-3">
+                <div class="card" style="border-top: 3px solid var(--accent);">
+                    <div class="card-icon" style="background: var(--gradient-mind);">🎮</div>
+                    <h3 class="card-title">Genie</h3>
+                    <p class="card-desc">从单张图片生成可玩的2D世界，展现对物理规则的理解</p>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--purple);">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #b388ff, #7c4dff);">🎬</div>
+                    <h3 class="card-title">Veo</h3>
+                    <p class="card-desc">视频生成模型，理解物体运动和场景变化的物理规律</p>
+                </div>
+                <div class="card" style="border-top: 3px solid var(--green);">
+                    <div class="card-icon" style="background: var(--gradient-green);">🤖</div>
+                    <h3 class="card-title">SIMA 2</h3>
+                    <p class="card-desc">代理系统，可在3D环境中执行复杂多步骤任务</p>
+                </div>
+            </div>
+
+            <div class="quote-block green" style="margin-top: 2rem;">
+                <p class="quote-text">"所有早期伟大发明都不是为本发明而创造"——这些技术为机器人和通用助手铺路</p>
+                <p class="quote-source">——Genie团队</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Jagged Intelligence -->
+        <div class="slide slide-content">
+            <span class="section-label">当前局限</span>
+            <h2 class="slide-heading">"<span class="highlight-pink">参差不齐</span>的智能"</h2>
+
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">模型能赢国际数学奥林匹克，却在高中数学出错——这揭示了什么？</p>
+
+            <div class="jagged-visual">
+                <div class="jagged-row">
+                    <span class="jagged-label">奥数竞赛</span>
+                    <div class="jagged-bar" style="width: 90%; background: var(--gradient-mind);">金牌水平</div>
+                </div>
+                <div class="jagged-row">
+                    <span class="jagged-label">代码生成</span>
+                    <div class="jagged-bar" style="width: 85%; background: var(--gradient-green);">专家级</div>
+                </div>
+                <div class="jagged-row">
+                    <span class="jagged-label">常识推理</span>
+                    <div class="jagged-bar" style="width: 50%; background: var(--gradient-warm);">不稳定</div>
+                </div>
+                <div class="jagged-row">
+                    <span class="jagged-label">简单计算</span>
+                    <div class="jagged-bar" style="width: 40%; background: linear-gradient(135deg, #ff80ab, #f48fb1);">时常出错</div>
+                </div>
+            </div>
+
+            <div class="comparison" style="margin-top: 2rem;">
+                <div class="comparison-side problem">
+                    <h4 class="comparison-title" style="color: var(--pink);">缺失的能力</h4>
+                    <ul class="bullet-list">
+                        <li>一致性：相似问题不同答案</li>
+                        <li>推理深度：多步推理易出错</li>
+                        <li>持续学习：无法从交互中学习</li>
+                    </ul>
+                </div>
+                <div class="comparison-side solution">
+                    <h4 class="comparison-title" style="color: var(--green);">人类智能</h4>
+                    <ul class="bullet-list">
+                        <li>稳定一致的认知框架</li>
+                        <li>深度推理与反思能力</li>
+                        <li>终身学习与适应</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Hallucination -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">幻觉问题</span>
+            <div class="icon-large">🌀</div>
+            <h2 class="slide-heading">幻觉的<span class="highlight-purple">根源</span></h2>
+
+            <div class="quote-block" style="max-width: 800px; margin: 0 auto;">
+                <p class="quote-text">"目前系统被迫回答，尽管实际上应该表示不确定"</p>
+                <p class="quote-source">——Demis Hassabis</p>
+            </div>
+
+            <div class="card-grid" style="margin-top: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-warm);">❓</div>
+                    <h3 class="card-title">被迫输出</h3>
+                    <p class="card-desc">模型被训练为总是给出答案，即使它"不知道"</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-mind);">✓</div>
+                    <h3 class="card-title">解决方向</h3>
+                    <p class="card-desc">让模型学会说"我不确定"，而非编造答案</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: AGI Impact -->
+        <div class="slide slide-content">
+            <span class="section-label">社会影响</span>
+            <h2 class="slide-heading">AGI：<span class="highlight-amber">工业革命</span>的10倍</h2>
+
+            <div class="impact-stats">
+                <div class="impact-item">
+                    <div class="impact-multiplier">10×</div>
+                    <div class="impact-label">影响规模</div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-multiplier">10×</div>
+                    <div class="impact-label">变化速度</div>
+                </div>
+            </div>
+
+            <div class="quote-block warm">
+                <p class="quote-text">"AGI的影响将'大10倍、快10倍'——一年而非一世纪"</p>
+                <p class="quote-source">——Demis Hassabis</p>
+            </div>
+
+            <div class="two-column" style="margin-top: 2rem;">
+                <div class="column-content">
+                    <h3>需要重新思考</h3>
+                    <ul class="bullet-list">
+                        <li><strong>经济体系</strong>：生产与分配的根本变革</li>
+                        <li><strong>就业结构</strong>：大部分工作将被重新定义</li>
+                        <li><strong>人生意义</strong>：当工作不再必需，目标感从何而来？</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3>可能的新模式</h3>
+                    <ul class="bullet-list">
+                        <li><strong>通用基本收入</strong>：UBI保障基本生活</li>
+                        <li><strong>积分民主制</strong>：新的社会参与方式</li>
+                        <li><strong>创造性追求</strong>：回归人类本质价值</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: AI Ethics -->
+        <div class="slide slide-content">
+            <span class="section-label">伦理关切</span>
+            <h2 class="slide-heading"><span class="highlight-green">科学人格</span> vs 讨好用户</h2>
+
+            <div class="two-column">
+                <div class="column-content">
+                    <div class="card" style="border-left: 4px solid var(--pink); margin-bottom: 1.5rem;">
+                        <h3 class="card-title" style="color: var(--pink);">❌ 讨好型AI</h3>
+                        <p class="card-desc">
+                            只说用户想听的话，迎合偏见，回避争议，无原则地赞同——这样的AI是危险的。
+                        </p>
+                    </div>
+                </div>
+                <div class="column-content">
+                    <div class="card" style="border-left: 4px solid var(--green);">
+                        <h3 class="card-title" style="color: var(--green);">✓ 科学人格AI</h3>
+                        <p class="card-desc">
+                            追求真理，保持客观，敢于纠正错误，基于证据而非情感——这才是AI应有的品格。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="principle-box" style="margin-top: 2rem;">
+                <p class="principle-text">建设具有"<span class="highlight-green">科学人格</span>"的AI，而非盲目讨好用户的AI</p>
+            </div>
+
+            <div class="quote-block" style="margin-top: 1.5rem;">
+                <p class="quote-text">"资本主义压力能强化负责任行为"——市场会惩罚不负责任的AI公司</p>
+                <p class="quote-source">——Demis Hassabis</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: International Cooperation -->
+        <div class="slide slide-content">
+            <span class="section-label">全球治理</span>
+            <h2 class="slide-heading">AGI时代的<span class="highlight-pink">治理挑战</span></h2>
+
+            <div class="quote-block warm">
+                <p class="quote-text">"缺乏国际合作框架应对AGI风险"——这是Hassabis最大的担忧之一</p>
+            </div>
+
+            <div class="card-grid" style="margin-top: 2rem;">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-warm);">⚠️</div>
+                    <h3 class="card-title">风险维度</h3>
+                    <ul class="bullet-list" style="margin-top: 0.5rem;">
+                        <li>网络防御的新威胁</li>
+                        <li>多智能体系统的不可预测性</li>
+                        <li>创意产业的颠覆</li>
+                        <li>权力集中的风险</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-mind);">🌍</div>
+                    <h3 class="card-title">需要的行动</h3>
+                    <ul class="bullet-list" style="margin-top: 0.5rem;">
+                        <li>国际合作框架</li>
+                        <li>共同的安全标准</li>
+                        <li>透明的研究共享</li>
+                        <li>负责任的部署原则</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Personal Mission -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">个人使命</span>
+            <div class="icon-large">🎯</div>
+            <h2 class="mega-quote">
+                "<span class="highlight-cyan">帮助世界安全引导AGI</span>"
+            </h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 2rem; max-width: 700px;">
+                ——Demis Hassabis的终极使命
+            </p>
+
+            <div class="flow-diagram" style="margin-top: 3rem;">
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">🔬</div>
+                    <div style="margin-top: 0.5rem;">深度研究</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">🛡️</div>
+                    <div style="margin-top: 0.5rem;">安全优先</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">🤝</div>
+                    <div style="margin-top: 0.5rem;">负责任部署</div>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">
+                    <div style="font-size: 1.3rem;">🌟</div>
+                    <div style="margin-top: 0.5rem;">造福人类</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: What Makes Us Human -->
+        <div class="slide slide-content slide-center">
+            <span class="section-label">终极追问</span>
+            <div class="icon-large">✨</div>
+            <h2 class="mega-quote">
+                当AI能做到人类能做的一切，<br>
+                <span class="highlight-purple">什么才是人类独有的</span>？
+            </h2>
+
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 2rem; max-width: 700px;">
+                也许答案就在追问本身——好奇、追寻意义、对未知的敬畏
+            </p>
+        </div>
+
+        <!-- Slide 12: Summary -->
+        <div class="slide slide-content">
+            <span class="section-label">要点回顾</span>
+            <h2 class="slide-heading">Hassabis的<span class="highlight-cyan">AI愿景</span></h2>
+
+            <ol class="numbered-list">
+                <li>
+                    <strong>图灵机的极限</strong>
+                    <span>AGI是理解人类心智的镜子</span>
+                </li>
+                <li>
+                    <strong>50%缩放 + 50%创新</strong>
+                    <span>两者缺一不可，收益递减不等于停滞</span>
+                </li>
+                <li>
+                    <strong>参差不齐的智能</strong>
+                    <span>当前AI缺乏一致性、深度推理和持续学习</span>
+                </li>
+                <li>
+                    <strong>幻觉源于被迫输出</strong>
+                    <span>让AI学会说"我不确定"</span>
+                </li>
+                <li>
+                    <strong>AGI影响：大10倍、快10倍</strong>
+                    <span>需要重新思考经济、就业、人生意义</span>
+                </li>
+                <li>
+                    <strong>科学人格而非讨好</strong>
+                    <span>追求真理，负责任地部署</span>
+                </li>
+            </ol>
+
+            <div class="principle-box" style="margin-top: 1.5rem;">
+                <p class="principle-text">🎯 帮助世界安全引导AGI，探索人类独有的意义</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" aria-label="上一页">←</button>
+        <span class="page-indicator" id="pageIndicator">1 / 12</span>
+        <button class="nav-btn" id="nextBtn" aria-label="下一页">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            pageIndicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        document.querySelector('.presentation').addEventListener('click', (e) => {
+            if (e.target.closest('.nav-controls') || e.target.closest('a') || e.target.closest('button')) {
+                return;
+            }
+            const clickX = e.clientX;
+            const windowWidth = window.innerWidth;
+            if (clickX > windowWidth * 0.7) {
+                nextSlide();
+            } else if (clickX < windowWidth * 0.3) {
+                prevSlide();
+            }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
